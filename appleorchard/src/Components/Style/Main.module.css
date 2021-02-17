@@ -1,0 +1,33 @@
+.mainContainer {
+    
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+}
+.mainContainer::after {
+	background-image: url('../../Imgs/Wallpaper\ Sign\ In\ Page.jpg');
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	content: "";
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	position: absolute;
+	z-index: -10;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	align-self: center;
+	
+}
+
+.cardContainer {
+	top: 20vh;
+	margin-left: auto;
+	margin-right: auto;
+}
