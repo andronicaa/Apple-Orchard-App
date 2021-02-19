@@ -6,6 +6,7 @@ import MainPage from '../MainPage';
 import  AuthProvider from '../context/AuthContext';
 import PrivateRoute from './PrivateRoute';
 import ForgotPassword from './SignUp/ForgotPassword';
+import UpdateProfile from './SignUp/UpdateProfile';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
   
 const Main = () => {
@@ -18,6 +19,7 @@ const Main = () => {
                         <Route path="/signup" component={SignUp} />
                         <Route exact path="/login" component={Login} />
                         <Route path="/forgot-password" component={ForgotPassword} />
+                        <Route path="/update-profile" component={UpdateProfile} />
                     </Switch>
                 </AuthProvider>
             </Router>

@@ -13,11 +13,18 @@ export function AuthProvider({ children }) {
     const [loading, setLoading] = useState(true);
     // functia ce face logarea efectiva cu credentialele date de user
     function signup(email, password) {
-        return auth.createUserWithEmailAndPassword(email, password);
+        // se va trimite mail de confirmare
+        auth.createUserWithEmailAndPassword(email, password).then(
+            () => {
+                console.log("S-a autentificat cu succes");
+                auth.currentUser.sendEmailVerification();
+            }
+        )
     }
 
     // it is a promise!
     function login(email, password) {
+        console.log(auth.signInWithEmailAndPassword(email, password));
         return auth.signInWithEmailAndPassword(email, password);
     }
     function logout() {
@@ -36,9 +43,11 @@ export function AuthProvider({ children }) {
     }
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(user => {
+            
             setLoading(false);
             // setam userul curent
             setCurrentUser(user);
+            
         })
         return unsubscribe;
     }, [])
@@ -58,4 +67,3 @@ export function AuthProvider({ children }) {
         </AuthContext.Provider>
     )
 }
-export default AuthProvider;

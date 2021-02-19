@@ -3,7 +3,7 @@ import { Form, Button, Card, Alert } from 'react-bootstrap';
 import { Link, useHistory } from 'react-router-dom';
 import styles from "./Styles/SignUp.module.css";
 import { useAuth } from '../../context/AuthContext';
-
+import HeaderNeauth from '../Header/HeaderNeauth';
 
 
 export function Login() {
@@ -29,6 +29,7 @@ export function Login() {
   }
   return (
     <>
+    <HeaderNeauth />
     <Card className={styles.cardForm}>
       <Card.Body>
         <h2 className="text-center mb-4">Log In</h2>

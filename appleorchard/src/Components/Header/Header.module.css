@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap');
+.header {
+    background-color: rgba(255, 255, 255, 0.5) !important;
+    font-family: 'Roboto Slab', serif;
+}
+
+.appName {
+    color:#1e7b1e;
+    font-size: 1.5em;
+}
+
+.helloSection {
+    position: relative;
+    float: right;
+}
+
+.logoutButton {
+    border: none;
+    
+}

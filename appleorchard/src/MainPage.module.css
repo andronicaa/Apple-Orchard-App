@@ -1,0 +1,8 @@
+.cardProfile {
+    background-color: rgba(255, 255, 255, 0.5) !important;
+    width: 30%;
+    position: relative;
+    top: 10vh;
+    float: right;
+    right: 5vw;
+}

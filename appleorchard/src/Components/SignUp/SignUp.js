@@ -3,8 +3,8 @@ import { Form, Button, Card, Alert } from 'react-bootstrap';
 import styles from "./Styles/SignUp.module.css";
 import { useAuth } from '../../context/AuthContext';
 import { Link, useHistory } from 'react-router-dom';
-
-
+import HeaderNeauth from "../Header/HeaderNeauth";
+import Footer from "../Footer/Footer";
 export function SignUp() {
   const refEmail = useRef();
   const refPassword = useRef();
@@ -34,6 +34,7 @@ export function SignUp() {
   }
   return (
     <>
+    {/* <HeaderNeauth /> */}
     <Card className={styles.cardForm}>
       <Card.Body>
         <h2 className="text-center mb-4">Sign Up</h2>
@@ -57,10 +58,10 @@ export function SignUp() {
         </Form>
       </Card.Body>
       <div className="w-100 text-center mt-2">
-      Already have an account?  <Link to="/login">Login</Link>
+      Already have an account?  <Link to="/login"><strong>Log In</strong></Link>
     </div>
     </Card>
-    
+    {/* <Footer /> */}
     </>
   )
 }
