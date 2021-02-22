@@ -1,4 +1,5 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState } from 'react';
+import styles from "./Styles/ForgotPassword.module.css";
 import { Form, Button, Card, Alert } from 'react-bootstrap';
 import { useAuth } from "../../context/AuthContext";
 import { Link } from 'react-router-dom';
@@ -38,17 +39,17 @@ export default function ForgotPassword() {
               <Form.Label>Email</Form.Label>
               <Form.Control type="email" ref={emailRef} required />
             </Form.Group>
-            <Button disabled={loading} className="w-100" type="submit">
+            <Button disabled={loading} className={`w-100 ${styles.resetButton}`} type="submit">
               Reset Password
             </Button>
           </Form>
           <div className="w-100 text-center mt-3">
-            <Link to="/login">Login</Link>
+            <Link to="/login"><strong>Login</strong></Link>
           </div>
         </Card.Body>
       </Card>
       <div className="w-100 text-center mt-2">
-        Need an account? <Link to="/signup">Sign Up</Link>
+        Need an account? <Link to="/signup"><strong>Sign Up</strong></Link>
       </div>
     </>
     )

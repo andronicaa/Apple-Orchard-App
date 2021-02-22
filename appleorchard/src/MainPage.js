@@ -22,7 +22,6 @@ export default function MainPage() {
     }
     return (
     <>
-      <Header />
       <Card className={styles.cardProfile}>
         <Card.Body>
           <h2 className="text-center mb-4">Profile</h2>
@@ -38,7 +37,6 @@ export default function MainPage() {
           </div>
         </Card.Body>
       </Card>
-      <Footer />
     </>
     )
 }

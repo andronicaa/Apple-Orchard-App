@@ -3,8 +3,10 @@ import { Form, Button, Card, Alert } from 'react-bootstrap';
 import { Link, useHistory } from 'react-router-dom';
 import styles from "./Styles/SignUp.module.css";
 import { useAuth } from '../../context/AuthContext';
-import HeaderNeauth from '../Header/HeaderNeauth';
-
+import 'font-awesome/css/font-awesome.min.css';
+import temp_logo from "../../Imgs/temp_logo.png";
+import ForgotPassword from "./ForgotPassword";
+import Modal from 'react-bootstrap/Modal'
 
 export function Login() {
   const refEmail = useRef();
@@ -12,6 +14,9 @@ export function Login() {
   const { login } = useAuth();
   const [error, setError] = useState('');
   const[loading, setLoading] = useState(false);
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   const history = useHistory();
 
   async function handleSubmit(e) {
@@ -29,10 +34,13 @@ export function Login() {
   }
   return (
     <>
-    <HeaderNeauth />
-    <Card className={styles.cardForm}>
-      <Card.Body>
-        <h2 className="text-center mb-4">Log In</h2>
+    <div className={styles.cardForm}>
+     <h3 className="text-center">Măruleț</h3>
+      <div className={`text-center ${styles.logoContainer}`}>
+        <img src={temp_logo} className={styles.logo} alt="Logo temporar"/>
+      </div>
+      <div className={styles.cardBody}>
+        {/* <h2 className="text-center mb-4">Log In</h2> */}
         {error && <Alert variant="danger">{error}</Alert>}
         <Form onSubmit={handleSubmit}>
           <Form.Group id="email">
@@ -43,18 +51,27 @@ export function Login() {
             <Form.Label>Password</Form.Label>
             <Form.Control type="password" ref={refPassword} required />
           </Form.Group>
-          <Button disabled={loading} className="w-100" type="submit">
+          <Button disabled={loading} className="w-100 btn btn-success" type="submit">
             Log In
           </Button>
+          <Button className={`w-100 ${styles.googleButton}`}><i class="fa fa-google"></i> Login with Google</Button>
         </Form>
-        <div className="w-100 text-center mt-3">
-            <Link to="/forgot-password">Forgot Password?</Link>
-        </div>
-      </Card.Body>
+        <button type="link" onClick={handleShow} className={styles.forgotButton}>
+          Forgot password?
+        </button>
+        <Modal show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Forgot password</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <ForgotPassword />
+          </Modal.Body>
+        </Modal>
+      </div>
       <div className="w-100 text-center mt-2">
       <strong>Need an account? </strong><Link to="/signup"><strong>Sign Up</strong></Link>
     </div>
-    </Card>
+    </div>
     
     </>
   )

@@ -3,8 +3,9 @@ import { Form, Button, Card, Alert } from 'react-bootstrap';
 import styles from "./Styles/SignUp.module.css";
 import { useAuth } from '../../context/AuthContext';
 import { Link, useHistory } from 'react-router-dom';
-import HeaderNeauth from "../Header/HeaderNeauth";
-import Footer from "../Footer/Footer";
+import 'font-awesome/css/font-awesome.min.css';
+import temp_logo from "../../Imgs/temp_logo.png";
+
 export function SignUp() {
   const refEmail = useRef();
   const refPassword = useRef();
@@ -12,7 +13,7 @@ export function SignUp() {
   const { signup } = useAuth();
   const [error, setError] = useState('');
   const[loading, setLoading] = useState(false);
-  const history=  useHistory();
+  const history =  useHistory();
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -20,8 +21,8 @@ export function SignUp() {
     if (refPassword.current.value !== refPasswordConfirm.current.value) {
       return setError('Parolele nu sunt la fel');
     }
-    // console.log(refPasswordConfirm.current.value);
-    // console.log(refPassword.current.value);
+
+
     try {
       setError('');
       setLoading(true);
@@ -34,10 +35,13 @@ export function SignUp() {
   }
   return (
     <>
-    {/* <HeaderNeauth /> */}
-    <Card className={styles.cardForm}>
-      <Card.Body>
-        <h2 className="text-center mb-4">Sign Up</h2>
+    <div className={styles.cardForm}>
+      <h3 className="text-center">Măruleț</h3>
+      <div className={`text-center ${styles.logoContainer}`}>
+        <img src={temp_logo} className={styles.logo} alt="Logo temporar"/>
+      </div>
+      <div>
+        {/* <h2 className="text-center mb-4">Sign Up</h2> */}
         {error && <Alert variant="danger">{error}</Alert>}
         <Form onSubmit={handleSubmit}>
           <Form.Group id="email">
@@ -52,16 +56,15 @@ export function SignUp() {
             <Form.Label>Password Confirmation</Form.Label>
             <Form.Control type="password" ref={refPasswordConfirm} required />
           </Form.Group>
-          <Button disabled={loading} className="w-100" type="submit">
+          <Button disabled={loading} className="w-100 btn btn-success" type="submit">
             Sign Up
           </Button>
         </Form>
-      </Card.Body>
+      </div>
       <div className="w-100 text-center mt-2">
       Already have an account?  <Link to="/login"><strong>Log In</strong></Link>
     </div>
-    </Card>
-    {/* <Footer /> */}
+    </div>
     </>
   )
 }

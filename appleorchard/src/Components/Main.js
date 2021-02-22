@@ -3,7 +3,7 @@ import styles from "./Style/Main.module.css";
 import SignUp from './SignUp/SignUp';
 import Login from './SignUp/Login';
 import MainPage from '../MainPage';
-import  AuthProvider from '../context/AuthContext';
+import AuthProvider from '../context/AuthContext';
 import PrivateRoute from './PrivateRoute';
 import ForgotPassword from './SignUp/ForgotPassword';
 import UpdateProfile from './SignUp/UpdateProfile';
