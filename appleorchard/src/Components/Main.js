@@ -7,19 +7,21 @@ import AuthProvider from '../context/AuthContext';
 import PrivateRoute from './PrivateRoute';
 import ForgotPassword from './SignUp/ForgotPassword';
 import UpdateProfile from './SignUp/UpdateProfile';
+import Home from '../Home';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
   
 const Main = () => {
     return ( 
-        <div className={styles.mainContainer}>
+        <div>
             <Router>
                 <AuthProvider>
                     <Switch>
                         <PrivateRoute exact path="/" component={MainPage} />
+                        <PrivateRoute path="/update-profile" component={UpdateProfile} />
+                        <Route path="/neauth-home" component={Home} />
                         <Route path="/signup" component={SignUp} />
-                        <Route exact path="/login" component={Login} />
                         <Route path="/forgot-password" component={ForgotPassword} />
-                        <Route path="/update-profile" component={UpdateProfile} />
+                        <Route path="/login" component={Login} />
                     </Switch>
                 </AuthProvider>
             </Router>

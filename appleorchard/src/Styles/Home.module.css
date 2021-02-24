@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap');
+
+.mainContainer {
+    
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+	font-family: 'Roboto Slab', serif;
+}
+.mainContainer::after {
+	background-image: url('../Imgs/home_wallpaper.jpg');
+	filter: brightness(45%);
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	content: "";
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	position: absolute;
+	z-index: -10;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	align-self: center;
+	
+}
+
+
+.aboutContainer {
+    width: 100%;
+    height: auto;
+	padding: 3vw;
+	/* border: 1px solid red; */
+}
+
+.aboutUsPar {
+	text-align: justify;
+}
+
+.footer {
+	width: 100%;
+}
+
+.delLine {
+	border-top: 2px solid #737373;
+	width: 90%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.logoContainer {
+	margin-left: 2vw;
+	width: 40%;
+	border: 1px solid red;
+}
+
+.logo {
+	max-width: 100%;
+    height: auto;
+	border: 1px solid green;
+}
+
+.logoText {
+	color: green;
+	font-family: 'Roboto Slab', serif;
+	font-weight: 500;
+	font-size: 2em;
+}
+
+.infoContainer {
+	width: 40%;
+	border: 1px solid red;
+}
+
+.contactTitle {
+	text-align: center;
+	margin-top: 1vh;
+	font-family: 'Roboto Slab', serif;
+	font-weight: 500;
+	font-size: 1.5em;
+
+}

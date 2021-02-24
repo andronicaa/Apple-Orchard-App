@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap');
 .header {
-    background-color: rgba(255, 255, 255, 0.5) !important;
+    background-color: white;
     font-family: 'Roboto Slab', serif;
 }
 
@@ -16,5 +16,9 @@
 
 .logoutButton {
     border: none;
-    
+}
+.appleLogo {
+    color: #b30000;
+    font-size: 1.5em;
+    margin-right: 4px;
 }

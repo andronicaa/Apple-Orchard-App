@@ -2,9 +2,8 @@ import React, { useState } from 'react'
 import { Card, Button, Alert } from 'react-bootstrap';
 import { useAuth } from './context/AuthContext';
 import { Link, useHistory } from 'react-router-dom';
-import Header from "./Components/Header/Header";
-import styles from "./MainPage.module.css";
-import Footer from "./Components/Footer/Footer";
+import styles from "./Styles/MainPage.module.css";
+import TempProfile from "./Components/TempProfile";
 export default function MainPage() {
     const[error, setError] = useState('');
     const{ currentUser, logout } = useAuth();
@@ -15,11 +14,13 @@ export default function MainPage() {
 
         try {
             await logout();
-            history.push("/login");
+            history.push("/neauth-home");
         } catch {
             setError("Failed to log out");
         }
     }
+
+
     return (
     <>
       <Card className={styles.cardProfile}>
@@ -32,9 +33,10 @@ export default function MainPage() {
           </Link>
           <div className="w-100 text-center mt-2">
             <Button variant="link" onClick={handleLogout}>
-              Log Out
+              <strong>Log Out</strong>
             </Button>
           </div>
+          <TempProfile />
         </Card.Body>
       </Card>
     </>
