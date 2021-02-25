@@ -38,9 +38,7 @@
 	/* border: 1px solid red; */
 }
 
-.aboutUsPar {
-	text-align: justify;
-}
+
 
 .footer {
 	width: 100%;
@@ -56,13 +54,13 @@
 .logoContainer {
 	margin-left: 2vw;
 	width: 40%;
-	border: 1px solid red;
+	/* border: 1px solid red; */
 }
 
 .logo {
 	max-width: 100%;
     height: auto;
-	border: 1px solid green;
+	/* border: 1px solid green; */
 }
 
 .logoText {
@@ -74,7 +72,7 @@
 
 .infoContainer {
 	width: 40%;
-	border: 1px solid red;
+	/* border: 1px solid red; */
 }
 
 .contactTitle {
@@ -84,4 +82,28 @@
 	font-weight: 500;
 	font-size: 1.5em;
 
+}
+.flexContainer {
+	/* border: 1px solid black; */
+}
+
+.aboutUsPar {
+	text-align: justify;
+	/* border:1px solid blue; */
+	padding: 3vw;
+}
+
+.aboutImgContainer {
+	width: 30%;
+	/* border: 1px solid red; */
+}
+
+.abtImg {
+	max-width: 100%;
+    height: auto;
+}
+
+.paragraphContainer {
+	width: 30%;
+	/* border: 2px solid #660033; */
 }
