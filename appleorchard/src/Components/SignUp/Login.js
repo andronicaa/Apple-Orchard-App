@@ -1,12 +1,12 @@
 import React, { useRef, useState } from 'react'
-import { Form, Button, Card, Alert } from 'react-bootstrap';
+import { Form, Button, Alert } from 'react-bootstrap';
 import { Link, useHistory } from 'react-router-dom';
 import styles from "./Styles/SignUp.module.css";
 import { useAuth } from '../../context/AuthContext';
 import 'font-awesome/css/font-awesome.min.css';
 import temp_logo from "../../Imgs/temp_logo.png";
 import ForgotPassword from "./ForgotPassword";
-import Modal from 'react-bootstrap/Modal'
+import Modal from 'react-bootstrap/Modal';
 
 export function Login() {
   const refEmail = useRef();

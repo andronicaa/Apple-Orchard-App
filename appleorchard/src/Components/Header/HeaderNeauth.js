@@ -1,13 +1,13 @@
 import React from 'react'
 import styles from "./Header.module.css";
 import { Link } from 'react-router-dom';
-import '@fortawesome/fontawesome-free/css/all.min.css';
+
 
 
 export default function HeaderNeauth() {
     return (
         <nav className={`navbar navbar-expand-lg ${styles.header}`}>
-            <a className={`navbar-brand ${styles.appName}`} href="#"><i className={`fas fa-apple-alt ${styles.appleLogo}`}></i>Măruleț</a>
+            <a className={`navbar-brand ${styles.appName}`} href="#"><i className={`fa fa-apple-alt ${styles.appleLogo}`}></i>Măruleț</a>
             
             <div className="collapse navbar-collapse" id="navbarNav">
                 <ul className="navbar-nav">
@@ -23,7 +23,7 @@ export default function HeaderNeauth() {
                 </ul>
             </div>
             <div>
-                <Link to="/login">Login</Link>
+                <Link to="/login" className={styles.loginLink}>Login</Link>
             </div>
         </nav>
     )

@@ -3,14 +3,20 @@ import styles from "./Styles/Home.module.css";
 import Header from "./Components/Header/HeaderNeauth";
 import logo from "./Imgs/temp_logo.png";
 import about from "./Imgs/about_img.jpg";
-import 'font-awesome/css/font-awesome.min.css';
+import BlinkArrow from "./Components/BlinkArrow";
+
 export default function Home() {
     return (
         <>
             <div className={styles.mainContainer}>
                 <Header />
+                <div className={styles.anchorContainer}>
+                    <a href="#About"><BlinkArrow /></a>
+                </div>
+                
             </div>
-            <div className={styles.aboutContainer}>
+           
+            <div className={styles.aboutContainer} id="About">
                 <h3 className="text-center">Abous us</h3>
                 <div  className={`d-flex flex-row justify-content-around ${styles.flexContainer}`}>
                     <div className={styles.paragraphContainer}>
@@ -33,9 +39,9 @@ export default function Home() {
                     </div>
                     <div className={styles.infoContainer}>
                         <p className={styles.contactTitle}>Contact us</p>
-                        <i className="fa fa-facebook-square" aria-hidden="true"></i>
-                        <i className="fa fa-instagram" aria-hidden="true"></i>
-                        <i className="fa fa-linkedin" aria-hidden="true"></i>
+                        <i className={`fa fa-facebook-square ${styles.socialIcon}`} aria-hidden="true"></i>
+                        <i className={`fa fa-instagram ${styles.socialIcon}`} aria-hidden="true"></i>
+                        <i className={`fa fa-linkedin ${styles.socialIcon}`} aria-hidden="true"></i>
                     </div>
                 </div>
                 

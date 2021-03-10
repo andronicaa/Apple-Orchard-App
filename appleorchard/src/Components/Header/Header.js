@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import styles from "./Header.module.css";
-import { Button } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 
