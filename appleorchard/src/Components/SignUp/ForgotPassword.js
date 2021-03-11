@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import styles from "./Styles/ForgotPassword.module.css";
 import { Form, Button, Card, Alert } from 'react-bootstrap';
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from '../../Firebase/context/AuthContext';
 import { Link } from 'react-router-dom';
 
 export default function ForgotPassword() {

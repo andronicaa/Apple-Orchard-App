@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { Form, Button, Card, Alert } from "react-bootstrap";
-import { useAuth } from "../../context/AuthContext"; 
+import { useAuth } from '../../Firebase/context/AuthContext';
 import { Link, useHistory } from "react-router-dom";
 import styles from "./Styles/SignUp.module.css";
 

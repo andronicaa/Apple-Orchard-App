@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from "./BlinkArrow.module.css";
+import styles from "./Styles/BlinkArrow.module.css";
 export default function BlinkArrow() {
     return (
         <div className = {styles.arrowContainer}>

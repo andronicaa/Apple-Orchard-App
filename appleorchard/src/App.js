@@ -1,13 +1,13 @@
 import styles from "./Components/Style/Main.module.css";
 import SignUp from './Components/SignUp/SignUp';
 import Login from './Components/SignUp/Login';
-import MainPage from './MainPage';
-import AuthProvider from './context/AuthContext';
-import PrivateRoute from './Components/PrivateRoute';
+import MainPage from './Components/AuthHome/MainPage';
+import AuthProvider from './Firebase/context/AuthContext';
+import PrivateRoute from './Components/Routes/PrivateRoute';
 import ForgotPassword from './Components/SignUp/ForgotPassword';
 import UpdateProfile from './Components/SignUp/UpdateProfile';
-import Home from "./Home";
-import AddProfile from "./Components/AddProfile";
+import Home from "./Components/Home/Home";
+import AddProfile from "./Components/SignUp/AddProfile";
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 

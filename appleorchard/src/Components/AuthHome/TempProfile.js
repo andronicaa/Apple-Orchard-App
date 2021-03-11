@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
-import firebase from "../firebase";
-import { useAuth } from '../context/AuthContext';
-import styles from "./TempProfile.module.css";
+import firebase from "../../Firebase/firebase";
+import { useAuth } from '../../Firebase/context/AuthContext';
+import styles from "./Styles/TempProfile.module.css";
 
 
 export default function TempProfile() {

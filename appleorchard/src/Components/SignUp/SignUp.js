@@ -1,11 +1,10 @@
 import React, { useRef, useState } from 'react'
 import { Form, Button, Alert } from 'react-bootstrap';
 import styles from "./Styles/SignUp.module.css";
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../Firebase/context/AuthContext';
 import { Link, useHistory } from 'react-router-dom';
 import 'font-awesome/css/font-awesome.min.css';
 import temp_logo from "../../Imgs/temp_logo.png";
-import firebase from '../../firebase';
 
 export function SignUp() {
   const refEmail = useRef();

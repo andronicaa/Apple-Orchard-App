@@ -1,9 +1,9 @@
 import React from 'react'
 import styles from "./Styles/Home.module.css";
-import Header from "./Components/Header/HeaderNeauth";
-import logo from "./Imgs/temp_logo.png";
-import about from "./Imgs/about_img.jpg";
-import BlinkArrow from "./Components/BlinkArrow";
+import Header from "../Header/HeaderNeauth";
+import logo from "../../Imgs/temp_logo.png";
+import about from "../../Imgs/about_img.jpg";
+import BlinkArrow from "./BlinkArrow";
 
 export default function Home() {
     return (

@@ -8,7 +8,7 @@
 	font-family: 'Roboto Slab', serif;
 }
 .mainContainer::after {
-	background-image: url('../Imgs/home_wallpaper.jpg');
+	background-image: url('../../../Imgs/Wallpaper\ Sign\ In\ Page.png');
 	filter: brightness(45%);
 	background-position: center;
 	background-repeat: no-repeat;

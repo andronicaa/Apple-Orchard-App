@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { Card, Button, Alert } from 'react-bootstrap';
-import { useAuth } from './context/AuthContext';
+import { useAuth } from '../../Firebase/context/AuthContext';
 import { Link, useHistory } from 'react-router-dom';
 import styles from "./Styles/MainPage.module.css";
-import Profile from "./Components/TempProfile";
+import Profile from "./TempProfile";
 export default function MainPage() {
     const[error, setError] = useState('');
     const{ currentUser, logout } = useAuth();
