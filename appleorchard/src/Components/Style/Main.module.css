@@ -6,7 +6,7 @@
 }
 .mainContainer::after {
 	background-image: url('../../Imgs/Wallpaper\ Sign\ In\ Page.png');
-	filter: brightness(70%);
+	filter: brightness(40%);
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;

@@ -5,12 +5,13 @@ import { useAuth } from '../../context/AuthContext';
 import { Link, useHistory } from 'react-router-dom';
 import 'font-awesome/css/font-awesome.min.css';
 import temp_logo from "../../Imgs/temp_logo.png";
+import firebase from '../../firebase';
 
 export function SignUp() {
   const refEmail = useRef();
   const refPassword = useRef();
   const refPasswordConfirm = useRef();
-  const { signup } = useAuth();
+  const { currentUser, signup } = useAuth();
   const [error, setError] = useState('');
   const[loading, setLoading] = useState(false);
   const history =  useHistory();
@@ -27,7 +28,8 @@ export function SignUp() {
       setError('');
       setLoading(true);
       await signup(refEmail.current.value, refPassword.current.value);
-      history.push("/");
+      // dupa ce un utilizatorul si-a facut un cont => trebuie sa-si completeze si profilul
+      history.push("/addprofile");
     } catch {
       setError("Failed to create an account");
     }

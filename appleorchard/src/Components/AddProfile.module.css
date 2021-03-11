@@ -1,3 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap');
+
+.formContainer {
+    font-family: 'Roboto Slab', serif;
+    width: 40vw;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(230, 230, 230, .5);
+}
+
 .input {
     width: 80%;
     margin-left: auto;
@@ -18,8 +30,9 @@
 
 .saveDataButton {
     background-color: #408000 !important;
+    margin-bottom: 2vh;
 }
 
-.addProfileButton {
-    border: 1px solid red;
+.formTitle {
+    margin-top: 3vh;
 }
