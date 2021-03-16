@@ -8,6 +8,7 @@ import ForgotPassword from './Components/SignUp/ForgotPassword';
 import UpdateProfile from './Components/SignUp/UpdateProfile';
 import Home from "./Components/Home/Home";
 import AddProfile from "./Components/SignUp/AddProfile";
+import TempProfile from "./Components/Feed/TempProfile";
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 
@@ -25,6 +26,7 @@ function App() {
               <Route path="/forgot-password" component={ForgotPassword} />
               <Route path="/login" component={Login} />
               <Route path="/addprofile" component={AddProfile} />
+              <Route path="/profile" component={TempProfile} />
             </div>
             </Switch>
         </AuthProvider>

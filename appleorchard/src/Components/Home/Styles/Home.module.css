@@ -8,7 +8,7 @@
 	font-family: 'Roboto Slab', serif;
 }
 .mainContainer::after {
-	background-image: url('../../../Imgs/Wallpaper\ Sign\ In\ Page.png');
+	background-image: url('../../../Imgs/home_wallpaper.jpg');
 	filter: brightness(45%);
 	background-position: center;
 	background-repeat: no-repeat;
@@ -81,13 +81,6 @@
 	font-size: 1.5em;
 
 }
-/* .flexContainer {
-	border: 1px solid black;
-	width: 80%;
-	margin-left: auto;
-	margin-right: auto;
-} */
-
 .aboutUsPar {
 	text-align: justify;
 	/* border:1px solid blue; */
@@ -107,18 +100,50 @@
 
 .paragraphContainer {
 	width: 30%;
-	/* border: 2px solid #660033; */
 }
 
 .anchorContainer {
 	width: 100%;
-	/* border: 2px solid cyan; */
 	position: fixed;
 	bottom: 0;
 
 }
-
+.arrow {
+	color: white;
+	font-size: 1.90em;
+}
+.arrow:hover {
+	font-size: 2.5em;
+}
 .socialIcon {
 	font-size: 2.5em;
 	margin-right: 1.5vw;
+}
+
+.centerText {
+	/* border: 1px solid red; */
+	width: 30%;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	position: absolute;
+	color: white;
+	font-family: 'Roboto Slab', serif;
+}
+.descApp {
+	text-align: center;
+	/* border: 1px solid blue; */
+	font-size: 1.25em;
+}
+
+.centerTextTitle {
+	font-size: 2.5em;
+}
+
+.roleButton {
+	margin-left: 0.5vw;
+	width: 40%;
+}
+.roleButton:hover {
+	width: 42%;
 }

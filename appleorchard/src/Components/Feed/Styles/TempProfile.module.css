@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap');
 
-.profileCard {
+.profileContainer {
     font-family: 'Roboto Slab', serif;
+    position: relative;
+    top: 2vh;
+    background-color: white;
 }
+

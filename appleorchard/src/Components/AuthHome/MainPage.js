@@ -1,9 +1,11 @@
-import React, { useState } from 'react'
-import { Card, Button, Alert } from 'react-bootstrap';
+import React, { useState } from 'react';
 import { useAuth } from '../../Firebase/context/AuthContext';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import styles from "./Styles/MainPage.module.css";
-import Profile from "./TempProfile";
+import Profile from "../Feed/TempProfile";
+import Header from "../Header/Header";
+
+
 export default function MainPage() {
     const[error, setError] = useState('');
     const{ currentUser, logout } = useAuth();
@@ -23,9 +25,9 @@ export default function MainPage() {
 
     return (
     <>
-     <div className={styles.profileCard}>
-        <Profile />
-     </div>
+        <Header />
+        <div className={styles.profileCard}>
+        </div>
     </>
     )
 }

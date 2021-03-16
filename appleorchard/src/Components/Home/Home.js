@@ -1,21 +1,29 @@
 import React from 'react'
 import styles from "./Styles/Home.module.css";
-import Header from "../Header/HeaderNeauth";
+import Header from "../Header/Header";
 import logo from "../../Imgs/temp_logo.png";
 import about from "../../Imgs/about_img.jpg";
-import BlinkArrow from "./BlinkArrow";
 
 export default function Home() {
     return (
         <>
             <div className={styles.mainContainer}>
                 <Header />
-                <div className={styles.anchorContainer}>
-                    <a href="#About"><BlinkArrow /></a>
+                <div className={`${styles.anchorContainer} text-center`}>
+                    <a href="#About"><i className={`fa fa-arrow-down ${styles.arrow}`} aria-hidden="true"></i></a>
                 </div>
                 
             </div>
-           
+           <div className={`${styles.centerText} text-center`}>
+                <p className={styles.centerTextTitle}><strong>Ana are mere</strong></p>
+                <div className={styles.descApp}>
+                    <p>At vero eos et accusamus et iusto odio dignissimos</p>
+                </div>
+                <div>
+                    <button className={`btn btn-danger ${styles.roleButton}`}>Cultivator</button>
+                    <button className={`btn btn-danger ${styles.roleButton}`}>Cumparator</button>
+                </div>
+           </div>
             <div className={styles.aboutContainer} id="About">
                 <h3 className="text-center">Abous us</h3>
                 <div  className={`d-flex flex-row justify-content-around ${styles.flexContainer}`}>
