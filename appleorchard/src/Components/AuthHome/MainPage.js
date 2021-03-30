@@ -24,10 +24,8 @@ export default function MainPage() {
 
 
     return (
-    <>
+    <div className={styles.mainPage}>
         <Header />
-        <div className={styles.profileCard}>
-        </div>
-    </>
+    </div>
     )
 }
