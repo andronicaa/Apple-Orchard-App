@@ -3,7 +3,7 @@ import firebase from "../../Firebase/firebase";
 import { useAuth } from '../../Firebase/context/AuthContext';
 import styles from "./Styles/TempProfile.module.css";
 import { Row, Col } from 'reactstrap';
-import img from "../../Imgs/main-page-photo.jpg";
+import avatar from "../../Imgs/farmer-avatar.jpg";
 
 
 export default function TempProfile() {
@@ -28,22 +28,26 @@ export default function TempProfile() {
     return (
         (
                 profiles.map((user) => (
-                    <Row className={styles.profileContainer}>
-                        <Col xs={7} className={styles.colContainer}>
-                            <div className="text-center">
-                                <img src={img} alt="Imagine reprezentativa"/>
+                    <div className={`card ${styles.cardProfile}`}>
+                        <div className={`card-header ${styles.cardHeader}`}>
+                            <h4>Profil {user.function}</h4>
+                        </div>
+                        <div className="card-body">
+                            <div className={`text-center ${styles.profileImg}`}>
+                                <img src={avatar} alt="Imagine profil utilizator" className={`img-responsive ${styles.fitImage}`} />
                             </div>
-                        </Col>
-                        <Col xs={4} className={styles.colContainer}>
-                            <div key={user} className={styles.profileCard}>
-                                <p><strong>Nume: </strong>{user.firstName}</p>
-                                <p><strong>Prenume: </strong>{user.lastName}</p>
-                                <p><strong>Varsta: </strong>{user.age}</p>
-                                <p><strong>Adresa: </strong>{user.address}</p>
-                            </div>
-                        </Col>
-                        
-                    </Row>
+                        </div>
+                        <div className="card-header">
+                            <p>Informatii de contact</p>
+                        </div>
+                        <ul key={user} className="list-group list-group-flush">
+                            <li className="list-group-item"><strong>Nume: </strong>{user.firstName}</li>
+                            <li className="list-group-item"><strong>Prenume: </strong>{user.lastName}</li>
+                            <li className="list-group-item"><strong>Email: </strong>{user.email}</li>
+                            <li className="list-group-item"><strong>Adresa: </strong>{user.address}</li>
+                            {/* ar trebui sa fie la profil unele informatii vizibile doar pentru utilizator si nu pentru ceilalti care ii viziteaza profilul */}
+                        </ul>
+                    </div>
                     
         ))
         )

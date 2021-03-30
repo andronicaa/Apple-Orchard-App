@@ -1,9 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap');
 
-.profileContainer {
+.cardProfile {
     font-family: 'Roboto Slab', serif;
-    position: relative;
-    top: 2vh;
-    background-color: white;
+}
+.profileImg {
+    width: 100%;
 }
 
+.fitImage {
+    margin-top: 2vh;
+    position: relative;
+    width: 50%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.cardHeader {
+    background-color:rgba(51, 153, 51, 0.5);
+}
+  
+  
