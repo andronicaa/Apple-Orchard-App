@@ -35,7 +35,7 @@ export function SignUp() {
     setLoading(false);
   }
   return (
-    <>
+    <div className={styles.loginPage}>
     <div className={styles.cardForm}>
       <h3 className="text-center">Măruleț</h3>
       <div className={`text-center ${styles.logoContainer}`}>
@@ -66,7 +66,7 @@ export function SignUp() {
       Already have an account?  <Link to="/login"><strong>Log In</strong></Link>
     </div>
     </div>
-    </>
+    </div>
   )
 }
 

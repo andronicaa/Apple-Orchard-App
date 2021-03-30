@@ -14,26 +14,11 @@ export default function AddProfile() {
     const phoneNumber = useRef();
     const history = useHistory();
     const refUser = firebase.firestore().collection("users");
-    const refProfile = firebase.firestore().collection("users").doc(currentUser.uid)
+    const refProfile = firebase.firestore().collection("users").doc(currentUser.uid);
 
-    function addUser() {
-        console.log("Aici");
-        setTimeout(()=> {
-            refUser
-        
-            .add({
-                id: currentUser.uid
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-        }, 3000);
-        
-    }
     // functie care adauga un nou profil de utilizator
     function addProfile(e, firstName, lastName, age, address, email, phoneNumber) {
         e.preventDefault();
-        addUser();
         refProfile
             .set({firstName, lastName, age, email, address, email, phoneNumber})
             .catch((err) => {
@@ -47,7 +32,7 @@ export default function AddProfile() {
                     <h3 className={`text-center ${styles.formTitle}`}>Adauga profil</h3>
                     <form className={styles.input}>
                         <div className="form-group">
-                            <label for="lastname"><strong>Nume</strong></label>
+                            <label for="lastname"><strong>Name</strong></label>
                             <div className="input-group-prepend">
                                 <span className="input-group-text">
                                     <i className={`fa fa-user ${styles.icons}`}></i>
