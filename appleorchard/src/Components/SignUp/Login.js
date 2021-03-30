@@ -33,7 +33,7 @@ export function Login() {
     setLoading(false);
   }
   return (
-    <>
+    <div className={styles.loginPage}>
     <div className={styles.cardForm}>
      <h3 className="text-center">Măruleț</h3>
       <div className={`text-center ${styles.logoContainer}`}>
@@ -73,7 +73,7 @@ export function Login() {
     </div>
     </div>
     
-    </>
+    </div>
   )
 }
 
