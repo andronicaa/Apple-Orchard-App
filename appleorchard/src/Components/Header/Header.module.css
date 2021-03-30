@@ -3,11 +3,24 @@
 
 .header {
     font-family: 'Roboto Slab', serif;
-}
+    position: relative;
+    top: 0;
+    left: 0;
 
+}
+.flexItem {
+    border: 1px solid red;
+    margin-left: 2vw;
+    font-size: 1.2em;
+}
+.headerItem {
+    position: relative;
+    bottom: 0;
+}
 .appName {
     color:red;
     font-size: 2em;
+    position: relative;
 }
 
 .helloSection {
@@ -32,3 +45,9 @@
     font-size: 1.2em;
 }
 
+.profileButton {
+    border: none;
+    background-color: transparent;
+    color: white;
+    font-size: 1.2em;
+}

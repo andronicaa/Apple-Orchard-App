@@ -3,6 +3,8 @@ import styles from "./Header.module.css";
 import { useHistory } from 'react-router-dom';
 import { useAuth } from '../../Firebase/context/AuthContext';
 import { Link } from "react-router-dom";
+import Modal from 'react-bootstrap/Modal';
+import TempProfile from '../Feed/TempProfile';
 
 
 export default function Header() {
@@ -10,17 +12,20 @@ export default function Header() {
     const{ currentUser, logout } = useAuth();
     const[error, setError] = useState('');
     const history = useHistory();
-
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
     async function handleLogout() {
         setError("");
 
         try {
             await logout();
-            history.push("/login");
+            history.push("/neauth-home");
         } catch {
             setError("Failed to log out");
         }
     }
+    console.log(currentUser);
     return (
         <nav className={`navbar navbar-expand-lg ${styles.header}`}>
             <p className={styles.appName}>Măruleț</p>
@@ -30,8 +35,15 @@ export default function Header() {
                 <li className="nav-item active">
                     <a className="nav-link" href="#">
                         {
-                            currentUser.uid ? 
-                                <Link to="/profile"><p className={styles.linkText}>Profil</p></Link>
+                            currentUser != null ? 
+                            <>
+                                <button onClick={handleShow} className={styles.profileButton}>Profil</button>
+                                <Modal show={show} onHide={handleClose}>
+                                    <Modal.Body>
+                                        <TempProfile />
+                                    </Modal.Body>
+                                </Modal>
+                            </>
                             :
                                 <p className={styles.linkText}>About Us</p>
                         }
@@ -40,19 +52,19 @@ export default function Header() {
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">
-                        {
-                            currentUser.uid ?
-                                <p className={styles.linkText}>Livada mea</p>
-                            :
-                            <p className={styles.linkText}>Contact</p>
-                        }
+                        <Link to="/orchardinfo" className={styles.linkText}>Livada mea</Link>
                         </a> 
                 </li>
                 </ul>
             </div>
-            <div>
-                <Link to="/login" className={styles.loginLink}><button className={`btn btn-success ${styles.loginButton}`}>Login</button></Link>
-            </div>
+            {
+                currentUser != null?
+                    <button onClick={handleLogout} className={`btn btn-success ${styles.loginButton}`}>Logout</button>
+                : 
+                    <Link to="/login" className={styles.loginLink}><button className={`btn btn-success ${styles.loginButton}`}>Login</button></Link>
+            }
+            
+            
         </nav>
     )
 }
