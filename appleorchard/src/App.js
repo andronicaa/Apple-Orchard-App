@@ -9,6 +9,8 @@ import UpdateProfile from './Components/SignUp/UpdateProfile';
 import Home from "./Components/Home/Home";
 import AddProfile from "./Components/SignUp/AddProfile";
 import TempProfile from "./Components/Feed/TempProfile";
+import OrchardInfo from "./Components/Orchard/OrchardInfo";
+import ReceiptPageTabs from "./Components/Orchard/ReceiptPageTabs";
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 
@@ -19,15 +21,15 @@ function App() {
         <AuthProvider>
             <Switch>
             <Route path="/neauth-home" component={Home} />
-            <div className={styles.mainContainer}>
-              <PrivateRoute exact path="/" component={MainPage} />
-              <PrivateRoute path="/update-profile" component={UpdateProfile} />
-              <Route path="/signup" component={SignUp} />
-              <Route path="/forgot-password" component={ForgotPassword} />
-              <Route path="/login" component={Login} />
-              <Route path="/addprofile" component={AddProfile} />
-              <Route path="/profile" component={TempProfile} />
-            </div>
+            <PrivateRoute exact path="/" component={MainPage} />
+            <PrivateRoute path="/update-profile" component={UpdateProfile} />
+            <Route path="/signup" component={SignUp} />
+            <Route path="/forgot-password" component={ForgotPassword} />
+            <Route path="/login" component={Login} />
+            <Route path="/addprofile" component={AddProfile} />
+            <Route path="/profile" component={TempProfile} />
+            <Route path="/orchardinfo" component={OrchardInfo}/>
+            <Route path="/receiptpagetabs" component={ReceiptPageTabs} />
             </Switch>
         </AuthProvider>
     </Router>
