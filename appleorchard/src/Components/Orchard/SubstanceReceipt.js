@@ -28,6 +28,7 @@ export default function SubstanceReceipt() {
     const months = ['Ianuarie', 'Februarie', 'Martie', 'Aprilie', 'Mai', 'Iunie', 'Iulie', 'August', 'Septembrie', 'Octombrie', 'Noiembrie', 'Decembrie'];
     // functie pentru adaugare de factura
     function addReceipt(e, product, price, quantity, month, currency) {
+        console.log("Tipul campului pret este ", typeof price);
         var errors = [];
         e.preventDefault();
         console.log(product, price, quantity, month);
@@ -82,10 +83,11 @@ export default function SubstanceReceipt() {
 
     function totalPriceOfSubstances() {
         var totalPriceLocal = 0;
-        for(var prd in products)
-        {
-            totalPriceLocal += prd.price;
-        }
+        console.log(receipts);
+        receipts.map((prd) => {
+            totalPriceLocal += prd.price; 
+        });
+        console.log("Pretul total local", totalPriceLocal);
         setTotalRrice(totalPriceLocal);
         console.log("Pretul total al substantelor este ", totalPrice);
     }
@@ -121,7 +123,9 @@ export default function SubstanceReceipt() {
                                 ))
                             }
                         </tbody>
-                    
+                        <div>
+                            <p><strong>Pretul total al facturilor:</strong> {totalPrice}</p>
+                        </div>
                     </Table>
             
                 <button className="btn btn-success" onClick={handleShow}><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Adauga factura</button>
@@ -204,9 +208,6 @@ export default function SubstanceReceipt() {
                                     >
                                         Incarca factura
                                     </button>
-                                </div>
-                                <div>
-                                    <p>{totalPrice}</p>
                                 </div>
                             </form>
                         </div>
