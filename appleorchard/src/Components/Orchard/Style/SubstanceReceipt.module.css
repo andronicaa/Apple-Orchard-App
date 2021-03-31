@@ -11,3 +11,8 @@
 	top: 5vh;
 	margin-bottom: 10vh;
 }
+
+.addReceiptButton {
+    position: relative;
+    margin-top: 2vh;
+}
