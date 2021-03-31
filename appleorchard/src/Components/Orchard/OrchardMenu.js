@@ -27,6 +27,7 @@ export default function OrchardMenu() {
                 </NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.3">Muncitori</NavDropdown.Item>
                 <NavDropdown.Item onClick={handleShow}>Adauga produs</NavDropdown.Item>
+                <NavDropdown.Item href="/daunatori">Daunatori</NavDropdown.Item>
                 <Modal show={show} onHide={handleClose}>
                     <Modal.Header>
                         Adauga produs
