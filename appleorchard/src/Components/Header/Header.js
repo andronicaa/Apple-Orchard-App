@@ -52,8 +52,13 @@ export default function Header() {
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">
-                        <Link to="/orchardinfo" className={styles.linkText}>Livada mea</Link>
-                        </a> 
+                        {
+                            currentUser != null ?
+                                <Link to="/orchardinfo" className={styles.linkText}>Livada mea</Link>
+                            :
+                                <p className={styles.linkText}>Contact us</p>
+                        }
+                    </a> 
                 </li>
                 </ul>
             </div>
