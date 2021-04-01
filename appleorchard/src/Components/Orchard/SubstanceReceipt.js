@@ -6,10 +6,12 @@ import { useAuth } from '../../Firebase/context/AuthContext';
 import Modal from 'react-bootstrap/Modal';
 import Card from 'react-bootstrap/Card';
 import Table from 'react-bootstrap/Table';
-import { useTable, usePagination } from 'react-table';
+import { useTable, usePagination, useFilters } from 'react-table';
 
 
 export default function SubstanceReceipt() {
+    // pentru functionalitatea de search
+    const [filterInput, setFilterInput] = useState('');
     const [totalPrice, setTotalRrice] = useState(0);
     const [errorMsg, setErrorMsg] = useState([]);
     const [products, setProducts] = useState([]);
@@ -27,18 +29,27 @@ export default function SubstanceReceipt() {
     const refCurrentUser = firebase.firestore().collection("users").doc(currentUser.uid).collection("receipt");
     const refProducts = firebase.firestore().collection("users").doc(currentUser.uid).collection("products");
     const months = ['Ianuarie', 'Februarie', 'Martie', 'Aprilie', 'Mai', 'Iunie', 'Iulie', 'August', 'Septembrie', 'Octombrie', 'Noiembrie', 'Decembrie'];
+    
+    const handleFilterChange = e => {
+        const value = e.target.value || undefined;
+        setFilter("product", value);
+        setFilterInput(value);
+    }
     // functie pentru adaugare de factura
-    function addReceipt(e, product, price, quantity, month, currency) {
-        console.log("Tipul campului pret este ", typeof price);
+    function addReceipt(e, product, price, quantity, month, currency, measureQuantity) {
+        // parsam valoarea pretului(ar trebui si a cantitatii)
+        var newPrice = parseFloat(price);
+        console.log("valuta este ", currency);
+        console.log("Tipul campului pret este ", typeof newPrice);
         var errors = [];
         e.preventDefault();
-        console.log(product, price, quantity, month);
+        console.log(product, newPrice, quantity, month);
         if (currency === 'EUR')
         {
-            price = price * 4.897;
+            newPrice = newPrice * 4.897;
         }
-        console.log(price);
-        if (product === '' || price === '' || quantity === '' || month === '')
+        console.log(newPrice);
+        if (product === '' || newPrice === '' || quantity === '' || month === '')
         {
             errors.push("Trebuie sa specificati o valoare pentru toate campurile");
             setErrorMsg(errors);
@@ -49,7 +60,7 @@ export default function SubstanceReceipt() {
             refCurrentUser
             .add({
                 product: product,
-                price: price, 
+                price: newPrice, 
                 quantity: quantity,
                 month: month
             })
@@ -86,11 +97,11 @@ export default function SubstanceReceipt() {
 
 
     const {
-        getTableProps,
-        getTableBodyProps,
-        headerGroups,
-        prepareRow,
-        page,
+        getTableProps, // table props from react-table
+        getTableBodyProps, // table body props from react-table
+        headerGroups, // nu cred ca am nevoie de asta -> headerGroups, if table has groupins
+        prepareRow, // this frunction needs to be called for each row before getting the row props
+        page, // datele efective din tabel
         canPreviousPage,
         canNextPage,
         pageOptions,
@@ -99,11 +110,13 @@ export default function SubstanceReceipt() {
         nextPage,
         previousPage,
         setPageSize,
+        setFilter,
         state: {pageIndex, pageSize},
     } = useTable(
         {
             columns, data, initialState: {pageIndex: 0},
         },
+        useFilters,
         usePagination
     )
     
@@ -134,9 +147,9 @@ export default function SubstanceReceipt() {
         data.map((prd) => {
             totalPriceLocal += prd.price; 
         });
-        console.log("Pretul total local", totalPriceLocal);
+        // console.log("Pretul total local", totalPriceLocal);
         setTotalRrice(totalPriceLocal);
-        console.log("Pretul total al substantelor este ", totalPrice);
+        // console.log("Pretul total al substantelor este ", totalPrice);
     }
 
     useEffect(() => {
@@ -151,6 +164,17 @@ export default function SubstanceReceipt() {
     <>
         <Card className={styles.receiptCard}>
             <Card.Body>
+            <div className="input-group-prepend">
+                <span className="input-group-text">
+                    <i className="fa fa-search" aria-hidden="true"></i>
+                </span>
+                <input 
+                    value={filterInput}
+                    onChange={handleFilterChange}
+                    placeholder={"Search name"}
+                />
+            </div>
+                
                 <Table {...getTableProps()}>
                     <thead>
                     {headerGroups.map(headerGroup => (
@@ -181,7 +205,7 @@ export default function SubstanceReceipt() {
                     <button onClick={() => previousPage()} disabled={!canPreviousPage}>
                         {'<'}
                     </button>{' '}
-                    <button onClick={() => nextPage()} disabled={!canNextPage}>
+                    <button onClick={() => nextPage()} disabled={!canNextPage} className="">
                         {'>'}
                     </button>{' '}
                     <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
@@ -218,6 +242,7 @@ export default function SubstanceReceipt() {
                         ))}
                         </select>
                 </div>
+            <div>{totalPrice}</div>
             <button className={`btn btn-success ${styles.addReceiptButton}`} onClick={handleShow}><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Adauga factura</button>
                 <Modal show={show} onHide={handleClose}>
                     <Modal.Body>
@@ -248,7 +273,7 @@ export default function SubstanceReceipt() {
                                         <span className="input-group-text">
                                             <i className={`fa fa-user`}></i>
                                         </span>
-                                        <input ref={price} type="number" className="form-control" id="first-name-input" placeholder="Pret..."/>
+                                        <input ref={price} type="number" step="0.01" className="form-control" id="price-input" placeholder="Pret..."/>
                                         <span className="input-group-text">
                                             <select className={generalcss.selectValuta} ref={currency}>
                                                 <option>RON</option>
@@ -264,9 +289,9 @@ export default function SubstanceReceipt() {
                                         <span className="input-group-text">
                                             <i className={`fa fa-user`}></i>
                                         </span>
-                                        <input ref={quantity} type="number" className="form-control" id="first-name-input" placeholder="Cantitate..."/>
+                                        <input ref={quantity} type="number" className="form-control" id="quantity-input" placeholder="Cantitate..."/>
                                         <span className="input-group-text">
-                                            <select className={generalcss.selectValuta} ref={currency}>
+                                            <select className={generalcss.selectValuta} ref={measureQuantity}>
                                                 <option>kg</option>
                                                 <option>g</option>
                                             </select>
@@ -294,7 +319,7 @@ export default function SubstanceReceipt() {
                                 </div>
                                 <div className="text-center">
                                     <button className={`btn btn-success`}
-                                        onClick={(e) => addReceipt(e, product.current.value, price.current.value, quantity.current.value, month.current.value, currency.current.value)}
+                                        onClick={(e) => addReceipt(e, product.current.value, price.current.value, quantity.current.value, month.current.value, currency.current.value, measureQuantity.current.Value)}
                                     >
                                         Incarca factura
                                     </button>
