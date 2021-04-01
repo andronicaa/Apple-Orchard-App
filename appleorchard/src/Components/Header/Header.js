@@ -8,7 +8,6 @@ import TempProfile from '../Feed/TempProfile';
 
 
 export default function Header() {
-    // vreau sa am user-ul curent pentru a-i afisa numele in header
     const{ currentUser, logout } = useAuth();
     const[error, setError] = useState('');
     const history = useHistory();
