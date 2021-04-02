@@ -21,7 +21,7 @@ export default function OrchardMenu() {
             <Nav.Link href="#features">Buget</Nav.Link>
             <Nav.Link href="#pricing">Statistici</Nav.Link>
             <NavDropdown title="Management" id="collasible-nav-dropdown">
-                <NavDropdown.Item href="#action/3.1">Facturi</NavDropdown.Item>
+                <NavDropdown.Item href="/orchardinfo">Facturi</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.2">
                 Utilaje
                 </NavDropdown.Item>
@@ -30,7 +30,7 @@ export default function OrchardMenu() {
                 <NavDropdown.Item href="/daunatori">Daunatori</NavDropdown.Item>
                 <Modal show={show} onHide={handleClose}>
                     <Modal.Header>
-                        Adauga produs
+                        <strong>Adauga produs</strong>
                     </Modal.Header>
                     <Modal.Body>
                         <AddProduct />

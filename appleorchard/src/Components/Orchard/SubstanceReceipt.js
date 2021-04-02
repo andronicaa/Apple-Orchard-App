@@ -3,10 +3,8 @@ import styles from './Style/SubstanceReceipt.module.css';
 import generalcss from './Style/GeneralOrchardCSS.module.css';
 import firebase from "../../Firebase/firebase";
 import { useAuth } from '../../Firebase/context/AuthContext';
-import Modal from 'react-bootstrap/Modal';
-import Card from 'react-bootstrap/Card';
-import Table from 'react-bootstrap/Table';
 import { useTable, usePagination, useFilters } from 'react-table';
+import { Modal, Table, Card, Alert, InputGroup, Form, Button } from 'react-bootstrap';
 
 
 export default function SubstanceReceipt() {
@@ -35,25 +33,41 @@ export default function SubstanceReceipt() {
         setFilter("product", value);
         setFilterInput(value);
     }
+
+
     // functie pentru adaugare de factura
     function addReceipt(e, product, price, quantity, month, currency, measureQuantity) {
         // parsam valoarea pretului(ar trebui si a cantitatii)
         var newPrice = parseFloat(price);
+        var newQuantity = parseFloat(quantity);
         console.log("valuta este ", currency);
         console.log("Tipul campului pret este ", typeof newPrice);
         var errors = [];
         e.preventDefault();
         console.log(product, newPrice, quantity, month);
-        if (currency === 'EUR')
+        if(currency === 'EUR')
         {
-            newPrice = newPrice * 4.897;
+            newPrice = price * 4.897;
+        }
+        if(measureQuantity === 'g')
+        {
+            newQuantity = quantity * 0.0010000;
         }
         console.log(newPrice);
-        if (product === '' || newPrice === '' || quantity === '' || month === '')
+        if(product === '' || price === '' || quantity === '' || month === '')
         {
-            errors.push("Trebuie sa specificati o valoare pentru toate campurile");
-            setErrorMsg(errors);
+            errors.push("Trebuie sa specificati o valoare pentru fiecare camp\n");
         }
+        // numerele nu trebuie sa inceapa cu 0, punct sau sa fie negative
+        if(quantity[0] === '0' || quantity[0] === '.' || quantity[0] === '-')
+        {
+            errors.push("Formatul cantitatii nu este un numar corect\n");
+        }
+        if(price[0] === '0' || price[0] === '.' || price[0] === '-')
+        {
+            errors.push("Formatul pretului nu este un numar corect\n");
+        }
+
         else
         {
             handleClose();
@@ -61,7 +75,7 @@ export default function SubstanceReceipt() {
             .add({
                 product: product,
                 price: newPrice, 
-                quantity: quantity,
+                quantity: newQuantity,
                 month: month
             })
             .catch((err) => {
@@ -69,6 +83,7 @@ export default function SubstanceReceipt() {
             });
             setErrorMsg([]);
         }
+        setErrorMsg(errors);
         
     }
 
@@ -123,10 +138,13 @@ export default function SubstanceReceipt() {
     function listReceipt() {
         refCurrentUser.onSnapshot((querySnapshot) => {
           const items = [];
+          var totalPriceLocal = 0;
           querySnapshot.forEach((doc) => {
             items.push(doc.data());
+            totalPriceLocal += doc.data().price;
           });
           setReceipts(items);
+          setTotalRrice(totalPriceLocal);
         });
     }
 
@@ -135,7 +153,6 @@ export default function SubstanceReceipt() {
             const prds = [];
             querySnapshot.forEach((doc) => {
                 prds.push(doc.data());
-
             });
             setProducts(prds);
         });
@@ -143,20 +160,20 @@ export default function SubstanceReceipt() {
 
     function totalPriceOfSubstances() {
         var totalPriceLocal = 0;
-        console.log(data);
+        console.log("Facturile sunt", data);
         data.map((prd) => {
             totalPriceLocal += prd.price; 
         });
         // console.log("Pretul total local", totalPriceLocal);
         setTotalRrice(totalPriceLocal);
-        // console.log("Pretul total al substantelor este ", totalPrice);
+        console.log("Pretul total al substantelor este ", totalPrice);
     }
 
     useEffect(() => {
         console.log("Am intrat");
         getProducts();
         listReceipt();
-        totalPriceOfSubstances();
+        // totalPriceOfSubstances();
     }, []);
 
 
@@ -248,15 +265,18 @@ export default function SubstanceReceipt() {
                     <Modal.Body>
                         <div>
                             <h3 className={`text-center`}>Adauga factura</h3>
-                            <form>
-                                {errorMsg.length && <p>{errorMsg[0]}</p>}
-                                <div className="form-group">
-                                    <label for="lastname"><strong>Produs</strong></label>
-                                    <div className="input-group-prepend">
-                                        <span className="input-group-text">
-                                            <i className={`fa fa-user`}></i>
-                                        </span>
-                                        <select className="form-control" ref={product}>
+                            <Form>
+                                {errorMsg.length && <Alert variant="danger">{errorMsg}</Alert>}
+                                <Form.Group>
+                                    <Form.Label><strong>Produs</strong></Form.Label>
+                                    <InputGroup>
+                                        <InputGroup.Prepend id="inputGroupPrependProduct">
+                                            <InputGroup.Text>
+                                                <i class="fa fa-product-hunt" aria-hidden="true"></i>
+                                            </InputGroup.Text>
+                                        </InputGroup.Prepend>
+                                        <Form.Control as="select" ref={product} aria-describedby="inputGroupPrependProduct"
+                            required>
                                             {
                                                 products.map((prd) => (
                                                     <option key={prd}>
@@ -264,59 +284,66 @@ export default function SubstanceReceipt() {
                                                     </option>
                                                 ))
                                             }
-                                        </select>
-                                    </div>
-                                </div>
-                                <div className="form-group">
-                                    <label for="firstname"><strong>Pret</strong></label>
-                                    <div className="input-group-prepend">
-                                        <span className="input-group-text">
-                                            <i className={`fa fa-user`}></i>
-                                        </span>
-                                        <input ref={price} type="number" step="0.01" className="form-control" id="price-input" placeholder="Pret..."/>
-                                        <span className="input-group-text">
-                                            <select className={generalcss.selectValuta} ref={currency}>
+                                        </Form.Control>
+                                    </InputGroup>
+                                </Form.Group>
+                                <Form.Group>
+                                    <Form.Label><strong>Pret</strong></Form.Label>
+                                    <InputGroup>
+                                        <InputGroup.Prepend id="inputGroupPrependPrice">
+                                            <InputGroup.Text>
+                                                <i className="fa fa-money" aria-hidden="true"></i>
+                                            </InputGroup.Text>
+                                        </InputGroup.Prepend>
+                                        <Form.Control ref={price} type="number" placeholder="Pret..." aria-describedby="inputGroupPrependPrice"
+                            required/>
+                                        <InputGroup.Prepend id="inputGroupPrependCurrency">
+                                            <Form.Control as="select" ref={currency} aria-describedby="inputGroupPrependCurrency"
+                            required>
                                                 <option>RON</option>
                                                 <option>EUR</option>
-                                            </select>
-                                        </span>
-                                    </div>
-                                    
-                                </div>
-                                <div className="form-group">
-                                    <label for="firstname"><strong>Cantitate</strong></label>
-                                    <div className="input-group-prepend">
-                                        <span className="input-group-text">
-                                            <i className={`fa fa-user`}></i>
-                                        </span>
-                                        <input ref={quantity} type="number" className="form-control" id="quantity-input" placeholder="Cantitate..."/>
-                                        <span className="input-group-text">
-                                            <select className={generalcss.selectValuta} ref={measureQuantity}>
+                                            </Form.Control>
+                                        </InputGroup.Prepend>
+                                    </InputGroup>
+                                </Form.Group>
+                                <Form.Group>
+                                    <Form.Label><strong>Cantitate</strong></Form.Label>
+                                    <InputGroup>
+                                        <InputGroup.Prepend id="inputGroupPrependQuantity">
+                                            <InputGroup.Text>
+                                                <i className="fa fa-sort-amount-desc" aria-hidden="true"></i>
+                                            </InputGroup.Text>
+                                        </InputGroup.Prepend>
+                                        <Form.Control ref={quantity} type="number" placeholder="Cantitate..." aria-describedby="inputGroupPrependQuantity"
+                            required/>
+                                        <InputGroup.Prepend id="inputGroupPrependMeasureQ">
+                                            <Form.Control as="select" ref={measureQuantity} aria-describedby="inputGroupPrependMeasureQ"
+                            required>
                                                 <option>kg</option>
                                                 <option>g</option>
-                                            </select>
-                                        </span>
-                                    </div>
-                                    
-                                </div>
-                                <div className="form-group">
-                                    <label for="firstname"><strong>Luna achizitie</strong></label>
-                                    <div className="input-group-prepend">
-                                        <span className="input-group-text">
-                                            <i className={`fa fa-user`}></i>
-                                        </span>
-                                        <select className="form-control" ref={month}>
+                                            </Form.Control>
+                                        </InputGroup.Prepend>
+                                    </InputGroup>
+                                </Form.Group>
+                                <Form.Group>
+                                    <Form.Label><strong>Luna achizitie</strong></Form.Label>
+                                    <InputGroup>
+                                        <InputGroup.Prepend id="inputGroupPrependMonth">
+                                            <InputGroup.Text>
+                                                <i className="fa fa-calendar" aria-hidden="true"></i>
+                                            </InputGroup.Text>
+                                        </InputGroup.Prepend>
+                                        <Form.Control as="select" ref={month} placeholder="Luna achizitie..." aria-describedby="inputGroupPrependMonth"
+                            required>
                                             {
                                                 months.map((m) => (
-                                                    <option key={m}>
-                                                        {m}
-                                                    </option>
+                                                    <option>{m}</option>
                                                 ))
                                             }
-                                        </select>
-                                    </div>
+                                        </Form.Control>
+                                    </InputGroup>
                                     
-                                </div>
+                                </Form.Group>
                                 <div className="text-center">
                                     <button className={`btn btn-success`}
                                         onClick={(e) => addReceipt(e, product.current.value, price.current.value, quantity.current.value, month.current.value, currency.current.value, measureQuantity.current.Value)}
@@ -324,7 +351,7 @@ export default function SubstanceReceipt() {
                                         Incarca factura
                                     </button>
                                 </div>
-                            </form>
+                            </Form>
                         </div>
                     </Modal.Body>
                 </Modal>
