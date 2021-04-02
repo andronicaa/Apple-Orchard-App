@@ -3,6 +3,7 @@ import styles from "./Styles/Home.module.css";
 import Header from "../Header/Header";
 import logo from "../../Imgs/temp_logo.png";
 import about from "../../Imgs/about_img.jpg";
+import about_footer from "../../Imgs/img_footer.jpg";
 
 export default function Home() {
     return (
@@ -34,7 +35,7 @@ export default function Home() {
                     </div>
                     
                     <div className={styles.aboutImgContainer}>
-                        <img src={about} alt="About Us Image" className={styles.abtImg}/>
+                        <img src={about_footer} alt="About Us Image" className={styles.abtImg}/>
                     </div>
                 </div>
                 
