@@ -4,6 +4,7 @@ import Header from "../Header/Header";
 import logo from "../../Imgs/temp_logo.png";
 import about from "../../Imgs/about_img.jpg";
 import about_footer from "../../Imgs/img_footer.jpg";
+import { Link } from 'react-router-dom';
 
 export default function Home() {
     return (
@@ -21,7 +22,7 @@ export default function Home() {
                     <p>At vero eos et accusamus et iusto odio dignissimos</p>
                 </div>
                 <div>
-                    <button className={`btn btn-danger ${styles.roleButton}`}>Cultivator</button>
+                    <Link to="/login"><button className={`btn btn-danger ${styles.roleButton}`}>Cultivator</button></Link>
                     <button className={`btn btn-danger ${styles.roleButton}`}>Cumparator</button>
                 </div>
            </div>
