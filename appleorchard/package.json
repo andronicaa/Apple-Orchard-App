@@ -11,6 +11,7 @@
     "dotenv": "^8.2.0",
     "firebase": "^8.2.7",
     "font-awesome": "^4.7.0",
+    "google-maps-react": "^2.0.6",
     "react": "^17.0.1",
     "react-bootstrap": "^1.4.3",
     "react-dom": "^17.0.1",
