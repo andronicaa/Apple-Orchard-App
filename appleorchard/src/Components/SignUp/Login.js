@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { Form, Button, Alert } from 'react-bootstrap';
+import { Form, Button, Alert, InputGroup } from 'react-bootstrap';
 import { Link, useHistory } from 'react-router-dom';
 import styles from "./Styles/SignUp.module.css";
 import { useAuth } from '../../Firebase/context/AuthContext';
@@ -45,23 +45,38 @@ export function Login() {
         <Form onSubmit={handleSubmit}>
           <Form.Group id="email">
             <Form.Label>Email</Form.Label>
-            <Form.Control type="email" ref={refEmail} required />
+            <InputGroup>
+              <InputGroup.Prepend id="inputGroupPrependEmail">
+                <InputGroup.Text>
+                  <i className={`fa fa-envelope ${styles.inputIcon}`} aria-hidden="true"></i>
+                </InputGroup.Text>
+              </InputGroup.Prepend>
+              <Form.Control type="email" ref={refEmail} required  aria-describedby="inputGroupPrependEmail"/>
+            </InputGroup>
           </Form.Group>
           <Form.Group id="password">
-            <Form.Label>Password</Form.Label>
-            <Form.Control type="password" ref={refPassword} required />
+            <Form.Label>Parola</Form.Label>
+            <InputGroup>
+              <InputGroup.Prepend id="inputGroupPrependPassword">
+                <InputGroup.Text>
+                  <i className={`fa fa-key ${styles.inputIcon}`} aria-hidden="true"></i>
+                </InputGroup.Text>
+              </InputGroup.Prepend>
+              <Form.Control type="password" ref={refPassword} required  aria-describedby="inputGroupPrependPassword"/>
+            </InputGroup>
+            
           </Form.Group>
           <Button disabled={loading} className="w-100 btn btn-success" type="submit">
             Log In
           </Button>
-          <Button className={`w-100 ${styles.googleButton}`}><i class="fa fa-google"></i> Login with Google</Button>
+          <Button className={`w-100 ${styles.googleButton}`}><i class="fa fa-google"></i> Autentificare cu Google</Button>
         </Form>
         <button type="link" onClick={handleShow} className={styles.forgotButton}>
-          Forgot password?
+          Ai uitat parola?
         </button>
         <Modal show={show} onHide={handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Forgot password</Modal.Title>
+            <Modal.Title>Resetare parola</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <ForgotPassword />
@@ -69,7 +84,7 @@ export function Login() {
         </Modal>
       </div>
       <div className="w-100 text-center mt-2">
-      <strong>Need an account? </strong><Link to="/signup"><strong>Sign Up</strong></Link>
+      <strong>Creeaza cont </strong><Link to="/signup" className={styles.signUpLink}><strong>Sign Up</strong></Link>
     </div>
     </div>
     

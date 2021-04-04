@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { Form, Button, Alert } from 'react-bootstrap';
+import { Form, Button, Alert, InputGroup } from 'react-bootstrap';
 import styles from "./Styles/SignUp.module.css";
 import { useAuth } from '../../Firebase/context/AuthContext';
 import { Link, useHistory } from 'react-router-dom';
@@ -45,17 +45,39 @@ export function SignUp() {
         {/* <h2 className="text-center mb-4">Sign Up</h2> */}
         {error && <Alert variant="danger">{error}</Alert>}
         <Form onSubmit={handleSubmit}>
-          <Form.Group id="email">
+        <Form.Group id="email">
             <Form.Label>Email</Form.Label>
-            <Form.Control type="email" ref={refEmail} required />
+            <InputGroup>
+              <InputGroup.Prepend id="inputGroupPrependEmail">
+                <InputGroup.Text>
+                  <i className={`fa fa-envelope ${styles.inputIcon}`} aria-hidden="true"></i>
+                </InputGroup.Text>
+              </InputGroup.Prepend>
+              <Form.Control type="email" ref={refEmail} required  aria-describedby="inputGroupPrependEmail"/>
+            </InputGroup>
           </Form.Group>
           <Form.Group id="password">
-            <Form.Label>Password</Form.Label>
-            <Form.Control type="password" ref={refPassword} required />
+            <Form.Label>Parola</Form.Label>
+            <InputGroup>
+              <InputGroup.Prepend id="inputGroupPrependPassword">
+                <InputGroup.Text>
+                  <i className={`fa fa-key ${styles.inputIcon}`} aria-hidden="true"></i>
+                </InputGroup.Text>
+              </InputGroup.Prepend>
+              <Form.Control type="password" ref={refPassword} required  aria-describedby="inputGroupPrependPassword"/>
+            </InputGroup>
           </Form.Group>
           <Form.Group id="password-confirm">
-            <Form.Label>Password Confirmation</Form.Label>
-            <Form.Control type="password" ref={refPasswordConfirm} required />
+            <Form.Label>Parola</Form.Label>
+            <InputGroup>
+              <InputGroup.Prepend id="inputGroupPrependPasswordConf">
+                <InputGroup.Text>
+                  <i className={`fa fa-key ${styles.inputIcon}`} aria-hidden="true"></i>
+                </InputGroup.Text>
+              </InputGroup.Prepend>
+              <Form.Control type="password" ref={refPassword} required  aria-describedby="inputGroupPrependPasswordConf"/>
+            </InputGroup>
+            
           </Form.Group>
           <Button disabled={loading} className="w-100 btn btn-success" type="submit">
             Sign Up
@@ -63,7 +85,7 @@ export function SignUp() {
         </Form>
       </div>
       <div className="w-100 text-center mt-2">
-      Already have an account?  <Link to="/login"><strong>Log In</strong></Link>
+        Ai deja cont?  <Link to="/login" className={styles.signUpLink}><strong>Log In</strong></Link>
     </div>
     </div>
     </div>
