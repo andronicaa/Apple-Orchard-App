@@ -6,6 +6,6 @@
     top: 13vh;
 }
 
-.imgCard {
-    /* height: 30vh; */
+.cardHeader {
+    background-color:rgba(91, 192, 222, 0.5);
 }
