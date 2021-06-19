@@ -4,8 +4,8 @@ import generalcss from './Style/GeneralOrchardCSS.module.css';
 import firebase from "../../Firebase/firebase";
 import { useAuth } from '../../Firebase/context/AuthContext';
 import { useTable, usePagination, useFilters } from 'react-table';
+import generatePdfReceipt from './UtilityFunctions/GeneratePdfReceipt';
 import { Modal, Table, Card, Alert, InputGroup, Form, Button } from 'react-bootstrap';
-import PdfTest from './PdfTest';
 import jsPDF from 'jspdf';
 
 export default function SubstanceReceipt() {
@@ -95,21 +95,6 @@ export default function SubstanceReceipt() {
        doc(product.id).delete().then(() => {console.log("Sters")}).catch((err) => {console.log(err)});
     }
 
-
-    function renderPDF(e, product) {
-        e.preventDefault();
-        // mai intai trebuie sa adauge anumite detalii pentru a putea sa genereze pdf-ul
-        var doc = new jsPDF('p', 'pt');
-        doc.setFont("courier");
-        doc.text(20, 20, 'text', { align: 'center' });
-        
-        // titlul
-        var w = doc.internal.pageSize.getWidth();
-        doc.text('Centered text', w/2, 20, {align: 'center'});
-        var today = new Date();
-        var docPdfName = "receipt" + today + product.product + ".pdf";
-        doc.save(docPdfName);
-    }
     const columns = React.useMemo(
         () => [
             {
@@ -137,7 +122,7 @@ export default function SubstanceReceipt() {
                 Header: 'Detalii',
                 accessor: (row) => {
                     return (
-                        <Button variant="danger" onClick={(e) => renderPDF(e, row)}><i className="fa fa-file-pdf-o" aria-hidden="true"></i></Button>
+                        <Button variant="danger" onClick={(e) => generatePdfReceipt(e, row)}><i className="fa fa-file-pdf-o" aria-hidden="true"></i></Button>
                     )
                 }
             }
@@ -238,49 +223,27 @@ export default function SubstanceReceipt() {
                     })}
                     </tbody>
                 </Table>
-                <div className="pagination">
-                    <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
-                        {'<<'}
-                    </button>{' '}
-                    <button onClick={() => previousPage()} disabled={!canPreviousPage}>
-                        {'<'}
-                    </button>{' '}
-                    <button onClick={() => nextPage()} disabled={!canNextPage} className="">
-                        {'>'}
-                    </button>{' '}
-                    <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
-                        {'>>'}
-                    </button>{' '}
-                        <span>
-                        Page{' '}
-                        <strong>
-                            {pageIndex + 1} of {pageOptions.length}
-                        </strong>{' '}
-                        </span>
-                        <span>
-                        | Go to page:{' '}
-                        <input
-                            type="number"
-                            defaultValue={pageIndex + 1}
-                            onChange={e => {
-                            const page = e.target.value ? Number(e.target.value) - 1 : 0
-                            gotoPage(page)
-                            }}
-                            style={{ width: '100px' }}
-                        />
-                        </span>{' '}
-                        <select
-                        value={pageSize}
-                        onChange={e => {
-                            setPageSize(Number(e.target.value))
-                        }}
-                        >
-                        {[1, 2, 3].map(pageSize => (
-                            <option key={pageSize} value={pageSize}>
-                            Show {pageSize}
-                            </option>
-                        ))}
-                        </select>
+                <div className={styles.pagination}>
+                    <div className={styles.subPagination}>
+                        <Button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+                            <i className="fa fa-angle-double-left" aria-hidden="true"></i>
+                        </Button>
+                        <Button onClick={() => previousPage()} disabled={!canPreviousPage}>
+                            <i className="fa fa-angle-left" aria-hidden="true"></i>
+                        </Button>{'   '}
+                        <Button onClick={() => nextPage()} disabled={!canNextPage} className="">
+                            <i className="fa fa-angle-right" aria-hidden="true"></i>
+                        </Button>{' '}
+                        <Button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+                            <i className="fa fa-angle-double-right" aria-hidden="true"></i>
+                        </Button>{' '}
+                            <span>
+                            <strong>
+                                {pageIndex + 1} / {pageOptions.length}
+                            </strong>{' '}
+                            </span>
+                    </div>
+                    
                 </div>
             <div>{totalPrice}</div>
             <button className={`btn btn-success ${styles.addReceiptButton}`} onClick={handleShow}><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Adauga factura</button>
