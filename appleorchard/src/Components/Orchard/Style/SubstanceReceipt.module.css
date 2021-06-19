@@ -16,3 +16,11 @@
     position: relative;
     margin-top: 2vh;
 }
+.pagination {
+    /* border: 1px solid green; */
+}
+.subPagination {
+    /* border: 1px solid red; */
+    width: 20%;
+    float: right;
+}
