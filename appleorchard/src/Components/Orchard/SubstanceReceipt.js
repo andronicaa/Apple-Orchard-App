@@ -5,7 +5,8 @@ import firebase from "../../Firebase/firebase";
 import { useAuth } from '../../Firebase/context/AuthContext';
 import { useTable, usePagination, useFilters } from 'react-table';
 import { Modal, Table, Card, Alert, InputGroup, Form, Button } from 'react-bootstrap';
-
+import PdfTest from './PdfTest';
+import jsPDF from 'jspdf';
 
 export default function SubstanceReceipt() {
     // pentru functionalitatea de search
@@ -87,6 +88,28 @@ export default function SubstanceReceipt() {
         
     }
 
+    function deleteProduct(e, product) {
+
+       console.log(product);
+       refCurrentUser.
+       doc(product.id).delete().then(() => {console.log("Sters")}).catch((err) => {console.log(err)});
+    }
+
+
+    function renderPDF(e, product) {
+        e.preventDefault();
+        // mai intai trebuie sa adauge anumite detalii pentru a putea sa genereze pdf-ul
+        var doc = new jsPDF('p', 'pt');
+        doc.setFont("courier");
+        doc.text(20, 20, 'text', { align: 'center' });
+        
+        // titlul
+        var w = doc.internal.pageSize.getWidth();
+        doc.text('Centered text', w/2, 20, {align: 'center'});
+        var today = new Date();
+        var docPdfName = "receipt" + today + product.product + ".pdf";
+        doc.save(docPdfName);
+    }
     const columns = React.useMemo(
         () => [
             {
@@ -95,16 +118,28 @@ export default function SubstanceReceipt() {
                 
             },
             {
-                Header: 'Pret',
+                Header: 'Pret (lei)',
                 accessor: 'price'
             },
             {
-                Header: 'Cantitate',
+                Header: 'Cantitate (kg)',
                 accessor: 'quantity'
             },
             {
-                Header: 'Luna achizitie',
-                accessor: 'month'
+                Header: 'Sterge',
+                accessor: (row) => {
+                   return (
+                       <Button variant="success" onClick = {e => deleteProduct(e, row)}><i className="fa fa-trash" aria-hidden="true"></i></Button>
+                   )
+                } 
+            },
+            {
+                Header: 'Detalii',
+                accessor: (row) => {
+                    return (
+                        <Button variant="danger" onClick={(e) => renderPDF(e, row)}><i className="fa fa-file-pdf-o" aria-hidden="true"></i></Button>
+                    )
+                }
             }
         ],
         []
@@ -140,10 +175,11 @@ export default function SubstanceReceipt() {
           const items = [];
           var totalPriceLocal = 0;
           querySnapshot.forEach((doc) => {
-            items.push(doc.data());
+            items.push({id: doc.id,...doc.data()});
             totalPriceLocal += doc.data().price;
           });
           setReceipts(items);
+          console.log("Item", items)
           setTotalRrice(totalPriceLocal);
         });
     }
@@ -157,23 +193,10 @@ export default function SubstanceReceipt() {
             setProducts(prds);
         });
     }
-
-    function totalPriceOfSubstances() {
-        var totalPriceLocal = 0;
-        console.log("Facturile sunt", data);
-        data.map((prd) => {
-            totalPriceLocal += prd.price; 
-        });
-        // console.log("Pretul total local", totalPriceLocal);
-        setTotalRrice(totalPriceLocal);
-        console.log("Pretul total al substantelor este ", totalPrice);
-    }
-
     useEffect(() => {
         console.log("Am intrat");
         getProducts();
         listReceipt();
-        // totalPriceOfSubstances();
     }, []);
 
 
@@ -188,7 +211,7 @@ export default function SubstanceReceipt() {
                 <input 
                     value={filterInput}
                     onChange={handleFilterChange}
-                    placeholder={"Search name"}
+                    placeholder={"Cauta factura"}
                 />
             </div>
                 
