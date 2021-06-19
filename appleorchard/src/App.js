@@ -13,6 +13,7 @@ import OrchardInfo from "./Components/Orchard/OrchardInfo";
 import ReceiptPageTabs from "./Components/Orchard/ReceiptPageTabs";
 import MainInfoBudget from "./Components/Orchard/Budget/MainInfoBudget.js";
 import Daunatori from "./Components/Orchard/Health/Daunatori";
+import PdfTest from "./Components/Orchard/PdfTest";
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 
@@ -34,6 +35,7 @@ function App() {
             <Route path="/receiptpagetabs" component={ReceiptPageTabs} />
             <Route path="/maininfobudget" component={MainInfoBudget} />
             <Route path="/daunatori" component={Daunatori} />
+            <Route path="/pdftest" component={PdfTest} />
             </Switch>
         </AuthProvider>
     </Router>
