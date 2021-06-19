@@ -12,6 +12,7 @@ export default function AddProfile() {
     const address = useRef();
     const email = useRef();
     const phoneNumber = useRef();
+    const companyName = useRef();
     const history = useHistory();
     const refUser = firebase.firestore().collection("users");
     const refProfile = firebase.firestore().collection("users").doc(currentUser.uid);
@@ -85,6 +86,15 @@ export default function AddProfile() {
                                     <i className={`fa fa-phone ${styles.icons}`} aria-hidden="true"></i>
                                 </span>
                                 <input  ref={phoneNumber} type="text" className="form-control" id="first-name-input" placeholder="Nr. Telefon..."/>
+                            </div>
+                        </div>
+                        <div className="form-group">
+                            <label for="company-name"><strong>Nume companie</strong></label>
+                            <div className="input-group-prepend">
+                                <span className="input-group-text">
+                                    <i className={`fa fa-building-o ${styles.icons}`} aria-hidden="true"></i>
+                                </span>
+                                <input  ref={companyName} type="text" className="form-control" id="company-name" placeholder="Nume companie..."/>
                             </div>
                         </div>
                         <div className="text-center">

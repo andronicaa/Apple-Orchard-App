@@ -75,7 +75,7 @@ export function SignUp() {
                   <i className={`fa fa-key ${styles.inputIcon}`} aria-hidden="true"></i>
                 </InputGroup.Text>
               </InputGroup.Prepend>
-              <Form.Control type="password" ref={refPassword} required  aria-describedby="inputGroupPrependPasswordConf"/>
+              <Form.Control type="password" ref={refPasswordConfirm} required  aria-describedby="inputGroupPrependPasswordConf"/>
             </InputGroup>
             
           </Form.Group>
