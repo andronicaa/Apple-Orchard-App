@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import styles from "./Header.module.css";
-import { useHistory } from 'react-router-dom';
+import { useHistory, Redirect } from 'react-router-dom';
+import firebase from "../../Firebase/firebase";
 import { useAuth } from '../../Firebase/context/AuthContext';
 import { Link } from "react-router-dom";
 import Modal from 'react-bootstrap/Modal';
@@ -37,11 +38,12 @@ export default function Header() {
                             currentUser != null ? 
                             <>
                                 <button onClick={handleShow} className={styles.profileButton}>Profil</button>
-                                <Modal show={show} onHide={handleClose}>
-                                    <Modal.Body>
-                                        <TempProfile />
-                                    </Modal.Body>
-                                </Modal>
+                                        <Modal show={show} onHide={handleClose}>
+                                            <Modal.Body>
+                                                <TempProfile />
+                                            </Modal.Body>
+                                        </Modal>
+
                             </>
                             :
                                 <p className={styles.linkText}>About Us</p>
