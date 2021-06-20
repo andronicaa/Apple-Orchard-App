@@ -34,13 +34,13 @@ export default function SubstanceReceipt() {
         setFilter("product", value);
         setFilterInput(value);
     }
-
-
+    
     // functie pentru adaugare de factura
     function addReceipt(e, product, price, quantity, month, currency, measureQuantity) {
         // parsam valoarea pretului(ar trebui si a cantitatii)
         var newPrice = parseFloat(price);
         var newQuantity = parseFloat(quantity);
+        var ok = true;
         console.log("valuta este ", currency);
         console.log("Tipul campului pret este ", typeof newPrice);
         var errors = [];
@@ -57,19 +57,27 @@ export default function SubstanceReceipt() {
         console.log(newPrice);
         if(product === '' || price === '' || quantity === '' || month === '')
         {
-            errors.push("Trebuie sa specificati o valoare pentru fiecare camp\n");
+            errors.push("Trebuie sa specificati o valoare pentru fiecare camp");
+            ok = false;
         }
         // numerele nu trebuie sa inceapa cu 0, punct sau sa fie negative
         if(quantity[0] === '0' || quantity[0] === '.' || quantity[0] === '-')
-        {
-            errors.push("Formatul cantitatii nu este un numar corect\n");
+        {   
+            if(quantity[0] === '-')
+                errors.push("Cantitatea trebuie sa fie un numar pozitiv");
+            else
+                errors.push("Formatul cantitatii nu este un numar corect");
+            ok = false;
         }
         if(price[0] === '0' || price[0] === '.' || price[0] === '-')
         {
-            errors.push("Formatul pretului nu este un numar corect\n");
+            if(price[0] === '-')
+                errors.push("Pretul trebuie sa fie un numar pozitiv");
+            else 
+                errors.push("Formatul pretului nu este un numar corect");
+            ok = false;
         }
-
-        else
+        if(ok)
         {
             handleClose();
             refCurrentUser
@@ -98,7 +106,7 @@ export default function SubstanceReceipt() {
     const columns = React.useMemo(
         () => [
             {
-                Header: 'Nume',
+                Header: 'Nume produs',
                 accessor: 'product'
                 
             },
@@ -144,12 +152,11 @@ export default function SubstanceReceipt() {
         gotoPage,
         nextPage,
         previousPage,
-        setPageSize,
         setFilter,
         state: {pageIndex, pageSize},
     } = useTable(
         {
-            columns, data, initialState: {pageIndex: 0},
+            columns, data, initialState: {pageIndex: 0, pageSize: 4},
         },
         useFilters,
         usePagination
@@ -227,7 +234,7 @@ export default function SubstanceReceipt() {
                     <div className={styles.subPagination}>
                         <Button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
                             <i className="fa fa-angle-double-left" aria-hidden="true"></i>
-                        </Button>
+                        </Button>{' '}
                         <Button onClick={() => previousPage()} disabled={!canPreviousPage}>
                             <i className="fa fa-angle-left" aria-hidden="true"></i>
                         </Button>{'   '}
@@ -242,17 +249,39 @@ export default function SubstanceReceipt() {
                                 {pageIndex + 1} / {pageOptions.length}
                             </strong>{' '}
                             </span>
+                            <span>
+                            Pagina:{' '}
+                            <input
+                                type="number"
+                                defaultValue={pageIndex + 1}
+                                onChange={e => {
+                                const page = e.target.value ? Number(e.target.value) - 1 : 0
+                                gotoPage(page)
+                                }}
+                                style={{ width: '70px'}}
+                            />
+                            </span>{' '}
                     </div>
                     
                 </div>
-            <div>{totalPrice}</div>
+            <div>
+                <Button type="button" className="btn btn-primary">
+                    Total <span class="badge badge-light">{totalPrice}</span> lei
+                </Button>
+            </div>
             <button className={`btn btn-success ${styles.addReceiptButton}`} onClick={handleShow}><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Adauga factura</button>
                 <Modal show={show} onHide={handleClose}>
                     <Modal.Body>
                         <div>
                             <h3 className={`text-center`}>Adauga factura</h3>
                             <Form>
-                                {errorMsg.length && <Alert variant="danger">{errorMsg}</Alert>}
+                                {errorMsg.length && <Alert variant="danger">
+                                    {
+                                        errorMsg.map((err) => (
+                                            <p>{err}</p>
+                                        ))
+                                    }    
+                                </Alert>}
                                 <Form.Group>
                                     <Form.Label><strong>Produs</strong></Form.Label>
                                     <InputGroup>
