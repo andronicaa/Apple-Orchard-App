@@ -3,6 +3,7 @@ import { Form, Button, Alert, InputGroup } from 'react-bootstrap';
 import { Link, useHistory } from 'react-router-dom';
 import styles from "./Styles/SignUp.module.css";
 import { useAuth } from '../../Firebase/context/AuthContext';
+import firebase from "../../Firebase/firebase";
 import 'font-awesome/css/font-awesome.min.css';
 import temp_logo from "../../Imgs/temp_logo.png";
 import ForgotPassword from "./ForgotPassword";
@@ -11,27 +12,59 @@ import Modal from 'react-bootstrap/Modal';
 export function Login() {
   const refEmail = useRef();
   const refPassword = useRef();
-  const { login } = useAuth();
+  const { login, signInWithGoogle } = useAuth();
   const [error, setError] = useState('');
+  const { currentUser } = useAuth();
   const[loading, setLoading] = useState(false);
   const [show, setShow] = useState(false);
+  const [typed, setTyped] = useState('');
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const history = useHistory();
+ 
 
+  function loginWithGoogle(e, typed) {
+    setTyped(typed);
+    handleSubmit(e);
+  }
   async function handleSubmit(e) {
     e.preventDefault();
     try {
       setError('');
       setLoading(true);
-      await login(refEmail.current.value, refPassword.current.value);
+      console.log('Tipul de login este', typed);
+      if(typed === 'normalLogin')
+      {
+        await login(refEmail.current.value, refPassword.current.value);
         // dupa ce un utilizator se inregistreaza sau se autentifica => va fi redirectionat catre pagina principala
-      history.push("/");
+        history.push("/");
+      }
+      else
+      {
+        await signInWithGoogle();
+        addProfile();
+      }
+        
+      
     } catch {
       setError("Failed to login");
     }
     setLoading(false);
   }
+
+  function addProfile() {
+    // verificam daca profilul este completat pentru user-ul curent
+    console.log("Am intrat aici");
+    console.log(currentUser.uid);
+    const refProfile = firebase.firestore().collection("users").doc(currentUser.uid);
+    console.log("Profilul este: ", refProfile)
+    if(typeof(refProfile.firstName) === 'undefined')
+      history.push("/addprofile");
+    else
+      history.push("/");
+  }
+
+
   return (
     <div className={styles.loginPage}>
     <div className={styles.cardForm}>
@@ -66,11 +99,11 @@ export function Login() {
             </InputGroup>
             
           </Form.Group>
-          <Button disabled={loading} className="w-100 btn btn-success" type="submit">
+          <Button disabled={loading} className="w-100 btn btn-success" type="submit" onClick={(e) => setTyped('normalLogin')}>
             Log In
           </Button>
-          <Button className={`w-100 ${styles.googleButton}`}><i class="fa fa-google"></i> Autentificare cu Google</Button>
         </Form>
+        <Button disabled={loading} className={`w-100 ${styles.googleButton}`} onClick={(e) => loginWithGoogle(e, 'googleLogin')}><i class="fa fa-google"></i> Autentificare cu Google</Button>
         <button type="link" onClick={handleShow} className={styles.forgotButton}>
           Ai uitat parola?
         </button>
