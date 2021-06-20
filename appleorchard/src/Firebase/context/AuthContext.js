@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { auth } from '../firebase';
+import { auth, googleProvider } from '../firebase';
 
 // stabilim contextul
 const AuthContext = React.createContext();
@@ -11,6 +11,16 @@ export function useAuth() {
 export default function AuthProvider({ children }) {
     const [currentUser, setCurrentUser] = useState();
     const [loading, setLoading] = useState(true);
+    
+
+
+    function signInWithGoogle() {
+        if(currentUser)
+        {
+            setCurrentUser(currentUser);
+        }
+        return auth.signInWithPopup(googleProvider);
+    }
     // functia ce face logarea efectiva cu credentialele date de user
     function signup(email, password) {
         // se va trimite mail de confirmare
@@ -60,6 +70,7 @@ export default function AuthProvider({ children }) {
     const value = {
         currentUser,
         login,
+        signInWithGoogle,
         signup,
         logout,
         resetPassword,
