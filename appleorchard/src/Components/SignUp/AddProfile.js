@@ -3,6 +3,7 @@ import styles from "./Styles/AddProfile.module.css";
 import firebase from "../../Firebase/firebase";
 import { useAuth } from '../../Firebase/context/AuthContext';
 import { useHistory } from 'react-router-dom';
+import { InputGroup, Form, Col, Row } from 'react-bootstrap';
 
 export default function AddProfile() {
     const { currentUser } = useAuth();
@@ -14,7 +15,6 @@ export default function AddProfile() {
     const phoneNumber = useRef();
     const companyName = useRef();
     const history = useHistory();
-    const refUser = firebase.firestore().collection("users");
     const refProfile = firebase.firestore().collection("users").doc(currentUser.uid);
 
     // functie care adauga un nou profil de utilizator
@@ -28,85 +28,141 @@ export default function AddProfile() {
         history.push("/");
     }
     return (
-        <div className={`${styles.mainContainer}`}>
-                <div className={styles.formContainer}>
-                    <h3 className={`text-center ${styles.formTitle}`}>Adauga profil</h3>
-                    <form className={styles.input}>
-                        <div className="form-group">
-                            <label for="lastname"><strong>Name</strong></label>
-                            <div className="input-group-prepend">
-                                <span className="input-group-text">
-                                    <i className={`fa fa-user ${styles.icons}`}></i>
-                                </span>
-                                <input  ref={lastName}
-                                type="text" className="form-control" id="first-name-input" placeholder="Nume..."/>
-                            </div>
-                        </div>
-                        <div className="form-group">
-                            <label for="firstname"><strong>Prenume</strong></label>
-                            <div className="input-group-prepend">
-                                <span className="input-group-text">
-                                    <i className={`fa fa-user ${styles.icons}`}></i>
-                                </span>
-                                <input ref={firstName} type="text" className="form-control" id="first-name-input" placeholder="Prenume..."/>
+        <Row>
+            <Col lg={4} className={styles.colContainer} />
+            <Col lg={4}>
+                        <h3 className={`text-center ${styles.formTitle}`}>Adauga profil</h3>
+                        <form className={styles.input}>
+                            <Form.Group>
+                                <Form.Label for="lastname"><strong className={styles.tags}>Name</strong></Form.Label>
+                                    <InputGroup>
+                                        <InputGroup.Prepend id="inputGroupPrependLastName">
+                                            <InputGroup.Text>
+                                                <i className={`fa fa-user ${styles.icons}`} aria-hidden="true" />
+                                            </InputGroup.Text>
+                                        </InputGroup.Prepend>
+                                        <Form.Control 
+                                            ref={lastName}
+                                            type="text"
+                                            placeholder="Nume"
+                                            aria-describedby="inputGroupPrependLastName"
+                                            required
+                                        />
+                                    </InputGroup>
+                            </Form.Group>
+                            <Form.Group>
+                                <Form.Label for="firstname"><strong className={styles.tags}>Prenume</strong></Form.Label>
+                                    <InputGroup>
+                                        <InputGroup.Prepend id="inputGroupPrependFirstName">
+                                            <InputGroup.Text>
+                                                <i className={`fa fa-user ${styles.icons}`} aria-hidden="true" />
+                                            </InputGroup.Text>
+                                        </InputGroup.Prepend>
+                                        <Form.Control 
+                                            ref={firstName}
+                                            type="text"
+                                            placeholder="Prenume"
+                                            aria-describedby="inputGroupPrependFirstName"
+                                            required
+                                        />
+                                    </InputGroup>
+                            </Form.Group>
+                            <Form.Group>
+                                <Form.Label for="age"><strong className={styles.tags}>Varsta</strong></Form.Label>
+                                    <InputGroup>
+                                        <InputGroup.Prepend id="inputGroupPrependAge">
+                                            <InputGroup.Text>
+                                                <i className={`fa fa-child ${styles.icons}`} aria-hidden="true" />
+                                            </InputGroup.Text>
+                                        </InputGroup.Prepend>
+                                        <Form.Control 
+                                            ref={age}
+                                            type="text"
+                                            placeholder="Varsta"
+                                            aria-describedby="inputGroupPrependAge"
+                                            required
+                                        />
+                                    </InputGroup>
+                            </Form.Group>
+                            <Form.Group>
+                                <Form.Label for="address"><strong className={styles.tags}>Adresa</strong></Form.Label>
+                                    <InputGroup>
+                                        <InputGroup.Prepend id="inputGroupPrependAddress">
+                                            <InputGroup.Text>
+                                                <i class={`fa fa-address-card ${styles.icons}`} aria-hidden="true"></i>
+                                            </InputGroup.Text>
+                                        </InputGroup.Prepend>
+                                        <Form.Control 
+                                            ref={address}
+                                            type="text"
+                                            placeholder="Adresa"
+                                            aria-describedby="inputGroupPrependAddress"
+                                            required
+                                        />
+                                    </InputGroup>
+                            </Form.Group>
+                            <Form.Group>
+                                <Form.Label for="address"><strong className={styles.tags}>Adresa</strong></Form.Label>
+                                    <InputGroup>
+                                        <InputGroup.Prepend id="inputGroupPrependAddress">
+                                            <InputGroup.Text>
+                                                <i class={`fa fa-address-card ${styles.icons}`} aria-hidden="true"></i>
+                                            </InputGroup.Text>
+                                        </InputGroup.Prepend>
+                                        <Form.Control 
+                                            ref={address}
+                                            type="text"
+                                            placeholder="Adresa"
+                                            aria-describedby="inputGroupPrependAddress"
+                                            required
+                                        />
+                                    </InputGroup>
+                            </Form.Group>
+                            <Form.Group>
+                                <Form.Label for="phone-number"><strong className={styles.tags}>Nr. Telefon</strong></Form.Label>
+                                    <InputGroup>
+                                        <InputGroup.Prepend id="inputGroupPrependPhoneNumber">
+                                            <InputGroup.Text>
+                                                <i className={`fa fa-phone ${styles.icons}`} aria-hidden="true"></i>
+                                            </InputGroup.Text>
+                                        </InputGroup.Prepend>
+                                        <Form.Control 
+                                            ref={phoneNumber}
+                                            type="text"
+                                            placeholder="Adresa"
+                                            aria-describedby="inputGroupPrependPhoneNumber"
+                                            required
+                                        />
+                                    </InputGroup>
+                            </Form.Group>
+                            <Form.Group>
+                                <Form.Label for="company-name"><strong className={styles.tags}>Nume companie</strong></Form.Label>
+                                    <InputGroup>
+                                        <InputGroup.Prepend id="inputGroupPrependCompanyName">
+                                            <InputGroup.Text>
+                                                <i className={`fa fa-building-o ${styles.icons}`} aria-hidden="true"></i>
+                                            </InputGroup.Text>
+                                        </InputGroup.Prepend>
+                                        <Form.Control 
+                                            ref={companyName}
+                                            type="text"
+                                            placeholder="Nume companie"
+                                            aria-describedby="inputGroupPrependCompanyName"
+                                            required
+                                        />
+                                    </InputGroup>
+                            </Form.Group>
+                            <div className="text-center">
+                                <button className={`btn btn-success ${styles.saveDataButton}`}
+                                    onClick={(e) => addProfile(e, firstName.current.value, lastName.current.value, age.current.value, address.current.value, email.current.value, phoneNumber.current.value)}
+                                >
+                                    Salveaza date
+                                </button>
                             </div>
                             
-                        </div>
-                        <div className="form-group">
-                            <label for="age"><strong>Varsta</strong></label>
-                            <div className="input-group-prepend">
-                                <span className="input-group-text">
-                                    <i className={`fa fa-child ${styles.icons}`}></i>
-                                </span>
-                                <input  ref={age} type="number" className="form-control" id="first-name-input" placeholder="Varsta..."/>
-                            </div>
-                        </div>
-                        <div className="form-group">
-                            <label for="address"><strong>Adresa</strong></label>
-                            <div className="input-group-prepend">
-                                <span className="input-group-text">
-                                    <i class={`fa fa-address-card ${styles.icons}`} aria-hidden="true"></i>
-                                </span>
-                                <input ref={address} type="text" className="form-control" id="first-name-input" placeholder="Adresa..."/>
-                            </div>
-                        </div>
-                        <div className="form-group">
-                            <label for="email"><strong>Email</strong></label>
-                            <div className="input-group-prepend">
-                                <span className="input-group-text">
-                                    <i class={`fa fa-envelope ${styles.icons}`} aria-hidden="true"></i>
-                                </span>
-                                <input ref={email} type="text" className="form-control" id="first-name-input" placeholder="Email..."/>
-                            </div>
-                        </div>
-                        <div className="form-group">
-                            <label for="phone-number"><strong>Nr. Telefon</strong></label>
-                            <div className="input-group-prepend">
-                                <span className="input-group-text">
-                                    <i className={`fa fa-phone ${styles.icons}`} aria-hidden="true"></i>
-                                </span>
-                                <input  ref={phoneNumber} type="text" className="form-control" id="first-name-input" placeholder="Nr. Telefon..."/>
-                            </div>
-                        </div>
-                        <div className="form-group">
-                            <label for="company-name"><strong>Nume companie</strong></label>
-                            <div className="input-group-prepend">
-                                <span className="input-group-text">
-                                    <i className={`fa fa-building-o ${styles.icons}`} aria-hidden="true"></i>
-                                </span>
-                                <input  ref={companyName} type="text" className="form-control" id="company-name" placeholder="Nume companie..."/>
-                            </div>
-                        </div>
-                        <div className="text-center">
-                            <button className={`btn btn-success ${styles.saveDataButton}`}
-                                onClick={(e) => addProfile(e, firstName.current.value, lastName.current.value, age.current.value, address.current.value, email.current.value, phoneNumber.current.value)}
-                            >
-                                Salveaza date
-                            </button>
-                        </div>
-                        
-                    </form>
-                </div>
-        </div>         
+                        </form>
+            </Col>
+            <Col lg={4} className={styles.colContainer} />
+        </Row>
     )
 }
