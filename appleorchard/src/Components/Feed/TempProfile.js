@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import firebase from "../../Firebase/firebase";
 import { useAuth } from '../../Firebase/context/AuthContext';
 import styles from "./Styles/TempProfile.module.css";
-import { Row, Col } from 'reactstrap';
 import avatar from "../../Imgs/farmer-avatar.jpg";
 
 
