@@ -13,8 +13,7 @@ import OrchardInfo from "./Components/Orchard/OrchardInfo";
 import ReceiptPageTabs from "./Components/Orchard/ReceiptPageTabs";
 import MainInfoBudget from "./Components/Orchard/Budget/MainInfoBudget.js";
 import Daunatori from "./Components/Orchard/Health/Daunatori";
-import Weather from "./Components/Weather/Weather";
-import TreatmentSchedule from './Components/Orchard/TreatmentSchedule';
+import TreatmentSchedule from "./Components/Orchard/TreatmentSchedule";
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 
@@ -24,20 +23,19 @@ function App() {
     <Router>
         <AuthProvider>
             <Switch>
-              <Route path="/neauth-home" component={Home} />
-              <PrivateRoute exact path="/" component={MainPage} />
-              <PrivateRoute path="/update-profile" component={UpdateProfile} />
-              <Route path="/signup" component={SignUp} />
-              <Route path="/forgot-password" component={ForgotPassword} />
-              <Route path="/login" component={Login} />
-              <Route path="/addprofile" component={AddProfile} />
-              <Route path="/profile" component={TempProfile} />
-              <Route path="/orchardinfo" component={OrchardInfo}/>
-              <Route path="/receiptpagetabs" component={ReceiptPageTabs} />
-              <Route path="/maininfobudget" component={MainInfoBudget} />
-              <Route path="/daunatori" component={Daunatori} />
-              <Route path="/weather" component={Weather} />
-              <Route path="/treatment-schedule" component={TreatmentSchedule} />
+                <Route path="/neauth-home" component={Home} />
+                <PrivateRoute exact path="/" component={MainPage} />
+                <PrivateRoute path="/update-profile" component={UpdateProfile} />
+                <Route path="/signup" component={SignUp} />
+                <Route path="/forgot-password" component={ForgotPassword} />
+                <Route path="/login" component={Login} />
+                <Route path="/addprofile" component={AddProfile} />
+                <Route path="/profile" component={TempProfile} />
+                <Route path="/orchardinfo" component={OrchardInfo}/>
+                <Route path="/receiptpagetabs" component={ReceiptPageTabs} />
+                <Route path="/maininfobudget" component={MainInfoBudget} />
+                <Route path="/daunatori" component={Daunatori} />
+                <Route path="/treatment-schedule" component={Daunatori} />
             </Switch>
         </AuthProvider>
     </Router>

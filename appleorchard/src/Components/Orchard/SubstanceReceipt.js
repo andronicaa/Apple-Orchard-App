@@ -4,7 +4,7 @@ import generalcss from './Style/GeneralOrchardCSS.module.css';
 import firebase from "../../Firebase/firebase";
 import { useAuth } from '../../Firebase/context/AuthContext';
 import { useTable, usePagination, useFilters } from 'react-table';
-import generatePdfReceipt from './UtilityFunctions/GeneratePdfReceipt';
+import generatePdfReceipt from './Utility/GeneratePdfReceipt';
 import { Modal, Table, Card, Alert, InputGroup, Form, Button } from 'react-bootstrap';
 import jsPDF from 'jspdf';
 
