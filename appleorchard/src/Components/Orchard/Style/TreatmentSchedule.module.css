@@ -1,0 +1,26 @@
+.mainContainer {
+    width: 85%;
+    margin-right: auto;
+    margin-left: auto;
+}
+#blueTheme{
+    background-color: #fdc564;
+}
+
+#orangeTheme {
+    background-color: #a0dbed;
+}
+#pinkTheme {
+    background-color: #bf6aa3;
+}
+
+.treatmentTable {
+    position: relative;
+    top: 10vh;
+}
+
+.linkButton {
+    border: none;
+    background-color: transparent;
+}
+

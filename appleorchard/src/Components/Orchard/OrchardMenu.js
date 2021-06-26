@@ -36,6 +36,7 @@ export default function OrchardMenu() {
                         <AddProduct />
                     </Modal.Body>
                 </Modal>
+                <NavDropdown.Item href="/treatment-schedule">Program tehnologic</NavDropdown.Item>
             </NavDropdown>
             </Nav>
         </Navbar.Collapse>
