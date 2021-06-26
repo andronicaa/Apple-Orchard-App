@@ -27,7 +27,6 @@ export function SignUp() {
       setError('');
       setLoading(true);
       await signup(refEmail.current.value, refPassword.current.value);
-      // dupa ce un utilizatorul si-a facut un cont => trebuie sa-si completeze si profilul
       history.push("/addprofile");
     } catch {
       setError("Failed to create an account");

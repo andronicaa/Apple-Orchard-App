@@ -42,7 +42,7 @@ export function Login() {
       else
       {
         await signInWithGoogle();
-        addProfile();
+        
       }
         
       
@@ -50,18 +50,6 @@ export function Login() {
       setError("Failed to login");
     }
     setLoading(false);
-  }
-
-  function addProfile() {
-    // verificam daca profilul este completat pentru user-ul curent
-    console.log("Am intrat aici");
-    console.log(currentUser.uid);
-    const refProfile = firebase.firestore().collection("users").doc(currentUser.uid);
-    console.log("Profilul este: ", refProfile)
-    if(typeof(refProfile.firstName) === 'undefined')
-      history.push("/addprofile");
-    else
-      history.push("/");
   }
 
 

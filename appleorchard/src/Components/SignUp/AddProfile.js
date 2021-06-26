@@ -15,8 +15,26 @@ export default function AddProfile() {
     const phoneNumber = useRef();
     const companyName = useRef();
     const history = useHistory();
-    const refProfile = firebase.firestore().collection("users").doc(currentUser.uid);
-
+    var ok = false;
+    var refProfile = "";
+    while(ok == false)
+    {
+        while (typeof currentUser == 'undefined')
+        {
+            ok = false;
+        }
+        if(typeof currentUser != 'undefined')
+        {
+            while (typeof currentUser.uid == 'undefined')
+            {
+                ok = false;
+            }
+            refProfile = firebase.firestore().collection("users").doc(currentUser.uid);
+            ok = true;
+        }
+        
+    }
+    
     // functie care adauga un nou profil de utilizator
     function addProfile(e, firstName, lastName, age, address, email, phoneNumber) {
         e.preventDefault();
@@ -25,10 +43,15 @@ export default function AddProfile() {
             .catch((err) => {
                 console.log(err);
             });
+            console.log("S-a facut adaugarea de profil cu succes");
         history.push("/");
     }
     return (
-        <Row>
+        <>
+        {
+            (typeof currentUser.uid != 'undefined') ?
+            <Row>
+
             <Col lg={4} className={styles.colContainer} />
             <Col lg={4}>
                         <h3 className={`text-center ${styles.formTitle}`}>Adauga profil</h3>
@@ -102,18 +125,18 @@ export default function AddProfile() {
                                     </InputGroup>
                             </Form.Group>
                             <Form.Group>
-                                <Form.Label for="address"><strong className={styles.tags}>Adresa</strong></Form.Label>
+                                <Form.Label for="address"><strong className={styles.tags}>Email</strong></Form.Label>
                                     <InputGroup>
-                                        <InputGroup.Prepend id="inputGroupPrependAddress">
+                                        <InputGroup.Prepend id="inputGroupPrependEmail">
                                             <InputGroup.Text>
-                                                <i class={`fa fa-address-card ${styles.icons}`} aria-hidden="true"></i>
+                                                <i class={`fa fa-envelope ${styles.icons}`} aria-hidden="true"></i>
                                             </InputGroup.Text>
                                         </InputGroup.Prepend>
                                         <Form.Control 
-                                            ref={address}
+                                            ref={email}
                                             type="text"
-                                            placeholder="Adresa"
-                                            aria-describedby="inputGroupPrependAddress"
+                                            placeholder="Email"
+                                            aria-describedby="inputGroupPrependEmail"
                                             required
                                         />
                                     </InputGroup>
@@ -129,7 +152,7 @@ export default function AddProfile() {
                                         <Form.Control 
                                             ref={phoneNumber}
                                             type="text"
-                                            placeholder="Adresa"
+                                            placeholder="Nr. Telefon"
                                             aria-describedby="inputGroupPrependPhoneNumber"
                                             required
                                         />
@@ -164,5 +187,10 @@ export default function AddProfile() {
             </Col>
             <Col lg={4} className={styles.colContainer} />
         </Row>
+        :
+            <div></div>
+        }
+        
+        </>
     )
 }
