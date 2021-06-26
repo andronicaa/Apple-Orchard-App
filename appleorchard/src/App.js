@@ -35,7 +35,7 @@ function App() {
                 <Route path="/receiptpagetabs" component={ReceiptPageTabs} />
                 <Route path="/maininfobudget" component={MainInfoBudget} />
                 <Route path="/daunatori" component={Daunatori} />
-                <Route path="/treatment-schedule" component={Daunatori} />
+                <Route path="/treatment-schedule" component={TreatmentSchedule} />
             </Switch>
         </AuthProvider>
     </Router>
