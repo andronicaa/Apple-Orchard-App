@@ -29,7 +29,7 @@ export const products = {
 
     "Score250": {
         "nume": "Score 250 EC",
-        "subst_activa": "Difenoconazol",
+        "subst_activ": "Difenoconazol",
         "tip_produs": "Fungicid",
         "actiune": ["Rapan (Venturia inaequalis)", "Fainare"],
         "nr_max_trat": "3",
