@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Table, Button, Modal } from 'react-bootstrap';
 import styles from './Style/TreatmentSchedule.module.css';
-import { products } from './Utility/ProductFeature';
+import { products } from './Utility/ProductsFeature';
 
 
 export default function TreatmentSchedule() {
