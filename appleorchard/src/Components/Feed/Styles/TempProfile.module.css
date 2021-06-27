@@ -18,5 +18,10 @@
 .cardHeader {
     background-color:rgba(51, 153, 51, 0.5);
 }
-  
+
+.detailsButton {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
   
