@@ -3,6 +3,7 @@ import firebase from "../../Firebase/firebase";
 import { useAuth } from '../../Firebase/context/AuthContext';
 import styles from "./Styles/TempProfile.module.css";
 import avatar from "../../Imgs/farmer-avatar.jpg";
+import { Button } from 'react-bootstrap';
 
 
 export default function TempProfile() {
@@ -44,8 +45,9 @@ export default function TempProfile() {
                             <li className="list-group-item"><strong>Prenume: </strong>{user.lastName}</li>
                             <li className="list-group-item"><strong>Email: </strong>{user.email}</li>
                             <li className="list-group-item"><strong>Adresa: </strong>{user.address}</li>
-                            {/* ar trebui sa fie la profil unele informatii vizibile doar pentru utilizator si nu pentru ceilalti care ii viziteaza profilul */}
+
                         </ul>
+                        <Button variant="success" className={`${styles.detailsButton} text-center`}>Detalii</Button>
                     </div>
                     
         ))
