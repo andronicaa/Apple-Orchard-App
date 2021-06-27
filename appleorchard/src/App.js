@@ -14,6 +14,7 @@ import ReceiptPageTabs from "./Components/Orchard/ReceiptPageTabs";
 import MainInfoBudget from "./Components/Orchard/Budget/MainInfoBudget.js";
 import Daunatori from "./Components/Orchard/Health/Daunatori";
 import TreatmentSchedule from "./Components/Orchard/TreatmentSchedule";
+import Weather from "./Components/Weather/Weather";
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 
@@ -36,6 +37,7 @@ function App() {
                 <Route path="/maininfobudget" component={MainInfoBudget} />
                 <Route path="/daunatori" component={Daunatori} />
                 <Route path="/treatment-schedule" component={TreatmentSchedule} />
+                <Route path="/weather" component={Weather} />
             </Switch>
         </AuthProvider>
     </Router>
