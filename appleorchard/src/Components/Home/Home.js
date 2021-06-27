@@ -4,7 +4,9 @@ import Header from "../Header/Header";
 import logo from "../../Imgs/temp_logo.png";
 import about from "../../Imgs/about_img.jpg";
 import about_footer from "../../Imgs/img_footer.jpg";
+import home from '../../Imgs/home.jpg';
 import { Link } from 'react-router-dom';
+import { Row, Col } from 'react-bootstrap';
 
 export default function Home() {
     return (
@@ -14,18 +16,21 @@ export default function Home() {
                 <div className={`${styles.anchorContainer} text-center`}>
                     <a href="#About"><i className={`fa fa-arrow-down ${styles.arrow}`} aria-hidden="true"></i></a>
                 </div>
-                
+                <Row className={styles.rowContainer}>
+                   <div className={styles.textContainer}>
+                        <div className={styles.subTextContainer}>
+                            <p className="text-center">Ana are mere</p>
+                            <button className>Cultivator</button>
+                            <button>Cumparator</button>
+                        </div>
+                   </div>
+
+                   <div className={styles.imgContainer}>
+                        <img src={about_footer} className={styles.princImg}/>
+                   </div>
+                </Row>
             </div>
-           <div className={`${styles.centerText} text-center`}>
-                <p className={styles.centerTextTitle}><strong>Ana are mere</strong></p>
-                <div className={styles.descApp}>
-                    <p>At vero eos et accusamus et iusto odio dignissimos</p>
-                </div>
-                <div>
-                    <Link to="/login"><button className={`btn btn-danger ${styles.roleButton}`}>Cultivator</button></Link>
-                    <button className={`btn btn-danger ${styles.roleButton}`}>Cumparator</button>
-                </div>
-           </div>
+           
             <div className={styles.aboutContainer} id="About">
                 <h3 className="text-center">Abous us</h3>
                 <div  className={`d-flex flex-row justify-content-around ${styles.flexContainer}`}>
