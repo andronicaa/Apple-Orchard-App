@@ -16,6 +16,7 @@ import Daunatori from "./Components/Orchard/Health/Daunatori";
 import TreatmentSchedule from "./Components/Orchard/TreatmentSchedule";
 import Weather from "./Components/Weather/Weather";
 import NotFoundPage from "./Components/Home/NotFoundPage";
+import ProgramTreatment from './Components/Orchard/ProgramTreatment/ProgramTreatment';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 
@@ -39,6 +40,7 @@ function App() {
                 <Route path="/daunatori" component={Daunatori} />
                 <Route path="/treatment-schedule" component={TreatmentSchedule} />
                 <Route path="/weather" component={Weather} />
+                <Route path="/program-treatment" component={ProgramTreatment} />
                 <Route component={NotFoundPage} />
             </Switch>
         </AuthProvider>

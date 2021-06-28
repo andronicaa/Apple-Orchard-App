@@ -1,13 +1,39 @@
+.mainContainer {
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+}
+
+.mainContainer::after {
+    background-image: url('../../../Imgs/weather.jpg');
+	filter: brightness(65%);
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	content: "";
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	position: absolute;
+	z-index: -10;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	align-self: center;
+}
 .rowContainer {
     margin-left: auto;
     margin-right: auto;
-    width: 70%;
+    width: 90%;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
-
 .flexContainer1 {
     width: 100%;
     display: flex;
@@ -15,6 +41,8 @@
     justify-content: space-between;
 }
 .flexContainer2 {
+    position: relative;
+    top: 10vh;
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -22,5 +50,14 @@
 }
 .cardContainer {
     width: 20%;
+}
+
+.loaderContainer {
+    border: 1px solid red;
+    width: 20%;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 

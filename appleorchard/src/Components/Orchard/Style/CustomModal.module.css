@@ -1,0 +1,17 @@
+.modalContainer {
+    position: fixed;
+    z-index: 500;
+    /* background-color: #176087; */
+    background-color: rgba(23, 96, 135, 0.2);
+    width: 70%;
+    padding: 16px;
+    left: 15%;
+    top: 30%;
+    box-sizing: border-box;
+    transition: all 0.7s ease-out;
+    border: none;
+    /* border-radius: 5%; */
+    font-family: 'Oswald', sans-serif;
+    font-size: 2em;
+
+}
