@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Card, Row } from 'react-bootstrap';
-import { Link, Redirect } from 'react-router-dom';
+import { Card, Row, Button } from 'react-bootstrap';
+import { Redirect, Link } from 'react-router-dom';
 import Loader from "react-loader-spinner";
 import styles from './Style/Weather.module.css';
 
@@ -50,7 +50,10 @@ export default function Weather() {
                 (typeof data.current != 'undefined') ? (
                     <div className={styles.mainContainer}>
                     <Row className={styles.rowContainer}>
-                        <button onClick={(e) => redirectToTreatment(e)}>programeaza tratament</button>
+                        <Link to={{
+                            pathname: '/task',
+                            state: {data}
+                        }}><Button variant="success">Programeaza tratament</Button></Link>
                         <div className={styles.flexContainer1}>
                             
                                 
