@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col } from 'reactstrap';
 import classnames from 'classnames';
 import SubstanceReceipt from "./SubstanceReceipt";
-
+import Equipment from './Equipment';
+import TreeReceipts from './TreeReceipts';
 
 export default function ReceiptPageTabs() {
     const [activeTab, setActiveTab] = useState('1');
@@ -41,26 +42,22 @@ export default function ReceiptPageTabs() {
         <TabContent activeTab={activeTab}>
             <TabPane tabId="1">
             <Row>
-                <Col sm="12">
+                <Col lg="12">
                     <SubstanceReceipt />
                 </Col>
             </Row>
             </TabPane>
             <TabPane tabId="2">
             <Row>
-                <Col sm="6">
-                <Card body>
-                    <CardTitle>Special Title Treatment</CardTitle>
-                    <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-                    <Button>Go somewhere</Button>
-                </Card>
+                <Col lg="12">
+                    <Equipment />
                 </Col>
-                <Col sm="6">
-                <Card body>
-                    <CardTitle>Special Title Treatment</CardTitle>
-                    <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-                    <Button>Go somewhere</Button>
-                </Card>
+            </Row>
+            </TabPane>
+            <TabPane tabId="3">
+            <Row>
+                <Col lg="12">
+                    <TreeReceipts />
                 </Col>
             </Row>
             </TabPane>

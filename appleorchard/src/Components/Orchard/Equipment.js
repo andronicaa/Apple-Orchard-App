@@ -1,72 +1,56 @@
 import React, { useState, useRef, useEffect } from 'react';
-import styles from './Style/Receipts.module.css';
-import generalcss from './Style/GeneralOrchardCSS.module.css';
+import { useTable, usePagination, useFilters } from 'react-table';
 import firebase from "../../Firebase/firebase";
 import { useAuth } from '../../Firebase/context/AuthContext';
-import { useTable, usePagination, useFilters } from 'react-table';
+import styles from './Style/Receipts.module.css';
+import { months, equipmentType } from './Utility/ProductsFeature';
+import jsPDF from 'jspdf';
 import generatePdfReceipt from './Utility/GeneratePdfReceipt';
 import { Modal, Table, Card, Alert, InputGroup, Form, Button } from 'react-bootstrap';
-import jsPDF from 'jspdf';
-import { months } from './Utility/ProductsFeature';
 
-export default function SubstanceReceipt() {
-    // pentru functionalitatea de search
+export default function Equipment() {
     const [filterInput, setFilterInput] = useState('');
-    const [totalPrice, setTotalRrice] = useState(0);
+    const [totalPrice, setTotalPrice] = useState(0);
+    const [data, setReceipts] = useState([]);
+    const nameEq = useRef();
+    const capacity = useRef();
+    const currency = useRef();
+    const price = useRef();
+    const month = useRef();
+    const type = useRef();
     const [errorMsg, setErrorMsg] = useState([]);
-    const [products, setProducts] = useState([]);
-    const { currentUser } = useAuth();
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    const [data, setReceipts] = useState([]);
-    const measureQuantity = useRef();
-    const currency = useRef();
-    const product = useRef();
-    const price = useRef();
-    const quantity = useRef();
-    const month = useRef();
-    const refCurrentUser = firebase.firestore().collection("users").doc(currentUser.uid).collection("receipt");
-    const refProducts = firebase.firestore().collection("users").doc(currentUser.uid).collection("products");
-    
+    const { currentUser } = useAuth();
+    const refCurrentUser = firebase.firestore().collection("users").doc(currentUser.uid).collection("receiptEquipment");
     const handleFilterChange = e => {
         const value = e.target.value || undefined;
         setFilter("product", value);
         setFilterInput(value);
     }
-    
-    // functie pentru adaugare de factura
-    function addReceipt(e, product, price, quantity, month, currency, measureQuantity) {
-        // parsam valoarea pretului(ar trebui si a cantitatii)
-        var newPrice = parseFloat(price);
-        var newQuantity = parseFloat(quantity);
-        var ok = true;
-        console.log("valuta este ", currency);
-        console.log("Tipul campului pret este ", typeof newPrice);
-        var errors = [];
+    function addEquipment(e, nameEq, price, capacity, month, currency, type) {
         e.preventDefault();
-        console.log(product, newPrice, quantity, month);
+        // trebuie sa fac validarea
+        var newPrice = parseFloat(price);
+        var errors = [];
+        var ok = true;
         if(currency === 'EUR')
         {
             newPrice = price * 4.897;
         }
-        if(measureQuantity === 'g')
-        {
-            newQuantity = quantity * 0.0010000;
-        }
-        console.log(newPrice);
-        if(product === '' || price === '' || quantity === '' || month === '')
+        if(nameEq === '' || price === '' || capacity === '' || month === '' || currency === '')
         {
             errors.push("Trebuie sa specificati o valoare pentru fiecare camp");
             ok = false;
         }
-        // numerele nu trebuie sa inceapa cu 0, punct sau sa fie negative
-        if(quantity[0] === '0' || quantity[0] === '.' || quantity[0] === '-')
+        // pentru utilajele stationare capacitatea poate fi 0
+        if(capacity[0] === '.' || capacity[0] === '-')
         {   
-            if(quantity[0] === '-')
-                errors.push("Cantitatea trebuie sa fie un numar pozitiv");
+            if(capacity[0] === '-')
+                errors.push("Capacitatea trebuie sa fie un numar pozitiv");
             else
-                errors.push("Formatul cantitatii nu este un numar corect");
+                errors.push("Formatul capacitatii nu este un numar corect");
             ok = false;
         }
         if(price[0] === '0' || price[0] === '.' || price[0] === '-')
@@ -82,10 +66,12 @@ export default function SubstanceReceipt() {
             handleClose();
             refCurrentUser
             .add({
-                product: product,
-                price: newPrice, 
-                quantity: newQuantity,
-                month: month
+                nameEq: nameEq,
+                price: newPrice,
+                capacity: capacity,
+                month: month, 
+                currency: currency,
+                type: type
             })
             .catch((err) => {
                 console.log(err);
@@ -93,21 +79,31 @@ export default function SubstanceReceipt() {
             setErrorMsg([]);
         }
         setErrorMsg(errors);
-        
     }
-
     function deleteProduct(e, product) {
 
-       console.log(product);
-       refCurrentUser.
-       doc(product.id).delete().then(() => {console.log("Sters", product.id)}).catch((err) => {console.log(err)});
+        console.log(product);
+        refCurrentUser.
+        doc(product.id).delete().then(() => {console.log("Sters", product.id)}).catch((err) => {console.log(err)});
     }
-
+    function listReceipt() {
+        refCurrentUser.onSnapshot((querySnapshot) => {
+          const items = [];
+          var totalPriceLocal = 0;
+          querySnapshot.forEach((doc) => {
+            items.push({id: doc.id,...doc.data()});
+            totalPriceLocal += doc.data().price;
+          });
+          setReceipts(items);
+          console.log("Item", items)
+          setTotalPrice(totalPriceLocal);
+        });
+    } 
     const columns = React.useMemo(
         () => [
             {
-                Header: 'Nume produs',
-                accessor: 'product'
+                Header: 'Nume utilaj',
+                accessor: 'nameEq'
                 
             },
             {
@@ -115,8 +111,8 @@ export default function SubstanceReceipt() {
                 accessor: 'price'
             },
             {
-                Header: 'Cantitate (kg)',
-                accessor: 'quantity'
+                Header: 'Tip utilaj',
+                accessor: 'type'
             },
             {
                 Header: 'Sterge',
@@ -138,6 +134,10 @@ export default function SubstanceReceipt() {
         []
     );
 
+    useEffect(() => {
+        console.log("Am intrat");
+        listReceipt();
+    }, []);
 
     const {
         getTableProps, // table props from react-table
@@ -161,40 +161,8 @@ export default function SubstanceReceipt() {
         useFilters,
         usePagination
     )
-    
-    function listReceipt() {
-        refCurrentUser.onSnapshot((querySnapshot) => {
-          const items = [];
-          var totalPriceLocal = 0;
-          querySnapshot.forEach((doc) => {
-            items.push({id: doc.id,...doc.data()});
-            totalPriceLocal += doc.data().price;
-          });
-          setReceipts(items);
-          console.log("Item", items)
-          setTotalRrice(totalPriceLocal);
-        });
-    }
-
-    function getProducts() {
-        refProducts.onSnapshot((querySnapshot) => {
-            const prds = [];
-            querySnapshot.forEach((doc) => {
-                prds.push(doc.data());
-            });
-            setProducts(prds);
-            console.log("Produsele finale sunt:", prds);
-        });
-    }
-    useEffect(() => {
-        console.log("Am intrat");
-        getProducts();
-        listReceipt();
-    }, []);
-
-
     return (
-    <>
+        <>
         <Card className={styles.receiptCard}>
             <Card.Body>
             <div className="input-group-prepend">
@@ -284,23 +252,20 @@ export default function SubstanceReceipt() {
                                     }    
                                 </Alert>}
                                 <Form.Group>
-                                    <Form.Label><strong>Produs</strong></Form.Label>
+                                    <Form.Label><strong>Nume utilaj</strong></Form.Label>
                                     <InputGroup>
-                                        <InputGroup.Prepend id="inputGroupPrependProduct">
+                                        <InputGroup.Prepend id="inputGroupPrependEqName">
                                             <InputGroup.Text>
-                                                <i class="fa fa-product-hunt" aria-hidden="true"></i>
+                                                <i className={`fa fa-truck ${styles.icons}`} aria-hidden="true" />
                                             </InputGroup.Text>
                                         </InputGroup.Prepend>
-                                        <Form.Control as="select" ref={product} aria-describedby="inputGroupPrependProduct"
-                            required>
-                                            {
-                                                products.map((prd) => (
-                                                    <option key={prd}>
-                                                        {prd.product}
-                                                    </option>
-                                                ))
-                                            }
-                                        </Form.Control>
+                                        <Form.Control 
+                                            ref={nameEq}
+                                            type="text"
+                                            placeholder="Nume"
+                                            aria-describedby="inputGroupPrependEqName"
+                                            required
+                                        />
                                     </InputGroup>
                                 </Form.Group>
                                 <Form.Group>
@@ -318,25 +283,6 @@ export default function SubstanceReceipt() {
                             required>
                                                 <option>RON</option>
                                                 <option>EUR</option>
-                                            </Form.Control>
-                                        </InputGroup.Prepend>
-                                    </InputGroup>
-                                </Form.Group>
-                                <Form.Group>
-                                    <Form.Label><strong>Cantitate</strong></Form.Label>
-                                    <InputGroup>
-                                        <InputGroup.Prepend id="inputGroupPrependQuantity">
-                                            <InputGroup.Text>
-                                                <i className="fa fa-sort-amount-desc" aria-hidden="true"></i>
-                                            </InputGroup.Text>
-                                        </InputGroup.Prepend>
-                                        <Form.Control ref={quantity} type="number" placeholder="Cantitate..." aria-describedby="inputGroupPrependQuantity"
-                            required/>
-                                        <InputGroup.Prepend id="inputGroupPrependMeasureQ">
-                                            <Form.Control as="select" ref={measureQuantity} aria-describedby="inputGroupPrependMeasureQ"
-                            required>
-                                                <option>kg</option>
-                                                <option>g</option>
                                             </Form.Control>
                                         </InputGroup.Prepend>
                                     </InputGroup>
@@ -360,9 +306,46 @@ export default function SubstanceReceipt() {
                                     </InputGroup>
                                     
                                 </Form.Group>
+                                <Form.Group>
+                                    <Form.Label><strong>Tip utilaj</strong></Form.Label>
+                                    <InputGroup>
+                                        <InputGroup.Prepend id="inputGroupPrependEqType">
+                                            <InputGroup.Text>
+                                                <i className="fa fa-truck" aria-hidden="true"></i>
+                                            </InputGroup.Text>
+                                        </InputGroup.Prepend>
+                                        <Form.Control as="select" ref={type} placeholder="Tip utilaj..." aria-describedby="inputGroupPrependEqType"
+                            required>
+                                            {
+                                                equipmentType.map((m) => (
+                                                    <option>{m}</option>
+                                                ))
+                                            }
+                                        </Form.Control>
+                                    </InputGroup>
+                                    
+                                </Form.Group>
+                                <Form.Group>
+                                    <Form.Label><strong>Capacitate cilindrica (cp)</strong></Form.Label>
+                                    <InputGroup>
+                                        <InputGroup.Prepend id="inputGroupPrependCapacity">
+                                            <InputGroup.Text>
+                                                <i className={`fa fa-bar-chart ${styles.icons}`} aria-hidden="true" />
+                                            </InputGroup.Text>
+                                        </InputGroup.Prepend>
+                                        <Form.Control 
+                                            ref={capacity}
+                                            type="text"
+                                            placeholder="Capacitate"
+                                            aria-describedby="inputGroupPrependCapacity"
+                                            required
+                                        />
+                                    </InputGroup>
+                                    
+                                </Form.Group>
                                 <div className="text-center">
                                     <button className={`btn btn-success`}
-                                        onClick={(e) => addReceipt(e, product.current.value, price.current.value, quantity.current.value, month.current.value, currency.current.value, measureQuantity.current.Value)}
+                                        onClick={(e) => addEquipment(e, nameEq.current.value, price.current.value, capacity.current.value, month.current.value, currency.current.value, type.current.value)}
                                     >
                                         Incarca factura
                                     </button>
@@ -373,6 +356,6 @@ export default function SubstanceReceipt() {
                 </Modal>
             </Card.Body>
         </Card>
-    </>
+        </>
     )
 }

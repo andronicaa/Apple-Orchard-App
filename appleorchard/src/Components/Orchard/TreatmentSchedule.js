@@ -7,13 +7,8 @@ import { Link } from 'react-router-dom';
 
 
 export default function TreatmentSchedule() {
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false); 
-    const handleShow = (e) => {
-        e.preventDefault();
-        setShow(true);
-    }
-
+    const [show, setShow] = useState(0);
+    const update = () => setShow(0);
     return (
         <div className={styles.mainContainer}>
             <Button>Programeaza tratament</Button>            
@@ -35,8 +30,8 @@ export default function TreatmentSchedule() {
                 <tbody>
                     <tr>
                         <td rowSpan="2" id={styles["blueTheme"]}>Rapan</td>
-                        <td colSpan="2"><button className={styles.linkButton} onClick={handleShow}>Chorus 50</button>
-                            <CustomModal show={show} nume="Chorus50" />
+                        <td colSpan="2"><button className={styles.linkButton} onClick={() => setShow(1)}>Chorus 50</button>
+                            <CustomModal canShow={show == 1} updateState={update} prd="Chorus50"/>
                         </td>
                         <td></td>
                         <td></td>
@@ -47,33 +42,38 @@ export default function TreatmentSchedule() {
                         <td></td>
                     </tr>
                       <tr>
-                        <td colSpan="2"><Link>Coprantol Duo</Link>
-                           
+                        <td colSpan="2"><button className={styles.linkButton} onClick={() => setShow(18)}>Coprantol Duo</button>
+                            <CustomModal canShow={show == 18} updateState={update} prd="CoprantolDuo"/>
                         </td>
-                        <td colSpan="4"><button className={styles.linkButton} onClick={handleShow}>Score 250EC</button>
-                           
+                        <td colSpan="4"><button className={styles.linkButton} onClick={() => setShow(2)}>Score 250EC</button>
+                            <CustomModal canShow={show == 2} updateState={update} prd="Score250"/>
                         </td>
                         <td></td>
                         <td></td>
-                        <td><button className={styles.linkButton} onClick={handleShow}>Coprantol Duo</button>
-                            
+                        <td><button className={styles.linkButton} onClick={() => setShow(3)}>Coprantol Duo</button>
+                            <CustomModal canShow={show == 3} updateState={update} prd="CoprantolDuo"/>
                         </td>
                     </tr>
                    <tr>
                         <td id={styles["blueTheme"]}>Focul Bacterian</td>
-                        <td colSpan="2"><button className={styles.linkButton}>Coprantol Duo</button></td>
+                        <td colSpan="2"><button className={styles.linkButton} onClick={() => setShow(4)}>Coprantol Duo</button>
+                            <CustomModal canShow={show == 4} updateState={update} prd="CoprantolDuo"/>
+                        </td>
                         <td></td>
                         <td></td>
                         <td></td>
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td><button className={styles.linkButton} >Coprantol Duo</button></td>
+                        <td colSpan="2"><button className={styles.linkButton} onClick={() => setShow(5)}>Coprantol Duo</button>
+                            <CustomModal canShow={show == 5} updateState={update} prd="CoprantolDuo"/>
+                        </td>
                     </tr>
-                    <tr>
+                    
+                     <tr>
                         <td id={styles["blueTheme"]}>Fainare</td>
-                        <td colSpan="2"><button className={styles.linkButton} onClick={handleShow}>ThiovitJet</button>
-                            
+                        <td colSpan="2"><button className={styles.linkButton} onClick={() => setShow(6)}>ThiovitJet</button>
+                            <CustomModal canShow={show == 6} updateState={update} prd="ThiovitJet"/>
                         </td>
                         <td></td>
                         <td></td>
@@ -87,8 +87,8 @@ export default function TreatmentSchedule() {
                     <tr>
                         <td id={styles["blueTheme"]}></td>
                         <td></td>
-                        <td colSpan="5"><button className={styles.linkButton} onClick={handleShow}>Topas</button>
-                            
+                        <td colSpan="5"><button className={styles.linkButton} onClick={() => setShow(7)}>Topas</button>
+                            <CustomModal canShow={show == 7} updateState={update} prd="Topas"/>
                         </td>
                         <td></td>
                         <td></td>
@@ -97,12 +97,12 @@ export default function TreatmentSchedule() {
                     <tr>
                         <td id={styles["orangeTheme"]}>Molia cojilor</td>
                         <td></td>
-                        <td><button className={styles.linkButton} onClick={handleShow}>Affirm Opti</button>
-                           
+                        <td><button className={styles.linkButton} onClick={() => setShow(8)}>Affirm Opti</button>
+                            <CustomModal canShow={show == 8} updateState={update} prd="AffirmOpti"/>
                         </td>
                         <td></td>
-                        <td colSpan="5"><button className={styles.linkButton} onClick={handleShow}>Affirm Opti</button>
-                           
+                        <td colSpan="5"><button className={styles.linkButton} onClick={() => setShow(9)}>Affirm Opti</button>
+                            <CustomModal canShow={show == 9} updateState={update} prd="AffirmOpti"/>
                         </td>
                         <td></td>
                     </tr>
@@ -111,8 +111,8 @@ export default function TreatmentSchedule() {
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td colSpan="2"><button className={styles.linkButton} onClick={handleShow}>Voliam Targo</button>
-                         
+                        <td colSpan="2"><button className={styles.linkButton} onClick={() => setShow(10)}>Voliam Targo</button>
+                            <CustomModal canShow={show == 10} updateState={update} prd="VoliamTargo"/>
                         </td>
                         <td></td>
                         <td></td>
@@ -123,8 +123,8 @@ export default function TreatmentSchedule() {
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td colSpan="2"><button className={styles.linkButton} onClick={handleShow}>Vertimec</button>
-                            
+                        <td colSpan="2"><button className={styles.linkButton} onClick={() => setShow(11)}>Vertimec</button>
+                            <CustomModal canShow={show == 11} updateState={update} prd="Vertimec"/>
                         </td>
                         <td></td>
                         <td></td>
@@ -136,8 +136,8 @@ export default function TreatmentSchedule() {
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td colSpan="2"><button className={styles.linkButton} onClick={handleShow}>Voliam Targo</button>
-                           
+                        <td colSpan="2"><button className={styles.linkButton} onClick={() => setShow(12)}>Voliam Targo</button>
+                            <CustomModal canShow={show == 12} updateState={update} prd="VoliamTargo"/>
                         </td>
                         <td></td>
                         <td></td>
@@ -146,8 +146,8 @@ export default function TreatmentSchedule() {
                     </tr>
                     <tr>
                         <td></td>
-                        <td><button className={styles.linkButton} onClick={handleShow}>Karate Zeon</button>
-                           
+                        <td><button className={styles.linkButton} onClick={() => setShow(13)}>Karate Zeon</button>
+                            <CustomModal canShow={show == 13} updateState={update} prd="KarateZeon"/>
                         </td>
                         <td></td>
                         <td></td>
@@ -160,8 +160,8 @@ export default function TreatmentSchedule() {
                     <tr>
                         <td rowSpan="2" id={styles["orangeTheme"]}>Virmele merelor</td>
                         <td></td>
-                        <td><button className={styles.linkButton} onClick={handleShow}>Karate Zeon</button>
-                           
+                        <td><button className={styles.linkButton} onClick={() => setShow(14)}>Karate Zeon</button>
+                            <CustomModal canShow={show == 14} updateState={update} prd="KarateZeon"/>
                         </td>
                         <td></td>
                         <td colSpan="5"></td>
@@ -171,8 +171,8 @@ export default function TreatmentSchedule() {
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td colSpan="4"><button className={styles.linkButton} onClick={handleShow}>Voliam Targo</button>
-                            
+                        <td colSpan="4"><button className={styles.linkButton} onClick={() => setShow(15)}>Voliam Targo</button>
+                            <CustomModal canShow={show == 15} updateState={update} prd="VoliamTargo"/>
                         </td>
                         <td></td>
                         <td></td>
@@ -186,8 +186,8 @@ export default function TreatmentSchedule() {
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td><button className={styles.linkButton} onClick={handleShow}>Switch</button>
-                           
+                        <td><button className={styles.linkButton} onClick={() => setShow(16)}>Switch</button>
+                            <CustomModal canShow={show == 16} updateState={update} prd="Switch"/>
                         </td>
                         <td></td>
                     </tr>
@@ -197,13 +197,13 @@ export default function TreatmentSchedule() {
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td><button className={styles.linkButton} onClick={handleShow}>Brevis</button>
-                           
+                        <td><button className={styles.linkButton} onClick={() => setShow(17)}>Brevis</button>
+                            <CustomModal canShow={show == 17} updateState={update} prd="Brevis"/>
                         </td>
                         <td></td>
                         <td></td>
                         <td></td>
-                    </tr>
+                    </tr> 
                 </tbody>
             </Table>
         </div>
