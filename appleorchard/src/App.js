@@ -17,6 +17,10 @@ import TreatmentSchedule from "./Components/Orchard/TreatmentSchedule";
 import Weather from "./Components/Weather/Weather";
 import NotFoundPage from "./Components/Home/NotFoundPage";
 import ProgramTreatment from './Components/Orchard/ProgramTreatment/ProgramTreatment';
+import FunctionalProgramTreatment from "./Components/Orchard/ProgramTreatment/FunctionalProgramTreatment";
+import Equipment from "./Components/Orchard/Equipment";
+import TreeReceipts from './Components/Orchard/TreeReceipts';
+import Task from './Components/Weather/Task';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 
@@ -41,6 +45,10 @@ function App() {
                 <Route path="/treatment-schedule" component={TreatmentSchedule} />
                 <Route path="/weather" component={Weather} />
                 <Route path="/program-treatment" component={ProgramTreatment} />
+                <Route path="/functional-program-treatment" component={FunctionalProgramTreatment} />
+                <Route path="/equipment" component={Equipment} />
+                <Route path="/trees" component={TreeReceipts} />
+                <Route path="/task" component={Task} />
                 <Route component={NotFoundPage} />
             </Switch>
         </AuthProvider>
