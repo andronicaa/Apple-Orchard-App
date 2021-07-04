@@ -9,7 +9,7 @@ export default function NotFoundPage() {
             <Col lg={4} className={styles.col} />
             <Col lg={4} className="text-center">
                 <p className={styles.text}>Te-ai rătăcit?</p>
-                <Link to="/"><Button variant="danger">Acasă</Button></Link>
+                <Link to="/"><Button variant="danger" className={styles.homeButton}>Du-mă acasă</Button></Link>
             </Col>
             <Col lg={4} className={styles.col} />
         </Row>

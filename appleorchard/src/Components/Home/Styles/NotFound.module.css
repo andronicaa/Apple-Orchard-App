@@ -19,3 +19,7 @@
     background-size: contain;
     background-repeat: no-repeat;
 }
+
+.homeButton {
+    width: 60%;
+}
