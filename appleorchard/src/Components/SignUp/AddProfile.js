@@ -3,7 +3,9 @@ import styles from "./Styles/AddProfile.module.css";
 import firebase from "../../Firebase/firebase";
 import { useAuth } from '../../Firebase/context/AuthContext';
 import { useHistory } from 'react-router-dom';
-import { InputGroup, Form, Col, Row } from 'react-bootstrap';
+import { InputGroup, Form } from 'react-bootstrap';
+import { jobs } from './UtilityStuff';
+import picture from '../../Imgs/profile.png';
 
 export default function AddProfile() {
     const { currentUser } = useAuth();
@@ -14,6 +16,7 @@ export default function AddProfile() {
     const email = useRef();
     const phoneNumber = useRef();
     const companyName = useRef();
+    const job = useRef();
     const history = useHistory();
     var ok = false;
     var refProfile = "";
@@ -36,10 +39,10 @@ export default function AddProfile() {
     }
     
     // functie care adauga un nou profil de utilizator
-    function addProfile(e, firstName, lastName, age, address, email, phoneNumber) {
+    function addProfile(e, firstName, lastName, age, address, email, phoneNumber, job) {
         e.preventDefault();
         refProfile
-            .set({firstName, lastName, age, email, address, email, phoneNumber})
+            .set({firstName, lastName, age, email, address, email, phoneNumber, job})
             .catch((err) => {
                 console.log(err);
             });
@@ -50,13 +53,15 @@ export default function AddProfile() {
         <>
         {
             (typeof currentUser.uid != 'undefined') ?
-            <Row>
-
-            <Col lg={4} className={styles.colContainer} />
-            <Col lg={4}>
-                        <h3 className={`text-center ${styles.formTitle}`}>Adauga profil</h3>
-                        <form className={styles.input}>
-                            <Form.Group>
+            <>
+            <h3 className={`text-center ${styles.formTitle}`}>Adauga profil</h3>
+            <div className={styles.mainContainer}>
+            
+            <form className={styles.input}>
+            <div className={styles.rowContainer}>
+            <div className={styles.flexItem}>
+                        
+                            <Form.Group className={styles.inputItem}>
                                 <Form.Label for="lastname"><strong className={styles.tags}>Name</strong></Form.Label>
                                     <InputGroup>
                                         <InputGroup.Prepend id="inputGroupPrependLastName">
@@ -73,7 +78,7 @@ export default function AddProfile() {
                                         />
                                     </InputGroup>
                             </Form.Group>
-                            <Form.Group>
+                            <Form.Group className={styles.inputItem}>
                                 <Form.Label for="firstname"><strong className={styles.tags}>Prenume</strong></Form.Label>
                                     <InputGroup>
                                         <InputGroup.Prepend id="inputGroupPrependFirstName">
@@ -90,7 +95,7 @@ export default function AddProfile() {
                                         />
                                     </InputGroup>
                             </Form.Group>
-                            <Form.Group>
+                            <Form.Group className={styles.inputItem}>
                                 <Form.Label for="age"><strong className={styles.tags}>Varsta</strong></Form.Label>
                                     <InputGroup>
                                         <InputGroup.Prepend id="inputGroupPrependAge">
@@ -107,7 +112,7 @@ export default function AddProfile() {
                                         />
                                     </InputGroup>
                             </Form.Group>
-                            <Form.Group>
+                            <Form.Group className={styles.inputItem}>
                                 <Form.Label for="address"><strong className={styles.tags}>Adresa</strong></Form.Label>
                                     <InputGroup>
                                         <InputGroup.Prepend id="inputGroupPrependAddress">
@@ -124,7 +129,9 @@ export default function AddProfile() {
                                         />
                                     </InputGroup>
                             </Form.Group>
-                            <Form.Group>
+                        </div>
+                            <div  className={styles.flexItem}>
+                            <Form.Group className={styles.inputItem}>
                                 <Form.Label for="address"><strong className={styles.tags}>Email</strong></Form.Label>
                                     <InputGroup>
                                         <InputGroup.Prepend id="inputGroupPrependEmail">
@@ -141,7 +148,7 @@ export default function AddProfile() {
                                         />
                                     </InputGroup>
                             </Form.Group>
-                            <Form.Group>
+                            <Form.Group className={styles.inputItem}>
                                 <Form.Label for="phone-number"><strong className={styles.tags}>Nr. Telefon</strong></Form.Label>
                                     <InputGroup>
                                         <InputGroup.Prepend id="inputGroupPrependPhoneNumber">
@@ -158,7 +165,7 @@ export default function AddProfile() {
                                         />
                                     </InputGroup>
                             </Form.Group>
-                            <Form.Group>
+                            <Form.Group className={styles.inputItem}>
                                 <Form.Label for="company-name"><strong className={styles.tags}>Nume companie</strong></Form.Label>
                                     <InputGroup>
                                         <InputGroup.Prepend id="inputGroupPrependCompanyName">
@@ -175,18 +182,39 @@ export default function AddProfile() {
                                         />
                                     </InputGroup>
                             </Form.Group>
+                            <Form.Group className={styles.inputItem}>
+                                    <Form.Label for="function"><strong className={styles.tags}>Functie</strong></Form.Label>
+                                    <InputGroup>
+                                        <InputGroup.Prepend id="inputGroupPrependFunction">
+                                            <InputGroup.Text>
+                                                <i class="fa fa-briefcase" aria-hidden="true"></i>
+                                            </InputGroup.Text>
+                                        </InputGroup.Prepend>
+                                        <Form.Control as="select" ref={job} aria-describedby="inputGroupPrependProduct"
+                            required>
+                                            {
+                                                jobs.map((j) => (
+                                                    <option key={j}>
+                                                        {j}
+                                                    </option>
+                                                ))
+                                            }
+                                        </Form.Control>
+                                    </InputGroup>
+                                </Form.Group>
+                                </div>
+                                </div>
                             <div className="text-center">
                                 <button className={`btn btn-success ${styles.saveDataButton}`}
-                                    onClick={(e) => addProfile(e, firstName.current.value, lastName.current.value, age.current.value, address.current.value, email.current.value, phoneNumber.current.value)}
+                                    onClick={(e) => addProfile(e, firstName.current.value, lastName.current.value, age.current.value, address.current.value, email.current.value, phoneNumber.current.value, job.current.value)}
                                 >
                                     Salveaza date
                                 </button>
                             </div>
                             
                         </form>
-            </Col>
-            <Col lg={4} className={styles.colContainer} />
-        </Row>
+        </div>
+        </>
         :
             <div></div>
         }

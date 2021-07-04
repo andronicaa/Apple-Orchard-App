@@ -1,10 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap');
-.input {
-    width: 80%;
-    margin-left: auto;
-    margin-right: auto;
+.mainContainer {
+    width: 100%;
+    /* border: 1px solid blue; */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
-
+.inputItem {
+    position: relative;
+    top: 2vh;
+}
 .formTitle {
     margin-top: 2vh;
     color:#990000;
@@ -29,9 +35,19 @@
     margin-top: 3vh;
 }
 
-.colContainer {
-    background-image: url('../../../Imgs/profile.png');
-    background-position: center;
-    background-size: contain;
-    background-repeat: no-repeat;
+
+.rowContainer {
+    width: 80%;
+    /* border: 1px solid red; */
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.flexItem {
+    /* border: 1px solid green; */
+    width: 30%;
 }
