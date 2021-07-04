@@ -145,3 +145,7 @@ export const products = {
 
     
 }
+
+export const months = ['Ianuarie', 'Februarie', 'Martie', 'Aprilie', 'Mai', 'Iunie', 'Iulie', 'August', 'Septembrie', 'Octombrie', 'Noiembrie', 'Decembrie'];
+export const equipmentType = ['Mobil (Tractor, Masina de recoltat)', 'Alte utilaje agricole (Plug, Robot agricol)', 'Piese utilaje agricole']
+export const appleTypes = ['Astrahan Rosu', 'Clar Alb', 'Belle Fleur', 'Red Melba', 'London Pippin', 'Landsberger Reinette', 'Parmen Auriu', 'Renette de Canada', 'Renette de Ananas', 'Sovari Comun', 'Sovari Nobil', 'Strugurel', 'Ardelean', 'Ciprian', 'Cretesc', 'Domnesc', 'Poinic', 'Florina', 'Frumos de Voinesti', 'Generos de Voinesti', 'Delicios de Voinesti', 'Alex', 'Auriu de Bistrita', 'Aura', 'Jonagold', 'Starkinson', 'Idared']
