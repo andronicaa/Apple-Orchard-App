@@ -4,16 +4,18 @@
     margin-left: auto;
 }
 #blueTheme{
-    background-color: #fdc564;
+    background-color: #ABCDA2;
 }
 
 #orangeTheme {
-    background-color: #a0dbed;
+    background-color: #32965D;
 }
 #pinkTheme {
-    background-color: #bf6aa3;
+    background-color: #75D19D;
 }
-
+#headTable {
+    color: #7C2927;
+}
 .treatmentTable {
     position: relative;
     top: 10vh;
