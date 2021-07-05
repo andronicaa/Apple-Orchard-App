@@ -12,19 +12,19 @@ export default function TreatmentSchedule() {
     return (
         <div className={styles.mainContainer}>
             <Button>Programeaza tratament</Button>            
-            <Table bordered className={styles.treatmentTable}>
+            <Table bordered hover className={styles.treatmentTable}>
                 <thead>
                     <tr>
-                        <th>Stadiul de dezvoltare<br/>Problema</th>
-                        <th>Urechiuse</th>
-                        <th>Infrunzit</th>
-                        <th>Inflorit</th>
-                        <th>Scuturarea petalelor</th>
-                        <th>Fruct 2cm</th>
-                        <th>Fruct 1/2</th>
-                        <th>Fruct 3/4</th>
-                        <th>Maturitate</th>
-                        <th>Caderea frunzelor</th>
+                        <th id={styles["headTable"]}>Stadiul de dezvoltare<br/>Problema</th>
+                        <th id={styles["headTable"]}>Urechiuse</th>
+                        <th id={styles["headTable"]}>Infrunzit</th>
+                        <th id={styles["headTable"]}>Inflorit</th>
+                        <th id={styles["headTable"]}>Scuturarea petalelor</th>
+                        <th id={styles["headTable"]}>Fruct 2cm</th>
+                        <th id={styles["headTable"]}>Fruct 1/2</th>
+                        <th id={styles["headTable"]}>Fruct 3/4</th>
+                        <th id={styles["headTable"]}>Maturitate</th>
+                        <th id={styles["headTable"]}>Caderea frunzelor</th>
                     </tr>
                 </thead>
                 <tbody>
