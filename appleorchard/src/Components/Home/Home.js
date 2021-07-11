@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from "./Styles/Home.module.css";
-import Header from "../Header/Header";
+import NeauthHeader from '../Header/NeauthHeader';
 import logo from "../../Imgs/temp_logo.png";
 import about from "../../Imgs/about_img.jpg";
 import about_footer from "../../Imgs/img_footer.jpg";
@@ -12,7 +12,7 @@ export default function Home() {
     return (
         <>
             <div className={styles.mainContainer}>
-                <Header />
+                <NeauthHeader />
                 <div className={`${styles.anchorContainer} text-center`}>
                     <a href="#About"><i className={`fa fa-arrow-down ${styles.arrow}`} aria-hidden="true"></i></a>
                 </div>
@@ -46,7 +46,7 @@ export default function Home() {
                 </div>
                 
             </div>
-            <hr className={styles.delLine}/>
+            <hr className={styles.delLine} id="Contact"/>
            
                 <div className={`${styles.footer} d-flex flex-row justify-content-around`}>
                     <div className={styles.logoContainer}>

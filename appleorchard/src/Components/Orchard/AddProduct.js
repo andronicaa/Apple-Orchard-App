@@ -7,7 +7,7 @@ import { InputGroup, Form, Button, Alert } from 'react-bootstrap';
 
 
 
-export default function AddProduct() {
+export default function AddProduct({handleClose}) {
     const [validated, setValidated] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
     const { currentUser } = useAuth();
@@ -29,6 +29,7 @@ export default function AddProduct() {
         }
         else
         {
+            handleClose();
             refProduct
             .add({
                 product: product,

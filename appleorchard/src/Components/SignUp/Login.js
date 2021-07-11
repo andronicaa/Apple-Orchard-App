@@ -61,7 +61,6 @@ export function Login() {
         <img src={temp_logo} className={styles.logo} alt="Logo temporar"/>
       </div>
       <div className={styles.cardBody}>
-        {/* <h2 className="text-center mb-4">Log In</h2> */}
         {error && <Alert variant="danger">{error}</Alert>}
         <Form onSubmit={handleSubmit}>
           <Form.Group id="email">
@@ -91,7 +90,7 @@ export function Login() {
             Log In
           </Button>
         </Form>
-        <Button disabled={loading} className={`w-100 ${styles.googleButton}`} onClick={(e) => loginWithGoogle(e, 'googleLogin')}><i class="fa fa-google"></i> Autentificare cu Google</Button>
+        <Button disabled={loading} className={`w-100 ${styles.googleButton}`} onClick={(e) => loginWithGoogle(e, 'googleLogin')}><i className="fa fa-google"></i> Autentificare cu Google</Button>
         <button type="link" onClick={handleShow} className={styles.forgotButton}>
           Ai uitat parola?
         </button>

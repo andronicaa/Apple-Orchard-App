@@ -5,10 +5,10 @@ import { useAuth } from '../../Firebase/context/AuthContext';
 import { useHistory } from 'react-router-dom';
 import { InputGroup, Form } from 'react-bootstrap';
 import { jobs, driverCategories } from './UtilityStuff';
-import picture from '../../Imgs/profile.png';
 
 export default function AddProfile() {
     const { currentUser } = useAuth();
+    const [loading, setLoading] = useState(true);
     const firstName = useRef();
     const lastName = useRef();
     const age = useRef();
@@ -21,7 +21,6 @@ export default function AddProfile() {
     const [jobField, setJobField] = useState('Cultivator');
     const [hasDriverLicense, setDriverLicense] = useState('NU');
     const [checkedState, setCheckedState] = useState(new Array(driverCategories.length).fill(false));
-    var cmp = "";
     const handleOnChangeCateg = (position) => {
         const updatedCheckedState = checkedState.map((item, index) =>
             index === position ? !item : item)
@@ -31,27 +30,34 @@ export default function AddProfile() {
     const history = useHistory();
     var ok = false;
     var refProfile = "";
+    var refRole = "";
     while(ok == false)
     {
-        while (typeof currentUser == 'undefined')
-        {
-            ok = false;
-        }
-        if(typeof currentUser != 'undefined')
-        {
-            while (typeof currentUser.uid == 'undefined')
+        
+        
+            while (typeof currentUser == 'undefined')
             {
                 ok = false;
             }
-            refProfile = firebase.firestore().collection("users").doc(currentUser.uid);
-            ok = true;
-        }
+            if(typeof currentUser != 'undefined')
+            {
+                while (typeof currentUser.uid == 'undefined')
+                {
+                    ok = false;
+                }
+                refProfile = firebase.firestore().collection("users").doc(currentUser.uid);
+                refRole = firebase.firestore().collection("userRole").doc(currentUser.uid);
+                ok = true;
+            }
+        
+        
         
     }
     
     // functie care adauga un nou profil de utilizator
     function addProfile(e, role, firstName, lastName, age, address, email, phoneNumber, job, param1, param2) {
         e.preventDefault();
+
         var companyName = '';
         var hasDriverLicense = '';
         var catState = [];
@@ -71,6 +77,13 @@ export default function AddProfile() {
             .catch((err) => {
                 console.log(err);
             });
+        refRole
+            .set({
+                job
+            })
+            .catch((err) => {
+                console.log(err);
+            })
             console.log("S-a facut adaugarea de profil cu succes");
         history.push("/");
     }
@@ -334,5 +347,3 @@ export default function AddProfile() {
         </>
     )
 }
-
-// , driverLicense.current.value == undefined ? null : driverLicense.current.value, checkedState.current.value == undefined ? null : checkedState.current.value

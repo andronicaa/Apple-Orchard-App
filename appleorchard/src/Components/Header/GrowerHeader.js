@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import styles from "./Header.module.css";
-import { useHistory, Redirect } from 'react-router-dom';
-import firebase from "../../Firebase/firebase";
+import { useHistory } from 'react-router-dom';
 import { useAuth } from '../../Firebase/context/AuthContext';
 import { Link } from "react-router-dom";
 import Modal from 'react-bootstrap/Modal';
@@ -25,7 +24,9 @@ export default function Header() {
             setError("Failed to log out");
         }
     }
-    console.log(currentUser);
+
+
+    // console.log(currentUser);
     return (
         <nav className={`navbar navbar-expand-lg ${styles.header}`}>
             <p className={styles.appName}>Măruleț</p>
@@ -34,32 +35,23 @@ export default function Header() {
                 <ul className="navbar-nav">
                 <li className="nav-item active">
                     <a className="nav-link" href="#">
-                        {
-                            currentUser != null ? 
-                            <>
-                                <button onClick={handleShow} className={styles.profileButton}>Profil</button>
-                                        <Modal show={show} onHide={handleClose}>
-                                            <Modal.Body>
-                                                <TempProfile />
-                                            </Modal.Body>
-                                        </Modal>
-
-                            </>
-                            :
-                                <p className={styles.linkText}>About Us</p>
-                        }
-                        
-                        <span class="sr-only">(current)</span></a>
+                        <button onClick={handleShow} className={styles.profileButton}>Profil</button>
+                        <Modal show={show} onHide={handleClose}>
+                            <Modal.Body>
+                                <TempProfile />
+                            </Modal.Body>
+                        </Modal>
+                        <span className="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        {
-                            currentUser != null ?
-                                <Link to="/orchardinfo" className={styles.linkText}>Livada mea</Link>
-                            :
-                                <p className={styles.linkText}>Contact us</p>
-                        }
+                <li className="nav-item">
+                    <a className="nav-link" href="#">
+                        <Link to="/orchardinfo" className={styles.linkText}>Livada mea</Link>
                     </a> 
+                </li>
+                <li className="nav-item">
+                    <a className="nav-link">
+                        <Link className={styles.linkText}>Anunturi postate</Link>
+                    </a>
                 </li>
                 </ul>
             </div>
@@ -68,9 +60,6 @@ export default function Header() {
                     <button onClick={handleLogout} className={`btn btn-success ${styles.loginButton}`}>Logout</button>
                 : 
                     <Link to="/login" className={styles.loginLink}><button className={`btn btn-success ${styles.loginButton}`}>Login</button></Link>
-            }
-            
-            
-        </nav>
+            }        </nav>
     )
 }

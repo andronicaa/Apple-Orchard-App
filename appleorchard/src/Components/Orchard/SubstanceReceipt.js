@@ -171,7 +171,7 @@ export default function SubstanceReceipt() {
             totalPriceLocal += doc.data().price;
           });
           setReceipts(items);
-          console.log("Item", items)
+          console.log("FACTURILE SUNT", items)
           setTotalRrice(totalPriceLocal);
         });
     }

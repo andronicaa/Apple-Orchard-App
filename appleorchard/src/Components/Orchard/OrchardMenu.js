@@ -33,7 +33,7 @@ export default function OrchardMenu() {
                         <strong>Adauga produs</strong>
                     </Modal.Header>
                     <Modal.Body>
-                        <AddProduct />
+                        <AddProduct handleClose={handleClose}/>
                     </Modal.Body>
                 </Modal>
                 <NavDropdown.Item href="/treatment-schedule">Program tehnologic</NavDropdown.Item>
