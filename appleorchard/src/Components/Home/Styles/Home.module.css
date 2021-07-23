@@ -1,195 +1,92 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap');
-
-.mainContainer {
-    
-    height: 100vh;
+.pageContainer {
+	height: 100vh;
     width: 100vw;
     position: relative;
-	font-family: 'Roboto Slab', serif;
 }
 
-
-
-
-.aboutContainer {
-    width: 100%;
-    height: auto;
-	padding: 3vw;
-	/* border: 1px solid red; */
-}
-
-.footer {
-	width: 100%;
-}
-
-.delLine {
-	border-top: 2px solid #737373;
-	width: 90%;
-	margin-left: auto;
-	margin-right: auto;
-}
-
-.logoContainer {
-	margin-left: 2vw;
-	width: 40%;
-	/* border: 1px solid red; */
-}
-
-.logo {
-	max-width: 100%;
-    height: auto;
-	/* border: 1px solid green; */
-}
-
-.logoText {
-	color: green;
-	font-family: 'Roboto Slab', serif;
-	font-weight: 500;
-	font-size: 2em;
-}
-
-.infoContainer {
-	width: 40%;
-	/* border: 1px solid red; */
-}
-
-.contactTitle {
-	text-align: center;
-	margin-top: 1vh;
-	font-family: 'Roboto Slab', serif;
-	font-weight: 500;
-	font-size: 1.5em;
-
-}
-.aboutUsPar {
-	text-align: justify;
-	/* border:1px solid blue; */
-	padding: 1.5vw;
-	font-size: 1.3em;
-}
-
-.aboutImgContainer {
-	width: 30%;
-	/* border: 1px solid red; */
-}
-
-.abtImg {
-	max-width: 100%;
-    height: auto;
-}
-
-.paragraphContainer {
-	width: 30%;
-}
-
-.anchorContainer {
-	width: 100%;
-	position: fixed;
+.pageContainer::after {
+    background-image: url('../../../Imgs/home_wallpaper.jpg');
+	filter: brightness(65%);
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	content: "";
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	top: 0;
+	left: 0;
 	bottom: 0;
-
+	right: 0;
+	position: absolute;
+	z-index: -10;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	align-self: center;
 }
-.arrow {
-	color: white;
-	font-size: 1.90em;
-}
-.arrow:hover {
-	font-size: 2.5em;
-}
-.socialIcon {
-	font-size: 2.5em;
-	margin-right: 1.5vw;
-}
-
-.centerText {
+.mainContainer {
 	/* border: 1px solid red; */
-	width: 30%;
+	margin-top: 5vh;
+	width: 90%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.descriptionContainer {
+	width: 98%;
 	top: 50%;
 	left: 50%;
-	transform: translate(-50%, -50%);
 	position: absolute;
-	color: white;
-	font-family: 'Roboto Slab', serif;
-}
-.descApp {
-	text-align: center;
-	/* border: 1px solid blue; */
-	font-size: 1.25em;
+	transform: translate(-50%, -50%);
+	margin-top: 2vh;
+	
 }
 
-.centerTextTitle {
-	font-size: 2.5em;
-}
-
-.roleButton {
-	margin-left: 0.5vw;
+.textItem {
 	width: 40%;
 }
-.roleButton:hover {
-	width: 42%;
-}
 
-
-.rowContainer {
-	/* border: 1px solid green; */
-	display: flex;
-	width: 100%;
-	justify-content: space-between;
-	margin-left: auto;
-	margin-right: auto;
-}
-
-.imgContainer {
-	margin-left: auto;
-	margin-right: auto;
-	width: 90%;
-	/* float: right; */
-	border: 1px solid blue;
-}
-.textContainer {
-	width: 30%;
-	/* border: 1px solid green; */
-}
-.princImg {
-	max-width:100%;
-	max-height:100%;
-	height: 95vh;
-}
-
-.subTextContainer {
-	/* border: 1px solid red; */
+.imgItem {
 	width: 50%;
-	position: relative;
+}
+
+.buttonsItem {
+	width: 50%;
 	margin-left: auto;
 	margin-right: auto;
-}
-
-.textCol {
-	/* border: 1px solid red; */
-}
-
-.buttonsContainer {
-	width: 100%;
-	/* border: 1px solid green; */
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-}
-
-.employeeButton {
-	background-color: #c65547 !important;
-	border: none !important;
-	width: 30%;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
 }
 
 .growerButton {
-	background-color: #ffa767 !important;
+	background-color: #c25244 !important;
 	border: none !important;
-	width: 30%;
+	width: 40%;
+}
+.growerButton:hover {
+	background-color: #Fbb36c !important;
+}
+.employeeButton {
+	background-color: #efa159 !important;
+	border: none !important;
+	width: 40%;
 }
 
-.describe {
+.employeeButton:hover {
+	background-color: #Fbb36c !important;
+}
+
+.text {
+	color: white;
 	text-align: center;
-	font-size: 2em;
-	color: #c65547;
+}
+
+
+@media (min-width: 300px) and (max-width: 1024px) {
+	.descriptionContainer {
+		visibility: hidden;
+	}
 }

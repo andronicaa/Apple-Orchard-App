@@ -2,16 +2,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Akaya+Telivigala&display=swap');
 
 .navbar {
-    background-color: #c65547;
+    /* background-color: #A42819; */
 }
 
 .actionButton {
-    background-color: #efa159 !important;
+    width: 100%;
+    background-color: #A42819 !important;
     border: none !important;
 }
 
 .actionButton:hover {
-    background-color: #efa159 !important;
+    background-color: #A42819 !important;
 }
 
 .linkText {

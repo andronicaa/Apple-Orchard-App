@@ -17,9 +17,6 @@ export default function NeauthHeader() {
                 <Nav.Link href="#about" className={styles.linkText}>Despre noi</Nav.Link>
                 <Nav.Link href="#contact" className={styles.linkText}>Contact</Nav.Link>
             </Nav>
-            <Nav>
-                <Link to="/login"><Button className={styles.actionButton}>Login</Button></Link>
-            </Nav>
         </Navbar.Collapse>
         </Navbar>
     )

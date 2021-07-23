@@ -14,7 +14,7 @@ export default function Task() {
     const handleClose = () => setShow(false);
     const location = useLocation();
     const weatherData  = location.state.data;
-    // console.log("location", location.state.data);
+    console.log("location", location.state.data);
     function handleSubmit(e, startHour, endHour, date) {
         console.log(startHour, endHour);
     }
@@ -26,7 +26,7 @@ export default function Task() {
             <Modal show={show} onHide={handleClose} animation={false}>
                 <Form>
                     <Form.Group>
-                            <Form.Label>Select Date</Form.Label>
+                            <Form.Label>Data tratament</Form.Label>
                             <Form.Control type="date" name="dob" placeholder="Date of Birth" onChange={e => setDate(e.target.value)}/>
                     </Form.Group>
                     <Form.Group>

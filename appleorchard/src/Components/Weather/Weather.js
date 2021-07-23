@@ -32,6 +32,7 @@ export default function Weather() {
         fetchWeatherData();
     }, [lat, long]);
 
+    console.log(lat, long);
     
     function redirectToTreatment(e) {
         e.preventDefault();
