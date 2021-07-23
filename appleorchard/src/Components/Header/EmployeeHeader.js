@@ -1,19 +1,29 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styles from "./Header.module.css";
+import firebase from '../../Firebase/firebase';
 import { useHistory } from 'react-router-dom';
 import { useAuth } from '../../Firebase/context/AuthContext';
-import { Link } from "react-router-dom";
-import Modal from 'react-bootstrap/Modal';
-import TempProfile from '../Feed/TempProfile';
+import { Nav, Navbar, Button } from "react-bootstrap";
 
 
 export default function Header() {
     const{ currentUser, logout } = useAuth();
     const[error, setError] = useState('');
     const history = useHistory();
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const [userName, setUserName] = useState('');
+    const [loading, setLoading] = useState(true);
+    const refProfile = firebase.firestore().collection("users").doc(currentUser.uid);
+    function getUserName() {
+        var userName = "";
+        refProfile.onSnapshot(doc => {
+            userName = doc.data().firstName + " " + doc.data().lastName;
+            setUserName(userName);
+            setTimeout(function() {
+                setLoading(false);
+            }, 1000);
+        })
+        
+    }
     async function handleLogout() {
         setError("");
 
@@ -25,40 +35,27 @@ export default function Header() {
         }
     }
 
-   
+    useEffect(() => {
+        getUserName();
+    }, []);
 
     return (
-        <nav className={`navbar navbar-expand-lg ${styles.header}`}>
-            <p className={styles.appName}>Măruleț</p>
-            
-            <div className="collapse navbar-collapse" id="navbarNav">
-                <ul className="navbar-nav">
-                <li className="nav-item active">
-                    <a className="nav-link" href="#">
-                        <button onClick={handleShow} className={styles.profileButton}>Profil angajat</button>
-                        <Modal show={show} onHide={handleClose}>
-                            <Modal.Body>
-                                <TempProfile />
-                            </Modal.Body>
-                        </Modal>
-                        <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <Link>Anunturi</Link>
-                    </a> 
-                </li>
-                </ul>
-            </div>
-            {
-                currentUser != null?
-                    <button onClick={handleLogout} className={`btn btn-success ${styles.loginButton}`}>Logout</button>
-                : 
-                    <Link to="/login" className={styles.loginLink}><button className={`btn btn-success ${styles.loginButton}`}>Login</button></Link>
-            }
-            
-            
-        </nav>
+        <Navbar collapseOnSelect expand="lg"variant="light" className={styles.navbar}>
+        <Navbar.Brand href="/" className={styles.linkText}>
+            Măruleț
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
+            <Nav className="mr-auto">
+                <Nav.Link href="/grower-profile" className={styles.linkText}>Profil</Nav.Link>
+                <Nav.Link href="/orchard-info" className={styles.linkText}>Anunturi angajare</Nav.Link>
+            </Nav>
+            <Nav>
+                <Nav.Link className={styles.linkText}>Bine ai venit, {userName}</Nav.Link>
+                <Button onClick={handleLogout} className={styles.actionButton}>Logout</Button>
+            </Nav>
+        </Navbar.Collapse>
+        </Navbar>
     )
 }
 

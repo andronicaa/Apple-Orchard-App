@@ -1,62 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Akaya+Telivigala&display=swap');
 
-.header {
-    font-family: 'Roboto Slab', serif;
-    position: relative;
-    top: 0;
-    left: 0;
-    border: 1px solid red;
-}
-.flexItem {
-    border: 1px solid red;
-    margin-left: 2vw;
-    font-size: 1.2em;
-}
-.headerItem {
-    position: relative;
-    bottom: 0;
-}
-.appName {
-    color:red;
-    position: relative;
-    font-size: 1.3em;
+.navbar {
+    background-color: #c65547;
 }
 
-.helloSection {
-    position: relative;
-    float: right;
-}
-
-.logoutButton {
-    border: none;
-}
-.loginLink {
-    position: relative;
-    top: 1vh;
-    margin-right: 2vw;
-    color: white;
-}
-.loginButton {
-	background-color: #ed9f4a !important;
+.actionButton {
+    background-color: #efa159 !important;
     border: none !important;
-    width: 8vw;
 }
+
+.actionButton:hover {
+    background-color: #efa159 !important;
+}
+
 .linkText {
-    color: #c65547;
-    font-size: 1.2em;
+    color: white !important;
 }
-
-.profileButton {
-    border: none;
-    background-color: transparent;
-    color: white;
-    font-size: 1.2em;
-}
-
-.loginContainer {
-    border: 1px solid red;
-    position: relative;
-    margin-right: 60vw;
-}
-
