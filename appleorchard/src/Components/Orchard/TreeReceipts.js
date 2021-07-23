@@ -17,6 +17,7 @@ export default function Equipment() {
     const currency = useRef();
     const price = useRef();
     const month = useRef();
+    const year = new Date().getFullYear();
     const [errorMsg, setErrorMsg] = useState([]);
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -69,7 +70,8 @@ export default function Equipment() {
                 price: newPrice,
                 quantity: quantity,
                 month: month, 
-                currency: currency
+                currency: currency,
+                year: year
             })
             .catch((err) => {
                 console.log(err);

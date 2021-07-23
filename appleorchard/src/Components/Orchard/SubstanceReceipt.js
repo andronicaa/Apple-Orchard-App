@@ -26,9 +26,11 @@ export default function SubstanceReceipt() {
     const price = useRef();
     const quantity = useRef();
     const month = useRef();
+    const year = new Date().getFullYear();
     const refCurrentUser = firebase.firestore().collection("users").doc(currentUser.uid).collection("receipt");
     const refProducts = firebase.firestore().collection("users").doc(currentUser.uid).collection("products");
-    
+    const refCosts = firebase.firestore().collection("users").doc(currentUser.uid).collection("costs");
+
     const handleFilterChange = e => {
         const value = e.target.value || undefined;
         setFilter("product", value);
@@ -85,7 +87,8 @@ export default function SubstanceReceipt() {
                 product: product,
                 price: newPrice, 
                 quantity: newQuantity,
-                month: month
+                month: month,
+                year: year
             })
             .catch((err) => {
                 console.log(err);
@@ -319,6 +322,7 @@ export default function SubstanceReceipt() {
                                                 <option>RON</option>
                                                 <option>EUR</option>
                                             </Form.Control>
+                                            
                                         </InputGroup.Prepend>
                                     </InputGroup>
                                 </Form.Group>

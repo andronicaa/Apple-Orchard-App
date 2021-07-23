@@ -7,6 +7,7 @@ import firebase from '../../Firebase/firebase';
 export default function JobRequests() {
     const { currentUser } = useAuth();
     const [loading, setLoading] = useState(true);
+    const rejectMotivation = useRef();
     const [reqPosts, setReqPosts] = useState([]);
     const salary = useRef(0);
     const [show1, setShow1] = useState(false);
@@ -28,19 +29,18 @@ export default function JobRequests() {
         })
     }
 
-    function handleRequest(e, reqStatus, reqId, salary, employeeId) {
+
+    function handleAccept(e, status, reqId, salary, employeeId) {
         e.preventDefault();
-       
-        // trebuie luata din aplicatii in asteptare -> stearsa de aici si dusa in acceptate sau respinse
         const refPost = firebase.firestore().collection("users").doc(currentUser.uid).collection("onHold").doc(reqId);
-        const response = firebase.firestore().collection("users").doc(employeeId).collection("responses");
+        refPost.update({status: status, salary: salary});
+    }
 
-        if(reqStatus == 'accepted')
-        
-            refPost.update({status: reqStatus, salary: salary});
-        else
-            refPost.update({status: reqStatus})
-
+    function handleReject(e, status, reqId, rejectMotivation) {
+        e.preventDefault();
+        // e, "rejected", p.reqId, rejectMotivation.current.value
+        const refPost = firebase.firestore().collection("users").doc(currentUser.uid).collection("onHold").doc(reqId);
+        refPost.update({status: status, feedback: rejectMotivation});
     }
 
     useEffect(() => {
@@ -63,13 +63,17 @@ export default function JobRequests() {
                                 <Form.Group>
                                     <Form.Label>Oferta salariala</Form.Label>
                                     <Form.Control type="text" placeholder="Salariu propus..." ref={salary} required/>
-                                    <Button onClick={e => {handleRequest(e, "accepted", p.reqId, salary.current.value, p.employeeId); handleClose1();}}>Trimite oferta</Button>
+                                    <Button onClick={e => {handleAccept(e, "accepted", p.reqId, salary.current.value, p.employeeId); handleClose1();}}>Trimite oferta</Button>
                                 </Form.Group>
                                 </Form>
                             </Modal>
                             <Button variant="danger" onClick={handleShow2}><i className="fa fa-window-close" aria-hidden="true"></i> &nbsp; Respinge cerere</Button>
                             <Modal show={show2} onHide={handleClose2} animation={false}>
-                                <Button variant="info" onClick={e => {handleRequest(e, "rejected", p.reqId); handleClose2();}}>Trimite feedback</Button>
+                                <Form.Group>
+                                    <Form.Label>Motivatie respingere</Form.Label>
+                                    <Form.Control type="text" placeholder="Feedback..." ref={rejectMotivation} required/>
+                                    <Button onClick={e => {handleReject(e, "rejected", p.reqId, rejectMotivation.current.value); handleClose2();}}>Trimite feedback</Button>
+                                </Form.Group>
                             </Modal>
                         </Card.Footer>
                     </Card>

@@ -72,8 +72,9 @@ export default function AddProfile() {
             catState = param2;
         }
         // console.log("sunt:",firstName, lastName, age, address, email, phoneNumber, job, companyName, hasDriverLicense, catState);
+        var busy = [];
         refProfile
-            .set({firstName, lastName, age, email, address, email, phoneNumber, job, companyName, hasDriverLicense, catState})
+            .set({firstName, lastName, age, email, address, phoneNumber, job, companyName, hasDriverLicense, catState, busy})
             .catch((err) => {
                 console.log(err);
             });

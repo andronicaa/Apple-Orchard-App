@@ -1,3 +1,7 @@
-.logoName {
-    color: red !important;
+.navbar {
+    background-color: #c65547;
+    color: white;
+}
+.linkText {
+    color: white !important;
 }

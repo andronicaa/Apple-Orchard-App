@@ -6,7 +6,7 @@
     position: relative;
     top: 0;
     left: 0;
-
+    border: 1px solid red;
 }
 .flexItem {
     border: 1px solid red;
@@ -19,8 +19,8 @@
 }
 .appName {
     color:red;
-    font-size: 2em;
     position: relative;
+    font-size: 1.3em;
 }
 
 .helloSection {
@@ -32,16 +32,18 @@
     border: none;
 }
 .loginLink {
+    position: relative;
+    top: 1vh;
     margin-right: 2vw;
-    width: 5vw;
     color: white;
 }
 .loginButton {
-	background-color: #336600 !important;
+	background-color: #ed9f4a !important;
     border: none !important;
+    width: 8vw;
 }
 .linkText {
-    color: white;
+    color: #c65547;
     font-size: 1.2em;
 }
 
@@ -51,3 +53,10 @@
     color: white;
     font-size: 1.2em;
 }
+
+.loginContainer {
+    border: 1px solid red;
+    position: relative;
+    margin-right: 60vw;
+}
+

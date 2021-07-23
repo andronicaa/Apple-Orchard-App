@@ -3,7 +3,9 @@ import OrchardMenu from '../Orchard/OrchardMenu';
 import { TabContent, TabPane, Nav, NavItem, NavLink, Row, Col } from 'reactstrap';
 import classnames from 'classnames';
 import AddJob from './AddJob';
+import RejectedOffer from './RejectedOffer';
 import JobRequests from './JobRequests';
+import AcceptedOffer from './AcceptedOffer';
 import styles from './Style/PostsTab.module.css';
 
 export default function ReceiptPageTabs() {
@@ -33,6 +35,22 @@ export default function ReceiptPageTabs() {
                 Cereri
             </NavLink>
             </NavItem>
+            <NavItem>
+            <NavLink
+                className={classnames({ active: activeTab === '3' })}
+                onClick={() => { toggle('3'); }}
+            >
+                Oferte respinse
+            </NavLink>
+            </NavItem>
+            <NavItem>
+            <NavLink
+                className={classnames({ active: activeTab === '4' })}
+                onClick={() => { toggle('4'); }}
+            >
+                Oferte acceptate
+            </NavLink>
+            </NavItem>
         </Nav>
         <TabContent activeTab={activeTab}>
             <TabPane tabId="1">
@@ -52,6 +70,14 @@ export default function ReceiptPageTabs() {
             <TabPane tabId="3">
             <Row>
                 <Col lg="12">
+                    <RejectedOffer />
+                </Col>
+            </Row>
+            </TabPane>
+            <TabPane tabId="4">
+            <Row>
+                <Col lg="12">
+                    <AcceptedOffer />
                 </Col>
             </Row>
             </TabPane>

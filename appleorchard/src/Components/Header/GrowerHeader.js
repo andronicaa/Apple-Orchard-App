@@ -1,19 +1,34 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react';
 import styles from "./Header.module.css";
+import firebase from '../../Firebase/firebase';
 import { useHistory } from 'react-router-dom';
 import { useAuth } from '../../Firebase/context/AuthContext';
 import { Link } from "react-router-dom";
-import Modal from 'react-bootstrap/Modal';
+import { Nav, Modal, Button } from 'react-bootstrap';
 import TempProfile from '../Feed/TempProfile';
 
 
-export default function Header() {
+export default function Grower1() {
     const{ currentUser, logout } = useAuth();
     const[error, setError] = useState('');
     const history = useHistory();
+    const [userName, setUserName] = useState('');
+    const [loading, setLoading] = useState(true);
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const handleShow = (eventKey) => {eventKey.preventDefault(); console.log("AM INTRAT AICI")};
+    const refProfile = firebase.firestore().collection("users").doc(currentUser.uid);
+    function getUserName() {
+        var userName = "";
+        refProfile.onSnapshot(doc => {
+            userName = doc.data().firstName + " " + doc.data().lastName;
+            setUserName(userName);
+            setTimeout(function() {
+                setLoading(false);
+            }, 1000);
+        })
+        
+    }
     async function handleLogout() {
         setError("");
 
@@ -25,41 +40,46 @@ export default function Header() {
         }
     }
 
-
-    // console.log(currentUser);
+    useEffect(() => {
+        getUserName();
+    }, []);
     return (
-        <nav className={`navbar navbar-expand-lg ${styles.header}`}>
-            <p className={styles.appName}>Măruleț</p>
-            
-            <div className="collapse navbar-collapse" id="navbarNav">
-                <ul className="navbar-nav">
-                <li className="nav-item active">
-                    <a className="nav-link" href="#">
-                        <button onClick={handleShow} className={styles.profileButton}>Profil</button>
+        <div className="d-flex flex-row justify-content-between">
+            <Nav as="ul">
+                <Nav.Item as="li">
+                    <Nav.Link href="/" className={styles.appName}>Marulet</Nav.Link>
+                </Nav.Item>
+                <Nav.Item >
+                    <Nav.Link diabled={true} onSelect={handleShow} className={styles.linkText}>Profil</Nav.Link>
                         <Modal show={show} onHide={handleClose}>
                             <Modal.Body>
                                 <TempProfile />
                             </Modal.Body>
                         </Modal>
-                        <span className="sr-only">(current)</span></a>
-                </li>
-                <li className="nav-item">
-                    <a className="nav-link" href="#">
-                        <Link to="/orchardinfo" className={styles.linkText}>Livada mea</Link>
-                    </a> 
-                </li>
-                <li className="nav-item">
-                    <a className="nav-link">
-                        <Link className={styles.linkText}>Anunturi postate</Link>
-                    </a>
-                </li>
-                </ul>
-            </div>
+                </Nav.Item>
+                <Nav.Item as="li">
+                    <Nav.Link href="/orchardinfo" className={styles.linkText}>Livada mea</Nav.Link>
+                </Nav.Item>
+                <Nav.Item as="li">
+                    <Nav.Link href="/posts-tab" className={styles.linkText}>Anunturi postate</Nav.Link>
+                </Nav.Item>
+            </Nav>
+            {
+                loading == false ?
+                (
+                    <p>Bine ai venit, {userName}</p>
+                )
+                :
+                (
+                    <div></div>
+                )
+            }
             {
                 currentUser != null?
                     <button onClick={handleLogout} className={`btn btn-success ${styles.loginButton}`}>Logout</button>
                 : 
                     <Link to="/login" className={styles.loginLink}><button className={`btn btn-success ${styles.loginButton}`}>Login</button></Link>
-            }        </nav>
+            }      
+        </div>
     )
 }

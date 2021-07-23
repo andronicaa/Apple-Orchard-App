@@ -3,10 +3,11 @@ import styles from "./Styles/Home.module.css";
 import NeauthHeader from '../Header/NeauthHeader';
 import logo from "../../Imgs/temp_logo.png";
 import about from "../../Imgs/about_img.jpg";
+import neauth_home from '../../Imgs/new_neauth_home.jpg';
 import about_footer from "../../Imgs/img_footer.jpg";
 import home from '../../Imgs/home.jpg';
 import { Link } from 'react-router-dom';
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, Button } from 'react-bootstrap';
 
 export default function Home() {
     return (
@@ -17,17 +18,19 @@ export default function Home() {
                     <a href="#About"><i className={`fa fa-arrow-down ${styles.arrow}`} aria-hidden="true"></i></a>
                 </div>
                 <Row className={styles.rowContainer}>
-                   <div className={styles.textContainer}>
-                        <div className={styles.subTextContainer}>
-                            <p className="text-center">Ana are mere</p>
-                            <button className>Cultivator</button>
-                            <button>Cumparator</button>
+                   <Col lg={4} className={styles.textCol}>
+                       
+                       <div className={styles.buttonsContainer}>
+                            <p className={styles.describe}>Ana are mere</p>
+                        <div className={` d-flex flex-row justify-content-around`}>
+                            <Button className={styles.growerButton}>Cultivator</Button>
+                            <Button className={styles.employeeButton}>Angajat</Button>
                         </div>
-                   </div>
-
-                   <div className={styles.imgContainer}>
-                        <img src={about_footer} className={styles.princImg}/>
-                   </div>
+                       </div>
+                   </Col>
+                   <Col lg={8} className={styles.col}>
+                       <img src={neauth_home} className={styles.princImg} alt="Imagine pentru pagina de home"/>
+                   </Col>
                 </Row>
             </div>
            

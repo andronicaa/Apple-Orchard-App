@@ -18,6 +18,7 @@ export default function Equipment() {
     const price = useRef();
     const month = useRef();
     const type = useRef();
+    const year = new Date().getFullYear();
     const [errorMsg, setErrorMsg] = useState([]);
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -71,7 +72,9 @@ export default function Equipment() {
                 capacity: capacity,
                 month: month, 
                 currency: currency,
-                type: type
+                type: type,
+                year: year, 
+                busy: []
             })
             .catch((err) => {
                 console.log(err);

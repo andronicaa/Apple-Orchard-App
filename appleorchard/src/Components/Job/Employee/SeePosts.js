@@ -6,24 +6,50 @@ import { useAuth } from '../../../Firebase/context/AuthContext';
 import PostsPage from './PostsPage';
 export default function SeePosts() {
     // o sa listez job-urile doar de la agricultorii dintr-o zona selectata
-    const location = useRef('');
     const profile = useRef();
     const userDriverCateg = useRef('');
     const [show, setShow] = useState(false);
+    const [seenJobs, setSeenJobs] = useState([]);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    const [show1, setShow1] = useState(false);
+    const handleShow1 = () => setShow1(true);
+    const handleClose1 = () => setShow1(false);
     const [searchedLocation, setLocation] = useState('');
     const [postPerUser, setPostPerUser] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [loading1, setLoading1] = useState(true);
+    const [loading2, setLoading2] = useState(true);
     const { currentUser } = useAuth();
     const refUsers = firebase.firestore().collection("users");
     const refProfile = firebase.firestore().collection("users").doc(currentUser.uid);
+    const refSeenJobs = firebase.firestore().collection("users").doc(currentUser.uid).collection("seenJobs"); 
+    
+    function getAllAppliedPosts() {
+        const items = [];
+        const itemsId = [];
+        refSeenJobs.onSnapshot(querySnapshot => {
+            querySnapshot.forEach(doc => {
+                items.push(doc.data());
+            })
+            
+            items.map(p => (itemsId.push(p.postId)));
+            setSeenJobs(itemsId);
+            setTimeout(function(){
+                setLoading1(false);
+            }, 1000);
+            console.log(itemsId);
+        })
+        
+    }
+    
     function getProfile() {
         refProfile.onSnapshot((doc) => {
             profile.current = doc.data();
             userDriverCateg.current = getDriverCateg(doc.data().catState);
-            /*
+            
             console.log("Categoriile userului sunt: ", userDriverCateg.current);
+            /*
             console.log("Categoriile sunt: ", profile.current);
             // setProfile(localProfile);
             */
@@ -56,13 +82,13 @@ export default function SeePosts() {
                 // doar cultivatorii pot posta anunturi
                 if(doc.data().job === 'Cultivator')
                 {
-                    growerUser.push(doc.id);
+                    growerUser.push({id: doc.id,...doc.data()});
                 }
 
             });
           
         growerUser.map(i => {
-            var refPost = firebase.firestore().collection("users").doc(i).collection("jobPosts");
+            var refPost = firebase.firestore().collection("users").doc(i.id).collection("jobPosts");
             if(searchedLocation != '')
             {
                 var refPostByLoc = refPost.where('location', '==', searchedLocation);
@@ -73,12 +99,12 @@ export default function SeePosts() {
                 querySnapshot.forEach((doc) => {
                     var driverCateg = getDriverCateg(doc.data().checkedState);
                     console.log("Este: ", driverCateg);
-                    post.push({id: i, jobId: doc.id, categories: driverCateg, ...doc.data()});
+                    post.push({id: i.id, employeerName: i.lastName, employeerFirstName: i.firstName, jobId: doc.id, categories: driverCateg, ...doc.data()});
                 })
                 setPostPerUser(post);
                 setTimeout(function() {
                     setLoading(false);
-                }, 1000) 
+                }, 2000) 
                 console.log(post);
 
             })
@@ -87,12 +113,35 @@ export default function SeePosts() {
         )
         });
     }
-    function applyToJob(e, emplId, growerId, postId, postName, postDescription, categories) {
+
+    function savePost(e, i) {
+        e.preventDefault();
+        const refSavedPosts = firebase.firestore().collection("users").doc(currentUser.uid).collection("savePost");
+        refSavedPosts.
+        add({
+            i
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    }
+    function applyToJob(e, emplId, growerId, postId, postName, postDescription, categories, year) {
         e.preventDefault();
         // currentUser.uid, i.id, i.jobId, i.postName, i.description
         console.log(postId, postName);
         // trebuie sa adaug la vectorul de onHold pentru un cultivator
         const refOnHoldPosts = firebase.firestore().collection("users").doc(growerId).collection("onHold");
+        const refSeenJobs = firebase.firestore().collection("users").doc(currentUser.uid).collection("seenJobs");
+        // daca un utilizator a aplicat pentru un job => acesta nu trebuie sa mai poata aplica la el inca o data => va avea doar drept la vizualizare
+        refSeenJobs
+        .add(
+            {
+                postId: postId
+            }
+        )
+        .catch(err => {
+            console.log(err);
+        })
         // initial toate anunturi sunt adaugate in baza de date cu status in asteptare
         refOnHoldPosts
         .add({
@@ -105,7 +154,9 @@ export default function SeePosts() {
             driverLicense: profile.current.hasDriverLicense,
             postName: postName,
             postDescription: postDescription,
-            categories: categories
+            categories: categories,
+            year: year
+
         })
         .catch(err => {
             console.log(err);
@@ -115,33 +166,41 @@ export default function SeePosts() {
         e.preventDefault();
         console.log(location);
         setLocation(location);
+        setTimeout(function() {
+            setLoading2(false);
+        }, 1000);
     }
 
     useEffect(() => {
         getAllPosts();
         getProfile();
+        getAllAppliedPosts();
     }, [searchedLocation]);
     return (
         <div>
             <Form>
             <Form.Group>
                 <Form.Label>Localitate</Form.Label>
-                <Form.Control type="text" placeholder="Locatie..." className={styles.label} ref={location}/>
+                <Form.Control type="text" placeholder="Locatie..." className={styles.label} onChange={e => setLocation(e.target.value)}/>
                 <Form.Text className="text-muted">
                     Localitatea in care doresti sa lucrezi 
                 </Form.Text>
-                <Button variant="success" onClick={e => setCurrentLocation(e, location.current.value)}>Cauta</Button>
+                {/* <Button variant="success" onClick={e => setCurrentLocation(e, location.current.value)}>Cauta</Button> */}
             </Form.Group>
             </Form>
             <div className={styles.postContainer}>
                 {
                     loading == false ? (
                         postPerUser.map(i => (
-                            <Card className={styles.postCard}>
+                            i.location == searchedLocation || searchedLocation == '' ? 
+                            (
+                                <Card className={styles.postCard} key={i.jobId}>
                                 <Card.Header>{i.postName}</Card.Header>
                                 <Card.Body>
                                     <p><strong>Descriere post: </strong>{i.description}</p>
+                                    <p><strong>Angajator: </strong>{i.employeerName} {i.employeerFirstName}</p>
                                     <p><strong>Necesitate permis conducere: </strong>{i.driverLicense}</p>
+                                    <p><strong>An: </strong>{i.year}</p>
                                     <p><strong>Locatie: </strong>{i.location}</p>
                                     {
                                         i.categories.length <  userDriverCateg.current.length ? 
@@ -152,7 +211,7 @@ export default function SeePosts() {
                                             )
                                             :
                                             (
-                                                <Alert>Nu aveti categoriile necesare pentru permisul de conducere</Alert>
+                                                <Alert variant="warning">Nu aveti categoriile necesare pentru permisul de conducere</Alert>
                                             )
                                         )
                                         :
@@ -168,7 +227,17 @@ export default function SeePosts() {
                                         )
 
                                     }
-                                        
+                                    
+                                    {
+                                            seenJobs.includes(i.jobId) == true ? 
+                                            (
+                                                <Alert variant="success">Ati aplicat pentru acest job</Alert>
+                                            )
+                                            :
+                                            (
+                                                <div></div>
+                                            )
+                                    }
                                 </Card.Body> 
                                 <Card.Footer className={styles.cardFooter}>
                                     {
@@ -176,10 +245,27 @@ export default function SeePosts() {
                                         (
                                             userDriverCateg.current.includes(i.categories) ? 
                                             (
-                                                <>
-                                                <Button variant="success" onClick={e => {handleShow(); applyToJob(e, currentUser.uid, i.id, i.jobId, i.postName, i.description, i.categories)}}><i className="fa fa-plus" aria-hidden="true"></i> &nbsp; Aplica</Button>
                                                 
-                                                </>
+                                                    loading1 == false ?
+                                                    (
+                                                        seenJobs.includes(i.jobId) == true ? 
+                                                        (
+                                                            console.log("AICI")
+                                                        )
+                                                        :
+                                                        (
+                                                            // console.log("VERIFICARE: ", seenJobs.includes(i.jobId), i.jobId, seenJobs)
+                                                            <Button variant="success" onClick={e => {handleShow(); applyToJob(e, currentUser.uid, i.id, i.jobId, i.postName, i.description, i.categories, i.year)}}><i className="fa fa-plus" aria-hidden="true"></i> &nbsp; Aplica</Button>
+        
+                                                        )
+                                                    )
+                                                    :
+                                                    (
+                                                        <div></div>
+                                                    )
+                                                
+                                               
+                                                
                                             )
                                             :
                                             (
@@ -190,8 +276,25 @@ export default function SeePosts() {
                                         (
                                             i.categories.includes(userDriverCateg.current) ? 
                                             (
+                                                loading1 == false ? 
+                                                (
+                                                    seenJobs.includes(i.jobId) == true ? 
+                                                (
+                                                    console.log("AICI")
+                                                )
+                                                :
                                                 
-                                                <Button variant="success" onClick={e => {handleShow(); applyToJob(e, currentUser.uid, i.id, i.jobId, i.postName, i.description, i.categories)}}><i className="fa fa-plus" aria-hidden="true"></i> &nbsp; Aplica</Button>
+                                                (
+                                                    // console.log("VERIFICARE: ", seenJobs.includes(i.postId))
+                                                    <Button variant="success" onClick={e => {handleShow(); applyToJob(e, currentUser.uid, i.id, i.jobId, i.postName, i.description, i.categories, i.year)}}><i className="fa fa-plus" aria-hidden="true"></i> &nbsp; Aplica</Button>
+                                                
+                                                )
+                                                )
+                                                :
+                                                (
+                                                    <div></div>
+                                                )
+                                                
                                             
                                             )
                                             :
@@ -201,7 +304,11 @@ export default function SeePosts() {
                                         )
 
                                     }
-                                    <Button variant="danger"><i className="fa fa-star" aria-hidden="true"></i> &nbsp; Salveaza job</Button>
+                                    <Button variant="danger" onClick={e => {handleShow1(); savePost(e, i)}}><i className="fa fa-star" aria-hidden="true"></i> &nbsp; Salveaza job</Button>
+                                    <Modal show={show1} onHide={handleClose1} animation={false}>
+                                        <Alert variant="warning">Acest job a fost salvat cu succces</Alert>
+                                        <Button onClick={handleClose1}><i className="fa fa-window-close" aria-hidden="true"></i></Button>
+                                    </Modal>
                                     <Modal show={show} onHide={handleClose} animation={false}>
                                         <Alert variant="success">Cererea dumneavoastra a fost inregistrata.
                                             <br/>
@@ -210,11 +317,16 @@ export default function SeePosts() {
                                     </Modal>
                                 </Card.Footer>
                             </Card>
+                            )
+                            :
+                            (
+                                <div>aiciii</div>
+                            )
                             
                         ))
                     ) : 
                     (
-                        <div></div>
+                        <div>...loading</div>
                     )
                     
                 }

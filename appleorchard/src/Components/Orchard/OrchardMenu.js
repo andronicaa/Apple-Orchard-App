@@ -11,16 +11,16 @@ export default function OrchardMenu() {
     const handleShow = () => setShow(true);
 
     return (
-        <Navbar collapseOnSelect expand="lg" className={styles.navbar}>
-        <Navbar.Brand href="/" className={styles.logoName}>
+        <Navbar collapseOnSelect expand="lg" className={styles.navbar} variant="light">
+        <Navbar.Brand href="/" className={styles.linkText}>
             Măruleț
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="mr-auto">
-            <Nav.Link href="#features">Buget</Nav.Link>
-            <Nav.Link href="#pricing">Statistici</Nav.Link>
-            <NavDropdown title="Management" id="collasible-nav-dropdown">
+            <Nav.Link href="#features" className={styles.linkText}>Buget</Nav.Link>
+            <Nav.Link href="/statistics" className={styles.linkText}>Statistici</Nav.Link>
+            <NavDropdown title="Management" id="collasible-nav-dropdown" className={styles.linkText}>
                 <NavDropdown.Item href="/orchardinfo">Facturi</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.2">
                 Utilaje

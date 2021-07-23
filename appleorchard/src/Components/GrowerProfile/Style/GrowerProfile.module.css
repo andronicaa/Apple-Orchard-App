@@ -1,0 +1,42 @@
+.modalContainer {
+    background-color: #fff3eb;
+    height: 60%;
+    max-width: 60%;
+}
+.mainContainer {
+    padding: 2vw;
+}
+
+.icons { 
+    color: #c65547;
+}
+.tags { 
+    color: #e36e10;
+}
+.submitButton {
+    background-color: #c65547 !important;
+    border: none;
+}
+.buttonContainer {
+    position: relative;
+    bottom: 2vh;
+}
+.title {
+    color: #c65547;
+}
+
+.infoContainer {
+    border: 1px solid red;
+    position: absolute;
+    width: 90vw;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.profileImg {
+    max-width: 100%;
+}
+
+.textCol {
+    border: 1px solid green;
+}

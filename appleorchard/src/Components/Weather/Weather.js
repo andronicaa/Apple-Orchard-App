@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Card, Row, Button } from 'react-bootstrap';
 import { Redirect, Link } from 'react-router-dom';
+import { v4 as uuidv4 } from "uuid";
 import Loader from "react-loader-spinner";
 import styles from './Style/Weather.module.css';
 
