@@ -1,8 +1,9 @@
-import styles from "./Components/Style/Main.module.css";
 import SignUp from './Components/SignUp/SignUp';
 import Login from './Components/SignUp/Login';
 import MainPage from './Components/AuthHome/MainPage';
 import AuthProvider from './Firebase/context/AuthContext';
+import Grower from './Components/Routes/Grower';
+import Employee from "./Components/Routes/Employee";
 import PrivateRoute from './Components/Routes/PrivateRoute';
 import ForgotPassword from './Components/SignUp/ForgotPassword';
 import UpdateProfile from './Components/SignUp/UpdateProfile';
@@ -20,11 +21,22 @@ import ProgramTreatment from './Components/Orchard/ProgramTreatment/ProgramTreat
 import FunctionalProgramTreatment from "./Components/Orchard/ProgramTreatment/FunctionalProgramTreatment";
 import Equipment from "./Components/Orchard/Equipment";
 import TreeReceipts from './Components/Orchard/TreeReceipts';
-import Task from './Components/Weather/Task';
+import Task from './Components/Weather/Task/Task';
+import AddJob from './Components/Job/AddJob';
+import PostsTab from './Components/Job/PostsTab';
+import SeePosts from './Components/Job/Employee/SeePosts';
+import PostsPage from './Components/Job/Employee/PostsPage';
+import Responses from './Components/Job/Employee/Responses';
+import SavedPosts from './Components/Job/Employee/SavedPosts';
+import Employer from './Components/Job/Employee/Employer';
+import GrowerProfile from './Components/GrowerProfile/GrowerProfile';
+import Statistics from './Components/Statistics/Statistics';
+import { useAuth } from './Firebase/context/AuthContext';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 
 function App() {
+
   return (
     <div>
     <Router>
@@ -32,7 +44,7 @@ function App() {
             <Switch>
                 <Route path="/neauth-home" component={Home} />
                 <PrivateRoute exact path="/" component={MainPage} />
-                <PrivateRoute path="/update-profile" component={UpdateProfile} />
+                <Route path="/update-profile" component={UpdateProfile} />
                 <Route path="/signup" component={SignUp} />
                 <Route path="/forgot-password" component={ForgotPassword} />
                 <Route path="/login" component={Login} />
@@ -43,12 +55,20 @@ function App() {
                 <Route path="/maininfobudget" component={MainInfoBudget} />
                 <Route path="/daunatori" component={Daunatori} />
                 <Route path="/treatment-schedule" component={TreatmentSchedule} />
-                <Route path="/weather" component={Weather} />
+                <Grower path="/weather" component={Weather} />
                 <Route path="/program-treatment" component={ProgramTreatment} />
                 <Route path="/functional-program-treatment" component={FunctionalProgramTreatment} />
                 <Route path="/equipment" component={Equipment} />
                 <Route path="/trees" component={TreeReceipts} />
                 <Route path="/task" component={Task} />
+                <Route path="/posts-tab" component={PostsTab} />
+                <Employee path="/see-posts" component={SeePosts} />
+                <Employee path="/posts-page" component={PostsPage} />
+                <Employee path="/responses" component={Responses} />
+                <Employee path="/saved-posts" component={SavedPosts} />
+                <Employee path="/employer" component={Employer} />
+                <Grower path="/grower-profile" component={GrowerProfile} />
+                <Grower path="/statistics" component={Statistics} />
                 <Route component={NotFoundPage} />
             </Switch>
         </AuthProvider>
