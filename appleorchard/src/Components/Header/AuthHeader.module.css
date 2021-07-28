@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Akaya+Telivigala&display=swap');
+
+.navbar {
+    background-color: #871f08;
+}
+
+.actionButton {
+    background-color: orange !important;
+    border: none !important;
+}
+
+.actionButton:hover {
+    background-color: #A42819 !important;
+}
+
+.linkText {
+    color: white !important;
+}

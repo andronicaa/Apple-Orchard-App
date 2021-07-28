@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styles from "./Header.module.css";
+import styles from "./AuthHeader.module.css";
 import firebase from '../../Firebase/firebase';
 import { useHistory } from 'react-router-dom';
 import { useAuth } from '../../Firebase/context/AuthContext';
@@ -47,7 +47,7 @@ export default function Grower1() {
         <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="mr-auto">
                 <Nav.Link href="/grower-profile" className={styles.linkText}>Profil</Nav.Link>
-                <Nav.Link href="/orchard-info" className={styles.linkText}>Livada mea</Nav.Link>
+                <Nav.Link href="/orchardinfo" className={styles.linkText}>Livada mea</Nav.Link>
                 <Nav.Link href="/posts-tab" className={styles.linkText}>Anunturi postate</Nav.Link>
             </Nav>
             <Nav>

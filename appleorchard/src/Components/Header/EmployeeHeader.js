@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import styles from "./Header.module.css";
+import styles from "./AuthHeader.module.css";
 import firebase from '../../Firebase/firebase';
 import { useHistory } from 'react-router-dom';
 import { useAuth } from '../../Firebase/context/AuthContext';
