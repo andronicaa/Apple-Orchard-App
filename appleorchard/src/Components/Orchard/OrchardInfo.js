@@ -11,7 +11,7 @@ export default function OrchardInfo() {
     const { currentUser } = useAuth();
     
     return (
-        <div className={styles.receiptPage}>
+        <div className={styles.mainPage}>
             <OrchardMenu />
             <div className={styles.tableTabs}>
                 <ReceiptPageTabs />

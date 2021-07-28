@@ -1,0 +1,12 @@
+.tabsContainer {
+    /* background-color: rgba(255, 255, 255, .9); */
+    background-color: #fafdf3;
+}
+.tabs {
+    background-color: rgba(135, 31, 8, .7);
+    /* background-color: rgba(255, 0, 0, .7); */
+    /* background-color: rgb(196, 48, 16); */
+}
+.navLink {
+    color: white;
+}

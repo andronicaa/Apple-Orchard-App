@@ -118,7 +118,7 @@ export default function Equipment() {
                 Header: 'Sterge',
                 accessor: (row) => {
                    return (
-                       <Button variant="success" onClick = {e => deleteProduct(e, row)}><i className="fa fa-trash" aria-hidden="true"></i></Button>
+                       <Button variant="danger" onClick = {e => deleteProduct(e, row)}><i className="fa fa-trash" aria-hidden="true"></i></Button>
                    )
                 } 
             },
@@ -126,7 +126,7 @@ export default function Equipment() {
                 Header: 'Detalii',
                 accessor: (row) => {
                     return (
-                        <Button variant="danger" onClick={(e) => generatePdfReceipt(e, row)}><i className="fa fa-file-pdf-o" aria-hidden="true"></i></Button>
+                        <Button className={styles.pdfButton} onClick={(e) => generatePdfReceipt(e, row)}><i className="fa fa-file-pdf-o" aria-hidden="true"></i></Button>
                     )
                 }
             }
@@ -201,16 +201,16 @@ export default function Equipment() {
                 </Table>
                 <div className={styles.pagination}>
                     <div className={styles.subPagination}>
-                        <Button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+                        <Button onClick={() => gotoPage(0)} disabled={!canPreviousPage} className={styles.arrowButton}>
                             <i className="fa fa-angle-double-left" aria-hidden="true"></i>
                         </Button>{' '}
-                        <Button onClick={() => previousPage()} disabled={!canPreviousPage}>
+                        <Button onClick={() => previousPage()} disabled={!canPreviousPage} className={styles.arrowButton}>
                             <i className="fa fa-angle-left" aria-hidden="true"></i>
                         </Button>{'   '}
-                        <Button onClick={() => nextPage()} disabled={!canNextPage} className="">
+                        <Button onClick={() => nextPage()} disabled={!canNextPage} className={styles.arrowButton}>
                             <i className="fa fa-angle-right" aria-hidden="true"></i>
                         </Button>{' '}
-                        <Button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+                        <Button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage} className={styles.arrowButton}>
                             <i className="fa fa-angle-double-right" aria-hidden="true"></i>
                         </Button>{' '}
                             <span>
@@ -234,11 +234,11 @@ export default function Equipment() {
                     
                 </div>
             <div>
-                <Button type="button" className="btn btn-primary">
+                <Button type="button" className={styles.totalButton}>
                     Total <span class="badge badge-light">{totalPrice}</span> lei
                 </Button>
             </div>
-            <button className={`btn btn-success ${styles.addReceiptButton}`} onClick={handleShow}><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Adauga factura</button>
+            <Button className={styles.addReceiptButton} onClick={handleShow}><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Adauga factura</Button>
                 <Modal show={show} onHide={handleClose}>
                     <Modal.Body>
                         <div>

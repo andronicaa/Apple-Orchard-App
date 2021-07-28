@@ -5,6 +5,7 @@ import { useAuth } from '../../Firebase/context/AuthContext';
 import styles from './Style/Receipts.module.css';
 import { months, equipmentType } from './Utility/ProductsFeature';
 import jsPDF from 'jspdf';
+import { driverCategories } from '../SignUp/UtilityStuff';
 import generatePdfReceipt from './Utility/GeneratePdfReceipt';
 import { Modal, Table, Card, Alert, InputGroup, Form, Button } from 'react-bootstrap';
 
@@ -24,18 +25,44 @@ export default function Equipment() {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const { currentUser } = useAuth();
+    const [checkedState, setCheckedState] = useState(new Array(driverCategories.length).fill(false));
+    const handleOnChangeCateg = (position) => {
+        const updatedCheckedState = checkedState.map((item, index) =>
+            index === position ? !item : item)
+        setCheckedState(updatedCheckedState)
+    };
     const refCurrentUser = firebase.firestore().collection("users").doc(currentUser.uid).collection("receiptEquipment");
     const handleFilterChange = e => {
         const value = e.target.value || undefined;
         setFilter("product", value);
         setFilterInput(value);
     }
-    function addEquipment(e, nameEq, price, capacity, month, currency, type) {
+    function getDriverCateg(driverArray) {
+        // console.log("S-a apelat");
+        let driverCateg = "";
+        if(driverArray[0] == true)
+            driverCateg += "B";
+        if(driverArray[1] == true)
+            driverCateg += "B1";
+        if(driverArray[2] == true)
+            driverCateg += "C";
+        if(driverArray[3] == true)
+            driverCateg += "C1";
+        if(driverArray[4] == true)
+            driverCateg += "D";
+        if(driverArray[5] == true)
+            driverCateg += "D1";
+
+        return driverCateg;
+
+    }
+    function addEquipment(e, nameEq, price, capacity, month, currency, type, checkedState ) {
         e.preventDefault();
         // trebuie sa fac validarea
         var newPrice = parseFloat(price);
         var errors = [];
         var ok = true;
+        var driverCateg = getDriverCateg(checkedState);
         if(currency === 'EUR')
         {
             newPrice = price * 4.897;
@@ -74,7 +101,8 @@ export default function Equipment() {
                 currency: currency,
                 type: type,
                 year: year, 
-                busy: []
+                busy: [],
+                driverCateg: driverCateg
             })
             .catch((err) => {
                 console.log(err);
@@ -121,7 +149,7 @@ export default function Equipment() {
                 Header: 'Sterge',
                 accessor: (row) => {
                    return (
-                       <Button variant="success" onClick = {e => deleteProduct(e, row)}><i className="fa fa-trash" aria-hidden="true"></i></Button>
+                       <Button variant="danger" onClick = {e => deleteProduct(e, row)}><i className="fa fa-trash" aria-hidden="true"></i></Button>
                    )
                 } 
             },
@@ -129,7 +157,7 @@ export default function Equipment() {
                 Header: 'Detalii',
                 accessor: (row) => {
                     return (
-                        <Button variant="danger" onClick={(e) => generatePdfReceipt(e, row)}><i className="fa fa-file-pdf-o" aria-hidden="true"></i></Button>
+                        <Button className={styles.pdfButton} onClick={(e) => generatePdfReceipt(e, row)}><i className="fa fa-file-pdf-o" aria-hidden="true"></i></Button>
                     )
                 }
             }
@@ -204,16 +232,16 @@ export default function Equipment() {
                 </Table>
                 <div className={styles.pagination}>
                     <div className={styles.subPagination}>
-                        <Button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+                        <Button onClick={() => gotoPage(0)} disabled={!canPreviousPage} className={styles.arrowButton}>
                             <i className="fa fa-angle-double-left" aria-hidden="true"></i>
                         </Button>{' '}
-                        <Button onClick={() => previousPage()} disabled={!canPreviousPage}>
+                        <Button onClick={() => previousPage()} disabled={!canPreviousPage} className={styles.arrowButton}>
                             <i className="fa fa-angle-left" aria-hidden="true"></i>
                         </Button>{'   '}
-                        <Button onClick={() => nextPage()} disabled={!canNextPage} className="">
+                        <Button onClick={() => nextPage()} disabled={!canNextPage} className={styles.arrowButton}>
                             <i className="fa fa-angle-right" aria-hidden="true"></i>
                         </Button>{' '}
-                        <Button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+                        <Button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage} className={styles.arrowButton}>
                             <i className="fa fa-angle-double-right" aria-hidden="true"></i>
                         </Button>{' '}
                             <span>
@@ -237,11 +265,11 @@ export default function Equipment() {
                     
                 </div>
             <div>
-                <Button type="button" className="btn btn-primary">
+                <Button type="button" className={styles.totalButton}>
                     Total <span class="badge badge-light">{totalPrice}</span> lei
                 </Button>
             </div>
-            <button className={`btn btn-success ${styles.addReceiptButton}`} onClick={handleShow}><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Adauga factura</button>
+            <Button className={styles.addReceiptButton} onClick={handleShow}><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Adauga factura</Button>
                 <Modal show={show} onHide={handleClose}>
                     <Modal.Body>
                         <div>
@@ -346,9 +374,32 @@ export default function Equipment() {
                                     </InputGroup>
                                     
                                 </Form.Group>
+                                <Form.Group>
+                                    <Form.Label><strong>Categorii permis</strong></Form.Label>
+                                    {
+                                        driverCategories.map(({name}, index) => (
+                                                    
+                                            <Form.Check
+                                                key={index}
+                                                custom
+                                                inline
+                                                label={name}
+                                                type="checkbox"
+                                                id={`custom-checkbox-${index}`}
+                                                checked={checkedState[index]}
+                                                onChange={() => handleOnChangeCateg(index)}
+                                            />
+                                        
+                                    )
+                                       
+                                    
+                                    )
+                                    }
+                                    
+                                </Form.Group>
                                 <div className="text-center">
                                     <button className={`btn btn-success`}
-                                        onClick={(e) => addEquipment(e, nameEq.current.value, price.current.value, capacity.current.value, month.current.value, currency.current.value, type.current.value)}
+                                        onClick={(e) => addEquipment(e, nameEq.current.value, price.current.value, capacity.current.value, month.current.value, currency.current.value, type.current.value, checkedState)}
                                     >
                                         Incarca factura
                                     </button>

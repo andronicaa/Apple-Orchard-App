@@ -1,5 +1,31 @@
+.mainPage {
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+}
+.mainPage::after {
+    background-image: url('../../../Imgs/about_img.jpg');
+	filter: brightness(50%);
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	content: "";
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	position: absolute;
+	z-index: -10;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	align-self: center;
+}
 .receiptPage {
-	background-color: rgba(179, 179, 179, 0.8);
+	background-color: rgba(179, 179, 179, 0.8) !important;
 	background-size: cover;
     background: fixed;
 }
@@ -10,11 +36,14 @@
     position: relative;
 	top: 5vh;
 	margin-bottom: 10vh;
+    background-color: transparent;
 }
 
 .addReceiptButton {
     position: relative;
     margin-top: 2vh;
+    background-color: #67945e !important;
+    border: none !important;
 }
 .pagination {
     /* border: 1px solid green; */
@@ -23,4 +52,27 @@
     /* border: 1px solid red; */
     width: 20%;
     float: right;
+}
+
+.totalButton {
+    background-color: #871f08 !important;
+	border: none !important;
+}
+
+.pdfButton {
+    background-color: orange !important;
+    border: none !important;
+}
+
+.arrowButton {
+    background-color: #c25244 !important;
+    border: none !important;
+}
+
+.addProductButton {
+    background-color: #64ab55 !important;
+    border: none !important;
+    position: relative;
+    margin-top: 2vh;
+    margin-right: 1vw;
 }

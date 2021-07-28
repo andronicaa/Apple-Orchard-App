@@ -4,14 +4,17 @@ import styles from './Style/TreatmentSchedule.module.css';
 import { products } from './Utility/ProductsFeature';
 import CustomModal from './CustomModal';
 import { Link } from 'react-router-dom';
+import OrchardMenu from './OrchardMenu';
 
 
 export default function TreatmentSchedule() {
     const [show, setShow] = useState(0);
     const update = () => setShow(0);
     return (
+        <div>
+        <OrchardMenu />
         <div className={styles.mainContainer}>
-            <Button>Programeaza tratament</Button>            
+            <Link to="/weather"><Button className={styles.programTrt}>Programeaza tratament</Button></Link>         
             <Table bordered hover className={styles.treatmentTable}>
                 <thead>
                     <tr>
@@ -206,6 +209,7 @@ export default function TreatmentSchedule() {
                     </tr> 
                 </tbody>
             </Table>
+        </div>
         </div>
     )
 }

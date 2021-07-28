@@ -1,12 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styles from './Style/Receipts.module.css';
-import generalcss from './Style/GeneralOrchardCSS.module.css';
 import firebase from "../../Firebase/firebase";
 import { useAuth } from '../../Firebase/context/AuthContext';
 import { useTable, usePagination, useFilters } from 'react-table';
 import generatePdfReceipt from './Utility/GeneratePdfReceipt';
 import { Modal, Table, Card, Alert, InputGroup, Form, Button } from 'react-bootstrap';
 import jsPDF from 'jspdf';
+import AddProduct from './AddProduct';
 import { months } from './Utility/ProductsFeature';
 
 export default function SubstanceReceipt() {
@@ -19,6 +19,10 @@ export default function SubstanceReceipt() {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    const [show1, setShow1] = useState(false);
+    const handleClose1 = () => setShow1(false);
+    const handleShow1 = () => setShow1(true);
     const [data, setReceipts] = useState([]);
     const measureQuantity = useRef();
     const currency = useRef();
@@ -125,7 +129,7 @@ export default function SubstanceReceipt() {
                 Header: 'Sterge',
                 accessor: (row) => {
                    return (
-                       <Button variant="success" onClick = {e => deleteProduct(e, row)}><i className="fa fa-trash" aria-hidden="true"></i></Button>
+                       <Button variant="danger" onClick = {e => deleteProduct(e, row)}><i className="fa fa-trash" aria-hidden="true"></i></Button>
                    )
                 } 
             },
@@ -133,7 +137,7 @@ export default function SubstanceReceipt() {
                 Header: 'Detalii',
                 accessor: (row) => {
                     return (
-                        <Button variant="danger" onClick={(e) => generatePdfReceipt(e, row)}><i className="fa fa-file-pdf-o" aria-hidden="true"></i></Button>
+                        <Button className={styles.pdfButton} onClick={(e) => generatePdfReceipt(e, row)}><i className="fa fa-file-pdf-o" aria-hidden="true"></i></Button>
                     )
                 }
             }
@@ -197,7 +201,7 @@ export default function SubstanceReceipt() {
 
 
     return (
-    <>
+    <div>
         <Card className={styles.receiptCard}>
             <Card.Body>
             <div className="input-group-prepend">
@@ -236,16 +240,16 @@ export default function SubstanceReceipt() {
                 </Table>
                 <div className={styles.pagination}>
                     <div className={styles.subPagination}>
-                        <Button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+                        <Button onClick={() => gotoPage(0)} disabled={!canPreviousPage} className={styles.arrowButton}>
                             <i className="fa fa-angle-double-left" aria-hidden="true"></i>
                         </Button>{' '}
-                        <Button onClick={() => previousPage()} disabled={!canPreviousPage}>
+                        <Button onClick={() => previousPage()} disabled={!canPreviousPage} className={styles.arrowButton}>
                             <i className="fa fa-angle-left" aria-hidden="true"></i>
                         </Button>{'   '}
-                        <Button onClick={() => nextPage()} disabled={!canNextPage} className="">
+                        <Button onClick={() => nextPage()} disabled={!canNextPage} className={styles.arrowButton}>
                             <i className="fa fa-angle-right" aria-hidden="true"></i>
                         </Button>{' '}
-                        <Button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+                        <Button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage} className={styles.arrowButton}>
                             <i className="fa fa-angle-double-right" aria-hidden="true"></i>
                         </Button>{' '}
                             <span>
@@ -269,11 +273,20 @@ export default function SubstanceReceipt() {
                     
                 </div>
             <div>
-                <Button type="button" className="btn btn-primary">
+                <Button type="button" className={styles.totalButton}>
                     Total <span class="badge badge-light">{totalPrice}</span> lei
                 </Button>
             </div>
-            <button className={`btn btn-success ${styles.addReceiptButton}`} onClick={handleShow}><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Adauga factura</button>
+            <Button onClick={handleShow1} className={styles.addProductButton}><i className="fa fa-product-hunt" aria-hidden="true"></i>&nbsp;Adauga produs</Button>
+            <Modal show={show1} onHide={handleClose1}>
+                    <Modal.Header>
+                        <strong>Adauga produs</strong>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <AddProduct handleClose={handleClose1}/>
+                    </Modal.Body>
+                </Modal>
+            <Button className={styles.addReceiptButton} onClick={handleShow}><i className="fa fa-plus" aria-hidden="true"></i>&nbsp;Adauga factura</Button>
                 <Modal show={show} onHide={handleClose}>
                     <Modal.Body>
                         <div>
@@ -377,6 +390,6 @@ export default function SubstanceReceipt() {
                 </Modal>
             </Card.Body>
         </Card>
-    </>
+    </div>
     )
 }

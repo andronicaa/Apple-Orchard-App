@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col } from 'reactstrap';
+import { TabContent, TabPane, Nav, NavItem, NavLink, Row, Col } from 'reactstrap';
 import classnames from 'classnames';
 import SubstanceReceipt from "./SubstanceReceipt";
 import Equipment from './Equipment';
 import TreeReceipts from './TreeReceipts';
+import styles from './Style/ReceiptPageTabs.module.css';
 
 export default function ReceiptPageTabs() {
     const [activeTab, setActiveTab] = useState('1');
@@ -12,11 +13,11 @@ export default function ReceiptPageTabs() {
             setActiveTab(tab);
     }
     return (
-        <div>
-        <Nav tabs>
+        <div className={styles.tabsContainer}>
+        <Nav tabs className={styles.tabs}>
             <NavItem>
             <NavLink
-                className={classnames({ active: activeTab === '1' })}
+                className={`${classnames({ active: activeTab === '1' })} ${styles.navLink}`}
                 onClick={() => { toggle('1'); }}
             >
                 Facturi substante
@@ -24,7 +25,7 @@ export default function ReceiptPageTabs() {
             </NavItem>
             <NavItem>
             <NavLink
-                className={classnames({ active: activeTab === '2' })}
+                className={`${classnames({ active: activeTab === '2' })} ${styles.navLink}`}
                 onClick={() => { toggle('2'); }}
             >
                 Facturi utilaje
@@ -32,7 +33,7 @@ export default function ReceiptPageTabs() {
             </NavItem>
             <NavItem>
             <NavLink
-                className={classnames({ active: activeTab === '3' })}
+                className={`${classnames({ active: activeTab === '4' })} ${styles.navLink}`}
                 onClick={() => { toggle('3'); }}
             >
                 Facturi pomi
