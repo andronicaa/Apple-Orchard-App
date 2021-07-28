@@ -4,8 +4,8 @@ import styles from './Style/Statistics.module.css';
 import { useAuth } from '../../Firebase/context/AuthContext';
 import firebase from '../../Firebase/firebase';
 import Spinner from 'react-bootstrap/Spinner';
-import { receiptTotal, monthly, noEmployee, annualSalary } from './UtilityFunctions';
-import { Row, Col, Button, Form, InputGroup, Modal } from 'react-bootstrap';
+import { receiptTotal, noEmployee, annualSalary } from './UtilityFunctions';
+import { Button, Form, InputGroup, Modal } from 'react-bootstrap';
 import OrchardMenu from '../Orchard/OrchardMenu';
 import Annual from './Annual';
 

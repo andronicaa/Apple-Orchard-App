@@ -5,6 +5,8 @@ import { useAuth } from '../../Firebase/context/AuthContext';
 import { useHistory } from 'react-router-dom';
 import { InputGroup, Form } from 'react-bootstrap';
 import { jobs, driverCategories } from './UtilityStuff';
+import Loader from "react-loader-spinner";
+
 
 export default function AddProfile() {
     const { currentUser } = useAuth();
@@ -27,10 +29,33 @@ export default function AddProfile() {
         setCheckedState(updatedCheckedState)
     };
     
+
+
+    function getDriverCateg(driverArray) {
+        // console.log("S-a apelat");
+        let driverCateg = "";
+        if(driverArray[0] == true)
+            driverCateg += "B";
+        if(driverArray[1] == true)
+            driverCateg += "B1";
+        if(driverArray[2] == true)
+            driverCateg += "C";
+        if(driverArray[3] == true)
+            driverCateg += "C1";
+        if(driverArray[4] == true)
+            driverCateg += "D";
+        if(driverArray[5] == true)
+            driverCateg += "D1";
+
+        return driverCateg;
+
+    }
+
     const history = useHistory();
     var ok = false;
-    var refProfile = "";
-    var refRole = "";
+    var driverCateg = getDriverCateg(checkedState);
+    var refProfile;
+    var refRole;
     while(ok == false)
     {
         
@@ -54,13 +79,13 @@ export default function AddProfile() {
         
     }
     
+ 
     // functie care adauga un nou profil de utilizator
     function addProfile(e, role, firstName, lastName, age, address, email, phoneNumber, job, param1, param2) {
         e.preventDefault();
 
         var companyName = '';
         var hasDriverLicense = '';
-        var catState = [];
         
         if(role === 'CC')
         {
@@ -69,12 +94,11 @@ export default function AddProfile() {
         if(role === 'A')
         {
             hasDriverLicense = param1;
-            catState = param2;
         }
         // console.log("sunt:",firstName, lastName, age, address, email, phoneNumber, job, companyName, hasDriverLicense, catState);
         var busy = [];
         refProfile
-            .set({firstName, lastName, age, email, address, phoneNumber, job, companyName, hasDriverLicense, catState, busy})
+            .set({firstName, lastName, age, email, address, phoneNumber, job, companyName, hasDriverLicense, driverCateg, busy})
             .catch((err) => {
                 console.log(err);
             });
@@ -90,6 +114,13 @@ export default function AddProfile() {
     }
     return (
         <>
+        <Loader
+        type="Puff"
+        color="#00BFFF"
+        height={100}
+        width={100}
+        timeout={3000} //3 secs
+        />
         {
             (typeof currentUser.uid != 'undefined') ?
             <>
