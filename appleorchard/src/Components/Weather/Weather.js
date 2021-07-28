@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Card, Row, Button } from 'react-bootstrap';
 import { Redirect, Link } from 'react-router-dom';
-import { v4 as uuidv4 } from "uuid";
+import OrchardMenu from '../Orchard/OrchardMenu';
 import Loader from "react-loader-spinner";
 import styles from './Style/Weather.module.css';
 
@@ -39,7 +39,7 @@ export default function Weather() {
         
             <Redirect 
                to={{
-                   pathname: "/program-treatment",
+                   pathname: "/program-treatment", 
                    state: {weather: data}
                }}
             />
@@ -48,6 +48,7 @@ export default function Weather() {
     const days = ['Duminică','Luni', 'Marți', 'Miercuri', 'Joi', 'Vineri', 'Sâmbătă']
     return (
         <div>
+            <OrchardMenu />
             {
                 (typeof data.current != 'undefined') ? (
                     <div className={styles.mainContainer}>
@@ -67,11 +68,12 @@ export default function Weather() {
                                                     <p><strong>{days[new Date(data.daily[i].dt * 1000).getDay()]} {new Date(data.daily[i].dt * 1000).getDate()}-{new Date(data.daily[i].dt * 1000).getMonth() + 1}-{new Date(data.daily[i].dt * 1000).getFullYear()}</strong></p>
                                                     <img src={"http://openweathermap.org/img/wn/" + data.daily[i].weather[0].icon + ".png"} />
                                                 </div>
-                                                <p><strong>{data.daily[i].temp.day} &deg;C</strong></p>
                                             </Card.Header>
                                             <Card.Body>
+                                                <p>Temp. medie: {data.daily[i].temp.day} &deg;C</p>
                                                 <p>Temp. min: {data.daily[i].temp.min} &deg;C</p>
                                                 <p>Temp. max: {data.daily[i].temp.max} &deg;C</p>
+                                                <p>Nori: {data.daily[i].clouds} %</p>
                                                 <p>Precipitatii: {data.daily[i].weather[0].description}</p>
                                             </Card.Body>
                                         </Card>
@@ -91,6 +93,7 @@ export default function Weather() {
                                                 <p>Temp. medie: {data.daily[i].temp.day} &deg;C</p>
                                                 <p>Temp. min: {data.daily[i].temp.min} &deg;C</p>
                                                 <p>Temp. max: {data.daily[i].temp.max} &deg;C</p>
+                                                <p>Nori: {data.daily[i].clouds} %</p>
                                                 <p>Precipitatii: {data.daily[i].weather[0].description}</p>
                                             </Card.Body>
                                         </Card>
