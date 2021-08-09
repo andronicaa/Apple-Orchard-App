@@ -41,8 +41,9 @@ export function Login() {
       }
       else
       {
+        console.log("Autentificare cu google");
         await signInWithGoogle();
-        
+        history.push("/");
       }
         
       

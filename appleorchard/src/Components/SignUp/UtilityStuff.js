@@ -1,4 +1,4 @@
-export const jobs = ['Cultivator', 'Cumparator', 'Angajat']
+export const jobs = ['Cultivator', 'Angajat']
 export const driverCategories = [
     {
         name: 'B'

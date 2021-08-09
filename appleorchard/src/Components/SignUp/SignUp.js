@@ -27,7 +27,10 @@ export function SignUp() {
       setError('');
       setLoading(true);
       await signup(refEmail.current.value, refPassword.current.value);
-      history.push("/addprofile");
+      setTimeout(function(){
+        history.push("/addprofile");
+      }, 1500);
+      
     } catch {
       setError("Failed to create an account");
     }
@@ -84,7 +87,7 @@ export function SignUp() {
         </Form>
       </div>
       <div className="w-100 text-center mt-2">
-        Ai deja cont?  <Link to="/login" className={styles.signUpLink}><strong>Log In</strong></Link>
+        Ai deja cont?  <Link to="/neauth-home" className={styles.signUpLink}><strong>Log In</strong></Link>
     </div>
     </div>
     </div>

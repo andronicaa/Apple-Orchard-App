@@ -1,11 +1,33 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap');
+.mainPage {
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+}
+.mainPage::after {
+    background-image: url('../../../Imgs/about_img.jpg');
+	filter: brightness(50%);
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	content: "";
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	position: absolute;
+	z-index: -10;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	align-self: center;
+}
+
 .mainContainer {
-    width: 100%;
-    /* border: 1px solid blue; */
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    background-color: rgba(250, 253, 243, .7);
 }
 .inputItem {
     position: relative;
@@ -14,9 +36,12 @@
 .formTitle {
     margin-top: 2vh;
     color:#990000;
+    color: orange;
+    font-weight: 600;
+    font-size: 2em;
 }
 .tags {
-    color:#990000;
+    color:#871f08;
 }
 .icons {
     color: #408000;
@@ -28,6 +53,7 @@
 
 .saveDataButton {
     background-color: #408000 !important;
+    border: none !important;
     margin-bottom: 2vh;
 }
 
@@ -50,4 +76,43 @@
 .flexItem {
     /* border: 1px solid green; */
     width: 30%;
+}
+.alerts {
+    width: 40%;
+    margin: 1.5vw;
+}
+@media (min-width: 1025px) {
+    .mainContainer {
+        width: 90%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+}
+@media (min-width: 300px) and (max-width: 1024px) {
+    .rowContainer {
+        flex-direction: column;
+    }
+    .flexItem {
+        /* border: 1px solid green; */
+        width: 97%;
+        /* border: 1px solid red; */
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .mainContainer {
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+        position: relative;
+        top: 0;
+        /* margin-top: 2vh; */
+    }
+    .formTitle {
+        visibility: hidden;
+    }
+    .alerts {
+        width: 100%;
+    }
 }

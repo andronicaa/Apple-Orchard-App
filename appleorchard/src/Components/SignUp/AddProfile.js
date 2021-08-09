@@ -3,14 +3,14 @@ import styles from "./Styles/AddProfile.module.css";
 import firebase from "../../Firebase/firebase";
 import { useAuth } from '../../Firebase/context/AuthContext';
 import { useHistory } from 'react-router-dom';
-import { InputGroup, Form } from 'react-bootstrap';
+import { InputGroup, Form, Alert } from 'react-bootstrap';
 import { jobs, driverCategories } from './UtilityStuff';
-import Loader from "react-loader-spinner";
 
 
 export default function AddProfile() {
     const { currentUser } = useAuth();
     const [loading, setLoading] = useState(true);
+    const [errors, setErros] = useState([]);
     const firstName = useRef();
     const lastName = useRef();
     const age = useRef();
@@ -83,7 +83,19 @@ export default function AddProfile() {
     // functie care adauga un nou profil de utilizator
     function addProfile(e, role, firstName, lastName, age, address, email, phoneNumber, job, param1, param2) {
         e.preventDefault();
-
+        var ok = true;
+        const errorsMsg = [];
+        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email) == false)
+        {
+            ok = false;
+            errorsMsg.push("Formatul adresei de email nu este corect\n");
+        }
+            
+        if(phoneNumber.length != 10)
+        {
+            ok = false;
+            errorsMsg.push("Formatul numarului de telefon nu este corect\n");
+        }
         var companyName = '';
         var hasDriverLicense = '';
         
@@ -97,7 +109,9 @@ export default function AddProfile() {
         }
         // console.log("sunt:",firstName, lastName, age, address, email, phoneNumber, job, companyName, hasDriverLicense, catState);
         var busy = [];
-        refProfile
+        if(ok)
+        {
+            refProfile
             .set({firstName, lastName, age, email, address, phoneNumber, job, companyName, hasDriverLicense, driverCateg, busy})
             .catch((err) => {
                 console.log(err);
@@ -110,29 +124,26 @@ export default function AddProfile() {
                 console.log(err);
             })
             console.log("S-a facut adaugarea de profil cu succes");
-        history.push("/");
+            history.push("/");
+        }
+        setErros(errorsMsg);
+        
     }
     return (
-        <>
-        <Loader
-        type="Puff"
-        color="#00BFFF"
-        height={100}
-        width={100}
-        timeout={3000} //3 secs
-        />
+        <div className={styles.mainPage}>
+       
         {
             (typeof currentUser.uid != 'undefined') ?
-            <>
-            <h3 className={`text-center ${styles.formTitle}`}>Adauga profil</h3>
+            <div>
+            <p className={`text-center ${styles.formTitle}`}>Adaugă profil</p>
             <div className={styles.mainContainer}>
             
-            <form className={styles.input}>
+            <Form className={styles.input}>
             <div className={styles.rowContainer}>
             <div className={styles.flexItem}>
                         
                             <Form.Group className={styles.inputItem}>
-                                <Form.Label htmlFor="lastname"><strong className={styles.tags}>Name</strong></Form.Label>
+                                <Form.Label htmlFor="lastname"><strong className={styles.tags}>Nume</strong></Form.Label>
                                     <InputGroup>
                                         <InputGroup.Prepend id="inputGroupPrependLastName">
                                             <InputGroup.Text>
@@ -145,6 +156,7 @@ export default function AddProfile() {
                                             placeholder="Nume"
                                             aria-describedby="inputGroupPrependLastName"
                                             required
+                                            className={styles.formInputControl}
                                         />
                                     </InputGroup>
                             </Form.Group>
@@ -166,7 +178,7 @@ export default function AddProfile() {
                                     </InputGroup>
                             </Form.Group>
                             <Form.Group className={styles.inputItem}>
-                                <Form.Label htmlFor="age"><strong className={styles.tags}>Varsta</strong></Form.Label>
+                                <Form.Label htmlFor="age"><strong className={styles.tags}>Vârsta</strong></Form.Label>
                                     <InputGroup>
                                         <InputGroup.Prepend id="inputGroupPrependAge">
                                             <InputGroup.Text>
@@ -175,8 +187,9 @@ export default function AddProfile() {
                                         </InputGroup.Prepend>
                                         <Form.Control 
                                             ref={age}
-                                            type="text"
-                                            placeholder="Varsta"
+                                            type="number"
+                                            min="0"
+                                            placeholder="Vârsta"
                                             aria-describedby="inputGroupPrependAge"
                                             required
                                         />
@@ -199,7 +212,7 @@ export default function AddProfile() {
                                         />
                                     </InputGroup>
                             </Form.Group>
-                        </div>
+                            </div>
                             <div  className={styles.flexItem}>
                             <Form.Group className={styles.inputItem}>
                                 <Form.Label htmlFor="address"><strong className={styles.tags}>Email</strong></Form.Label>
@@ -211,7 +224,7 @@ export default function AddProfile() {
                                         </InputGroup.Prepend>
                                         <Form.Control 
                                             ref={email}
-                                            type="text"
+                                            type="email"
                                             placeholder="Email"
                                             aria-describedby="inputGroupPrependEmail"
                                             required
@@ -236,11 +249,11 @@ export default function AddProfile() {
                                     </InputGroup>
                             </Form.Group>
                             <Form.Group className={styles.inputItem}>
-                                    <Form.Label htmlFor="function"><strong className={styles.tags}>Functie</strong></Form.Label>
+                                    <Form.Label htmlFor="function"><strong className={styles.tags}>Funcție</strong></Form.Label>
                                     <InputGroup>
                                         <InputGroup.Prepend id="inputGroupPrependFunction">
                                             <InputGroup.Text>
-                                                <i className="fa fa-briefcase" aria-hidden="true"></i>
+                                                <i className={`fa fa-briefcase ${styles.icons}`} aria-hidden="true"></i>
                                             </InputGroup.Text>
                                         </InputGroup.Prepend>
                                         <Form.Control as="select" ref={job} aria-describedby="inputGroupPrependProduct"
@@ -263,7 +276,7 @@ export default function AddProfile() {
                                         <InputGroup>
                                         <InputGroup.Prepend id="inputGroupPrependDriverLicense">
                                             <InputGroup.Text>
-                                                <i className="fa fa-briefcase" aria-hidden="true"></i>
+                                                <i className={`fa fa-car ${styles.icons}`} aria-hidden="true"></i>
                                             </InputGroup.Text>
                                         </InputGroup.Prepend>
                                         <Form.Control as="select" ref={driverLicense} aria-describedby="inputGroupPrependDriverLicense"
@@ -332,6 +345,7 @@ export default function AddProfile() {
                                             type="text"
                                             placeholder="Nume companie"
                                             aria-describedby="inputGroupPrependCompanyName"
+                                            required
                                         />
                                         </InputGroup>
                                     </Form.Group>
@@ -346,7 +360,7 @@ export default function AddProfile() {
                                         <button className={`btn btn-success ${styles.saveDataButton}`}
                                         onClick={(e) => {e.preventDefault();  console.log(firstName.current.value, lastName.current.value, age.current.value, address.current.value, email.current.value, phoneNumber.current.value, job.current.value, companyName.current.value); addProfile(e, 'CC', firstName.current.value, lastName.current.value, age.current.value, address.current.value, email.current.value, phoneNumber.current.value, job.current.value, companyName.current.value, null )}}
                                         >
-                                            Salveaza date
+                                            Salvează date
                                         </button>
                                     ) :
                                     (
@@ -361,7 +375,7 @@ export default function AddProfile() {
                                             hasDriverLicense, 
                                             checkedState); addProfile(e, 'A', firstName.current.value, lastName.current.value, age.current.value, address.current.value, email.current.value, phoneNumber.current.value, job.current.value, hasDriverLicense, checkedState )}}
                                         >
-                                            Salveaza date
+                                            Salvează date
                                         </button>
                                        
                                     )
@@ -369,13 +383,27 @@ export default function AddProfile() {
                                 
                             </div>
                             
-                        </form>
+                        </Form>
+        {
+            errors.length ?
+            (
+                errors.map(p => (
+                    <Alert variant="warning" key={p} className={styles.alerts}>
+                        {p}
+                    </Alert>
+                ))
+            )
+            :
+            (
+                <div></div>
+            )
+        }
         </div>
-        </>
+        </div>
         :
             <div></div>
         }
         
-        </>
+        </div>
     )
 }
