@@ -17,10 +17,6 @@ export default function OrchardMenu() {
             <Nav.Link href="/statistics" className={styles.linkText}>Statistici</Nav.Link>
             <NavDropdown title={<span style={{color: 'rgb(255, 255, 255)'}}>Management</span>} id="collasible-nav-dropdown">
                 <NavDropdown.Item href="/orchardinfo">Facturi</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2">
-                Utilaje
-                </NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">Muncitori</NavDropdown.Item>
                 <NavDropdown.Item href="/daunatori">Daunatori</NavDropdown.Item>
                 <NavDropdown.Item href="/treatment-schedule">Program tehnologic</NavDropdown.Item>
                 <NavDropdown.Item href="/treatment-schedule">Inventar</NavDropdown.Item>

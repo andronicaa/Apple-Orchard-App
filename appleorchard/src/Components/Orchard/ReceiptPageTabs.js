@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 import { TabContent, TabPane, Nav, NavItem, NavLink, Row, Col } from 'reactstrap';
 import classnames from 'classnames';
 import SubstanceReceipt from "./SubstanceReceipt";
+import PhoneSubstanceReceipt from './PhoneSubstanceReceipt';
 import Equipment from './Equipment';
 import TreeReceipts from './TreeReceipts';
+import PhoneTreeReceipt from './PhoneTreeReceipt';
+import PhoneEquipmentReceipt from './PhoneEquipmentReceipt';
 import styles from './Style/ReceiptPageTabs.module.css';
 
 export default function ReceiptPageTabs() {
@@ -43,22 +46,40 @@ export default function ReceiptPageTabs() {
         <TabContent activeTab={activeTab}>
             <TabPane tabId="1">
             <Row>
-                <Col lg="12">
-                    <SubstanceReceipt />
+                <Col lg={12} xs={12}>
+                    {
+                        window.screen.width > 501 ?
+                            <SubstanceReceipt />
+                        :
+                            <PhoneSubstanceReceipt />
+                    }
+                    
                 </Col>
             </Row>
             </TabPane>
             <TabPane tabId="2">
             <Row>
-                <Col lg="12">
-                    <Equipment />
+                <Col lg={12} xs={12}>
+                
+                    {
+                        window.screen.width > 501 ?
+                            <Equipment />
+                        :
+                            <PhoneEquipmentReceipt />
+                    }
                 </Col>
             </Row>
             </TabPane>
             <TabPane tabId="3">
             <Row>
-                <Col lg="12">
-                    <TreeReceipts />
+                <Col lg={12} xs={12}>
+                
+                    {
+                        window.screen.width > 501 ?
+                            <TreeReceipts />
+                        :
+                            <PhoneTreeReceipt />
+                    }
                 </Col>
             </Row>
             </TabPane>
