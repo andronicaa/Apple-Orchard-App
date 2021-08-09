@@ -1,2 +1,3 @@
 export const phases = ['Alege faza', 'Urechiuse', 'Infrunzit', 'Inflorit', 'Scuturarea petalelor', 'Fruct 2cm', 'Fruct 1/2', 'Furct 3/4', 'Maturitate', 'Caderea frunzelor'];
 export const disease = ['Alege problema', 'Rapan', 'Focul bacterian', 'Fainare', 'Molia cojilor', 'Acarieni', 'Insecte minatoare', 'Viermele merelor', 'Boli de depozitare', 'Rarit chimic'];
+export const jobTypes = ['Alege tipul', 'Culegator mere', 'Sofer tractor', 'Sofer masina mica', 'Sofer tir', 'Muncitor'];

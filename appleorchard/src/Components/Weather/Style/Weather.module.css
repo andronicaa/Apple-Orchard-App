@@ -1,36 +1,74 @@
-.rowContainer {
-    margin-left: auto;
-    margin-right: auto;
-    width: 90%;
+.mainPage {
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+}
+.card {
     position: absolute;
     top: 50%;
     left: 50%;
+    width: 90%;
     transform: translate(-50%, -50%);
 }
-.flexContainer1 {
+.flexContainer {
     width: 100%;
+    margin-left: auto;
+    margin-right: auto;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    background-color: rgba(255, 255, 255, .8);
 }
-.flexContainer2 {
-    position: relative;
-    top: 10vh;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
+
 .cardContainer {
     width: 18%;
 }
 
-.loaderContainer {
-    border: 1px solid red;
-    width: 20%;
-    position: relative;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+.arrowButton {
+    background-color: #871f08 !important;
+    border: none !important;
+    height: 30%;
 }
 
+.programButton {
+    background-color: orange !important;
+    border: none !important;
+    position: relative;
+    margin: 2vh;
+}
+
+@media (min-width: 1025px) {
+    .smallScreen {
+        display: none;
+    }
+    .mainPage::after {
+        background-image: url('../../../Imgs/about_img.jpg');
+        filter: brightness(50%);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        content: "";
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        position: absolute;
+        z-index: -10;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        align-self: center;
+    }
+}
+
+@media (min-width: 300px) and (max-width: 1024px) {
+    .card {
+        display: none;
+    }
+    .flexContainer {
+        display: none;
+    }
+    .smallCardScreen {
+        margin: 1.5vh;
+    }
+}

@@ -1,0 +1,25 @@
+.tableContainer {
+    padding: 2vw;
+}
+
+.tableHead {
+    color: rgb(135, 31, 8);
+}
+
+@media (min-width: 501px) {
+    .smallScreen {
+        display: none;
+    }
+}
+
+@media (min-width: 300px) and (max-width: 500px) {
+    .smallScreen {
+        display: 100%;
+    }
+    .tableContainer {
+        border: 1px solid red;
+    }
+    .table {
+        display: none;
+    }
+}

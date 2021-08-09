@@ -1,120 +1,166 @@
-import React, { useEffect, useState } from 'react'
-import { Card, Row, Button } from 'react-bootstrap';
-import { Redirect, Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useLocation } from 'react-router';
+import { Card, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import OrchardMenu from '../Orchard/OrchardMenu';
-import Loader from "react-loader-spinner";
 import styles from './Style/Weather.module.css';
-
+import Spinner from 'react-bootstrap/Spinner';
 
 export default function Weather() {
-    const [lat, setLat] = useState([]);
-    const [long, setLong] = useState([]);
-    const [data, setData] = useState([]);
+    /* datele despre vreme primite prin param */
+    const location = useLocation();
+    const weatherData  = location.state.data;
+    console.log("Datele primite in vreme sunt: ", weatherData);
+    const [showIndex1, setShowIndex1] = useState(true);
+    const [showIndex2, setShowIndex2] = useState(false);
     const index1 = [0, 1, 2, 3];
     const index2 = [4, 5, 6, 7];
-    useEffect(() => {
-        const fetchWeatherData = async () => {
-            navigator.geolocation.getCurrentPosition(function(position) {
-            setLat(position.coords.latitude);
-            setLong(position.coords.longitude);
-        });
-            await fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&exclude=minutely,hourly&units=metric&lang=ro&appid=6d80997350a195597dacefc23437862d`)
-        .then(res => res.json())
-        .then(result => {
-            setData(result);
-            
-            console.log(result);
-        })
-        .catch((err) => {
-            console.log(err);
-        });
-        }
-        fetchWeatherData();
-    }, [lat, long]);
-
-    console.log(lat, long);
     
-    function redirectToTreatment(e) {
-        e.preventDefault();
-        
-            <Redirect 
-               to={{
-                   pathname: "/program-treatment", 
-                   state: {weather: data}
-               }}
-            />
-        
+    function handleRightArrow()
+    {
+        setShowIndex1(false);
+        setShowIndex2(true);
     }
+
+    function handleLeftArrow() {
+        setShowIndex2(false);
+        setShowIndex1(true);
+    }
+
     const days = ['Duminică','Luni', 'Marți', 'Miercuri', 'Joi', 'Vineri', 'Sâmbătă']
     return (
-        <div>
+        <div className={styles.mainPage}>
             <OrchardMenu />
             {
-                (typeof data.current != 'undefined') ? (
-                    <div className={styles.mainContainer}>
-                    <Row className={styles.rowContainer}>
-                        <Link to={{
-                            pathname: '/task',
-                            state: {data}
-                        }}><Button variant="success">Programeaza tratament</Button></Link>
-                        <div className={styles.flexContainer1}>
+                       
+                        (typeof weatherData.current != 'undefined') ?
+                        (<>
                             
-                                
-                                {
+                            
+                            <Card className={styles.card}>
+                                <Card.Header>
+                                    <p style={{fontSize: "1.5em", color: "#871f08"}}><strong>Vremea pe 8 zile</strong></p>
+                                </Card.Header>
+                                <Card.Body className={styles.flexContainer}>
+                            {
+                                showIndex2 ?
+                                (
+                                    <Button className={styles.arrowButton} onClick={handleLeftArrow}><i className="fa fa-arrow-left" aria-hidden="true"></i></Button>
+                                )
+                                :
+                                (
+                                    <div></div>
+                                )
+                            }
+                            {
+                                showIndex1 ?
+                                (
                                     index1.map((i) => (
                                         <Card className={styles.cardContainer}>
                                             <Card.Header className="d-flex flex-column">
                                                 <div className="d-flex flex-row justify-content-around">
-                                                    <p><strong>{days[new Date(data.daily[i].dt * 1000).getDay()]} {new Date(data.daily[i].dt * 1000).getDate()}-{new Date(data.daily[i].dt * 1000).getMonth() + 1}-{new Date(data.daily[i].dt * 1000).getFullYear()}</strong></p>
-                                                    <img src={"http://openweathermap.org/img/wn/" + data.daily[i].weather[0].icon + ".png"} />
+                                                    <p style={{color: "#871f08"}}><strong>{days[new Date(weatherData.daily[i].dt * 1000).getDay()]} {new Date(weatherData.daily[i].dt * 1000).getDate()}-{new Date(weatherData.daily[i].dt * 1000).getMonth() + 1}-{new Date(weatherData.daily[i].dt * 1000).getFullYear()}</strong></p>
+                                                    <img src={"http://openweathermap.org/img/wn/" + weatherData.daily[i].weather[0].icon + ".png"} />
                                                 </div>
                                             </Card.Header>
                                             <Card.Body>
-                                                <p>Temp. medie: {data.daily[i].temp.day} &deg;C</p>
-                                                <p>Temp. min: {data.daily[i].temp.min} &deg;C</p>
-                                                <p>Temp. max: {data.daily[i].temp.max} &deg;C</p>
-                                                <p>Nori: {data.daily[i].clouds} %</p>
-                                                <p>Precipitatii: {data.daily[i].weather[0].description}</p>
+                                                <p>Temp. medie: {weatherData.daily[i].temp.day} &deg;C</p>
+                                                <p>Temp. min: {weatherData.daily[i].temp.min} &deg;C</p>
+                                                <p>Temp. max: {weatherData.daily[i].temp.max} &deg;C</p>
+                                                <p>Nori: {weatherData.daily[i].clouds} %</p>
+                                                <p>Precipitatii: {weatherData.daily[i].weather[0].description}</p>
                                             </Card.Body>
                                         </Card>
                                     ))
-                                }
-                            
-                        </div>
-                        <div className={styles.flexContainer2}>
+                                )
+                                :
+                                (
+                                    <div></div>
+                                )
+                            }
+
+
                             {
+                                showIndex2 ?
+                                (
                                     index2.map((i) => (
                                         <Card className={styles.cardContainer}>
                                             <Card.Header className="d-flex flex-row justify-content-around">
-                                                <p><strong>{days[new Date(data.daily[i].dt * 1000).getDay()]} {new Date(data.daily[i].dt * 1000).getDate()}-{new Date(data.daily[i].dt * 1000).getMonth() + 1}-{new Date(data.daily[i].dt * 1000).getFullYear()}</strong></p>
-                                                <img src={"http://openweathermap.org/img/wn/" + data.daily[i].weather[0].icon + ".png"} />
+                                                <p style={{color: "#871f08"}}><strong>{days[new Date(weatherData.daily[i].dt * 1000).getDay()]} {new Date(weatherData.daily[i].dt * 1000).getDate()}-{new Date(weatherData.daily[i].dt * 1000).getMonth() + 1}-{new Date(weatherData.daily[i].dt * 1000).getFullYear()}</strong></p>
+                                                <img src={"http://openweathermap.org/img/wn/" + weatherData.daily[i].weather[0].icon + ".png"} />
                                             </Card.Header>
                                             <Card.Body>
-                                                <p>Temp. medie: {data.daily[i].temp.day} &deg;C</p>
-                                                <p>Temp. min: {data.daily[i].temp.min} &deg;C</p>
-                                                <p>Temp. max: {data.daily[i].temp.max} &deg;C</p>
-                                                <p>Nori: {data.daily[i].clouds} %</p>
-                                                <p>Precipitatii: {data.daily[i].weather[0].description}</p>
+                                                <p>Temp. medie: {weatherData.daily[i].temp.day} &deg;C</p>
+                                                <p>Temp. min: {weatherData.daily[i].temp.min} &deg;C</p>
+                                                <p>Temp. max: {weatherData.daily[i].temp.max} &deg;C</p>
+                                                <p>Nori: {weatherData.daily[i].clouds} %</p>
+                                                <p>Precipitatii: {weatherData.daily[i].weather[0].description}</p>
                                             </Card.Body>
                                         </Card>
                                     ))
-                                }
-                        </div>
-                    </Row>
-                    </div>
-                ) : (
-                    <div className={styles.loaderContainer}>
+                                )
+                                :
+                                (
+                                    <div></div>
+                                )
+                            }
 
-                        <Loader 
-                            type="Puff"
-                            color="#00bfff"
-                            height={100}
-                            width={100}
-                            timeout={3000}
-                        />
-                    </div>
-                )
-            }
+                            {
+                                showIndex1 ?
+                                (
+                                    <Button className={styles.arrowButton} onClick={handleRightArrow}><i className="fa fa-arrow-right" aria-hidden="true"></i></Button>
+                                )
+                                :
+                                (
+                                    <div></div>
+                                )
+                            }
+
+                        
+                        </Card.Body>
+                        <Card.Footer>
+                        <Link to={{
+                            pathname: '/task',
+                            state: {weatherData}
+                            }}><Button className={styles.programButton}>Programeaza tratament &nbsp; <i className="fa fa-arrow-right" aria-hidden="true"></i></Button></Link>
+                        
+                        </Card.Footer>
+                        </Card>
+                        
+                        
+                        <div className={styles.smallScreen}>
+                            {
+                                weatherData.daily.map(p => (
+                                    <Card className={styles.smallCardScreen}>
+                                        <Card.Header className={`d-flex flex-row justify-content-around ${styles.headerSmallCard}`}>
+                                            <p style={{color: "#871f08"}}><strong styles={{color: "white"}}>{days[new Date(p.dt * 1000).getDay()]} {new Date(p.dt * 1000).getDate()}-{new Date(p.dt * 1000).getMonth() + 1}-{new Date(p.dt * 1000).getFullYear()}</strong></p>
+                                            <img src={"http://openweathermap.org/img/wn/" + p.weather[0].icon + ".png"} />
+                                        </Card.Header>
+                                        <Card.Body>
+                                            <p>Temp. medie: {p.temp.day} &deg;C</p>
+                                            <p>Temp. min: {p.temp.min} &deg;C</p>
+                                            <p>Temp. max: {p.temp.max} &deg;C</p>
+                                            <p>Nori: {p.clouds} %</p>
+                                            <p>Precipitatii: {p.weather[0].description}</p>
+                                        </Card.Body>
+                                    </Card>
+                                ))
+                            }
+                            <Link to={{
+                                pathname: '/task',
+                                state: {weatherData}
+                                }}><Button className={styles.programButton}>Programeaza tratament &nbsp; <i className="fa fa-arrow-right" aria-hidden="true"></i></Button></Link>
+                        
+                        </div>
+                        
+                        </>
+
+                        )
+                        :
+                        (
+                            <Spinner animation="border" variant="danger"/>
+                        )
+                    }
         </div>
     )
 }
