@@ -3,7 +3,9 @@ import styles from './Style/GrowerProfile.module.css';
 import firebase from '../../Firebase/firebase';
 import { useAuth } from '../../Firebase/context/AuthContext';
 import { Button, Form, InputGroup, Modal, Row, Col } from 'react-bootstrap';
+import girl_avatar from '../../Imgs/girl_avatar.png';
 import image from '../../Imgs/new_home.png';
+import GrowerHeader from '../Header/GrowerHeader';
 export default function GrowerProfile() {
     const { currentUser } = useAuth();
     // form data
@@ -20,6 +22,7 @@ export default function GrowerProfile() {
     // end form data
     const [profile, setProfile] = useState([]);
     const [extProfile, setExtProfile] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [show, setShow] = useState(false);
     const handleShow = () => setShow(true);
     const handleClose = () => setShow(false);
@@ -40,14 +43,26 @@ export default function GrowerProfile() {
             })
             // console.log(items.length);
             setExtProfile(items);
+            setTimeout(function() {
+                setLoading(false);
+            }, 1000);
         })
     }
     // functie care adauga datele suplimentare despre livada
-    function addExtProfile(e, area, noTrees, year, features, location, plantationPerYear, averageAnnualProfit) {
+    function addExtProfile(e, area, noTrees, year, features, location, plantationPerYear, averageAnnualProfit, currency, measureArea) {
         e.preventDefault();
+        var suprf = area;
+        if(currency == 'EUR')
+        {
+            averageAnnualProfit = averageAnnualProfit * 4.98;
+        }
+        // daca s-a dat suprafata in mp => trebuie s-o transform in ha
+        if(measureArea == 'mp')
+            suprf = suprf / 10000;
+
         refProfileExt.add(
             {   
-                area: area,
+                area: suprf,
                 noTrees: noTrees,
                 year: year,
                 features: features, 
@@ -64,17 +79,67 @@ export default function GrowerProfile() {
         getExtProfile();
     }, []);
     return (
+        <div className={styles.mainPage}>
+            <GrowerHeader />
         <div className={styles.mainContainer}>
-            {
-                extProfile.length == 0 ? 
-                (
-                    <>
-                        <Button variant="success" onClick={handleShow}>Adauga detalii</Button>
-                        <Modal show={show} onHide={handleClose} dialogClassName={styles.modalContainer} animation={false}>
-                            <h4 className={`text-center ${styles.title}`}>Detalii suplimentare livada</h4>
-                            <Form>
-                                <Row className={styles.mainContainer}>
-                                    <Col lg={5}>
+            <div className={styles.flexContainer}>
+                <div className={styles.mainInfo}>
+                    <div className={styles.imgContainer}>
+                        <img src={girl_avatar} alt="Avatar utilizator" className={styles.avatarImg}/>
+                    </div>
+                    <div className={styles.infos}>
+                        {
+                            
+                            profile.map(p => (
+                                <>
+                                    <h4>{p.firstName} {p.lastName}</h4>
+                                    <h5 style={{color: "#871f08"}}><strong>{p.companyName}</strong></h5>
+                                    <p>{p.email}</p>
+                                    <p>{p.phoneNumber}</p>
+                                </>
+                            ))
+                            
+                        }
+                        <div className="text-center">
+                            {
+                                extProfile.length == 0 ?
+                                    <Button className={styles.addDetailsButton} onClick={handleShow}>Adauga detalii</Button>
+                                :
+                                    <div></div>
+
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div className={styles.extProfileContainer}>
+                   {
+                       extProfile.length ?
+                       (
+                            loading == false ?
+                            (
+                                extProfile.map(p => (
+                                    <>
+                                        <p><strong>Suprafata: </strong>{p.area} ha</p>
+                                        <p><strong>Locatie: </strong> {p.location}</p>
+                                        <p><strong>Nr. pomi: </strong>{p.noTrees}</p>
+                                        <p><strong>Anul infiintarii: </strong>{p.year}</p>
+                                        <p><strong>Profit mediu anual: </strong>{p.averageAnnualProfit} lei</p>
+                                        <p><strong>Plantatii pe an: </strong>{p.plantationPerYear}</p>
+                                    </>
+                                ))
+                            )
+                            :
+                            (
+                                <div></div>
+                            )
+                       )
+                       :
+                       (
+                           
+                               show ?
+                               (
+                                    <Form>
+                                
                                     <Form.Group className={styles.inputItem}>
                                     <Form.Label htmlFor="area"><strong className={styles.tags}>Suprafata</strong></Form.Label>
                                         <InputGroup>
@@ -85,39 +150,21 @@ export default function GrowerProfile() {
                                             </InputGroup.Prepend>
                                             <Form.Control 
                                                 ref={area}
-                                                type="text"
+                                                type="number"
+                                                min="1"
                                                 placeholder="Suprafata"
                                                 aria-describedby="inputGroupArea"
                                                 required
                                             />
                                             <InputGroup.Prepend id="inputGroupPrependMeasure">
                                             <Form.Control as="select" ref={measure} aria-describedby="inputGroupPrependMeasure"
-                            required>
+                                        required>
                                                 <option>mp</option>
                                                 <option>ha</option>
                                             </Form.Control>
                                         </InputGroup.Prepend>
                                         </InputGroup>
                                     </Form.Group>
-
-                                    <Form.Group className={styles.inputItem}>
-                                    <Form.Label htmlFor="area"><strong className={styles.tags}>Soiuri cultivate/crescute</strong></Form.Label>
-                                        <InputGroup>
-                                            <InputGroup.Prepend id="inputGroupVariaty">
-                                                <InputGroup.Text>
-                                                    <i className={`fa fa-tree ${styles.icons}`} aria-hidden="true" />
-                                                </InputGroup.Text>
-                                            </InputGroup.Prepend>
-                                            <Form.Control 
-                                                ref={variety}
-                                                type="text"
-                                                placeholder="Soiuri.."
-                                                aria-describedby="inputGroupVariaty"
-                                                required
-                                            />
-                                        </InputGroup>
-                                    </Form.Group>
-                                    
                                     <Form.Group className={styles.inputItem}>
                                     <Form.Label htmlFor="area"><strong className={styles.tags}>Numar copaci</strong></Form.Label>
                                         <InputGroup>
@@ -128,7 +175,8 @@ export default function GrowerProfile() {
                                             </InputGroup.Prepend>
                                             <Form.Control 
                                                 ref={noTrees}
-                                                type="text"
+                                                type="number"
+                                                min="1"
                                                 placeholder="Nr. copaci.."
                                                 aria-describedby="inputGroupNoTrees"
                                                 required
@@ -146,34 +194,14 @@ export default function GrowerProfile() {
                                             </InputGroup.Prepend>
                                             <Form.Control 
                                                 ref={year}
-                                                type="text"
+                                                type="number"
+                                                min="1950"
                                                 placeholder="An infiintare.."
                                                 aria-describedby="inputGroupYear"
                                                 required
                                             />
                                         </InputGroup>
-                                    </Form.Group>
-                                    </Col>
-                                    <Col lg={2}></Col>
-                                    <Col lg={5}>
-                                        <Form.Group className={styles.inputItem}>
-                                        <Form.Label htmlFor="area"><strong className={styles.tags}>Dotari</strong></Form.Label>
-                                            <InputGroup>
-                                                <InputGroup.Prepend id="inputGroupFeatures">
-                                                    <InputGroup.Text>
-                                                        <i className={`fa fa-plus-circle ${styles.icons}`} aria-hidden="true" />
-                                                    </InputGroup.Text>
-                                                </InputGroup.Prepend>
-                                                <Form.Control 
-                                                    ref={features}
-                                                    type="text"
-                                                    placeholder="Dotari.."
-                                                    aria-describedby="inputGroupFeatures"
-                                                    required
-                                                />
-                                            </InputGroup>
                                         </Form.Group>
-
                                         <Form.Group className={styles.inputItem}>
                                         <Form.Label htmlFor="area"><strong className={styles.tags}>Locatie livada</strong></Form.Label>
                                             <InputGroup>
@@ -202,7 +230,8 @@ export default function GrowerProfile() {
                                                 </InputGroup.Prepend>
                                                 <Form.Control 
                                                     ref={plantationPerYear}
-                                                    type="text"
+                                                    type="number"
+                                                    min="1"
                                                     placeholder="Plantatie anuala..."
                                                     aria-describedby="inputGroupPlantationPerYear"
                                                     required
@@ -220,14 +249,15 @@ export default function GrowerProfile() {
                                                 </InputGroup.Prepend>
                                                 <Form.Control 
                                                     ref={averageAnnualProfit}
-                                                    type="text"
+                                                    type="number"
+                                                    min="1"
                                                     placeholder="Profit mediu..."
                                                     aria-describedby="inputGroupAverageAnnualProfit"
                                                     required
                                                 />
                                                 <InputGroup.Prepend id="inputGroupPrependCurrency">
                                                 <Form.Control as="select" ref={currency} aria-describedby="inputGroupPrependCurrency"
-                                required>
+                                        required>
                                                     <option>RON</option>
                                                     <option>EUR</option>
                                                 </Form.Control>
@@ -235,41 +265,23 @@ export default function GrowerProfile() {
                                         </InputGroup.Prepend>
                                             </InputGroup>
                                         </Form.Group>
-                                    </Col>
-                                </Row>
+                                    
                                 <div className={`text-center ${styles.buttonContainer}`}>
-                                    <Button className={styles.submitButton} onClick={e => addExtProfile(e, area.current.value, noTrees.current.value, year.current.value, features.current.value, location.current.value, plantationPerYear.current.value, averageAnnualProfit.current.value, currency.current.value, currency.current.value)}>Salveaza</Button>
+                                    <Button className={styles.submitButton} onClick={e => addExtProfile(e, area.current.value, noTrees.current.value, year.current.value, location.current.value, plantationPerYear.current.value, averageAnnualProfit.current.value, currency.current.value, measure.current.value)}>Salveaza</Button>
                                 </div>
                             </Form>
-                        </Modal>
-                    </>
-                )
-                :
-                (
-                    <Row className={styles.infoContainer}>
-                        <Col lg={6}>
-                            <img src={image} className={styles.profileImg}/>
-                        </Col>
+                               )
+                               :
+                               (
+                                    <div></div>
+                               )
+                           
 
-                        <Col lg={3} className={styles.textCol}>
-                            {
-                                profile.map(p => (
-                                    <>
-                                        <h3>{p.companyName}</h3>
-                                        <p><strong>Nume: </strong>{p.lastName}</p>
-                                        <p><strong>Prenume: </strong>{p.firstName}</p>
-                                        <p><strong>Email: </strong>{p.email}</p>
-                                        <p><strong>Nr. Telefon: </strong>{p.phoneNumber}</p>
-                                    </>
-                                ))
-                            }
-                        </Col>
-                        <Col lg={3} className={styles.textCol}>
-                            buna ziua
-                        </Col>
-                    </Row>
-                )
-            }
+                       )
+                   }
+                </div>
+            </div>
+        </div>
         </div>
     )
 }
