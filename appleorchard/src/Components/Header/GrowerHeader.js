@@ -49,6 +49,7 @@ export default function Grower1() {
                 <Nav.Link href="/grower-profile" className={styles.linkText}>Profil</Nav.Link>
                 <Nav.Link href="/orchardinfo" className={styles.linkText}>Livada mea</Nav.Link>
                 <Nav.Link href="/posts-tab" className={styles.linkText}>Anunturi postate</Nav.Link>
+                <Nav.Link href="/forum" className={styles.linkText}>Forum</Nav.Link>
             </Nav>
             <Nav>
                 <Nav.Link className={styles.linkText}>Bine ai venit, {userName}</Nav.Link>

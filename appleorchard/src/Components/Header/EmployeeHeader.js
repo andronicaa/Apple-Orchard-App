@@ -3,7 +3,7 @@ import styles from "./AuthHeader.module.css";
 import firebase from '../../Firebase/firebase';
 import { useHistory } from 'react-router-dom';
 import { useAuth } from '../../Firebase/context/AuthContext';
-import { Nav, Navbar, Button } from "react-bootstrap";
+import { Nav, Navbar, NavDropdown, Button } from "react-bootstrap";
 
 
 export default function Header() {
@@ -48,7 +48,13 @@ export default function Header() {
         <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="mr-auto">
                 <Nav.Link href="/grower-profile" className={styles.linkText}>Profil</Nav.Link>
-                <Nav.Link href="/orchard-info" className={styles.linkText}>Anunturi angajare</Nav.Link>
+                <NavDropdown title={<span style={{color: 'rgb(255, 255, 255)'}}>Anunturi angajare</span>} id="collasible-nav-dropdown">
+                <NavDropdown.Item href="/see-posts">Anunturi publicate</NavDropdown.Item>
+                <NavDropdown.Item href="/saved-posts">Anunturi salvate</NavDropdown.Item>
+                <NavDropdown.Item href="/daunatori">Oferte angajare</NavDropdown.Item>
+                <NavDropdown.Item href="/treatment-schedule">Oferte acceptate</NavDropdown.Item>
+                <NavDropdown.Item href="/treatment-schedule">Oferte resspinse</NavDropdown.Item>
+            </NavDropdown>
             </Nav>
             <Nav>
                 <Nav.Link className={styles.linkText}>Bine ai venit, {userName}</Nav.Link>
