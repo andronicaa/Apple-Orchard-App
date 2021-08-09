@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Card, Button, Modal, Form } from 'react-bootstrap';
 import { useAuth } from '../../Firebase/context/AuthContext';
 import firebase from '../../Firebase/firebase';
+import styles from './Style/JobRequests.module.css';
 
 export default function JobRequests() {
     const { currentUser } = useAuth();
@@ -47,17 +48,17 @@ export default function JobRequests() {
         getAllRequests();
     }, []);
     return (
-        <div>
+        <div className={styles.cardContainer}>
             {
                 reqPosts.map(p => (
-                    <Card key={p.reqId}>
-                        <Card.Header>{p.postName}</Card.Header>
+                    <Card key={p.reqId} className={styles.reqCard}>
+                        <Card.Header style={{color: "#871f08"}}><strong>{p.postName}</strong></Card.Header>
                         <Card.Body>
                             <p><strong>Nume aplicant: </strong>{p.lastName} {p.firstName}</p>
                             <p><strong>Permis de conducere: </strong>{p.driverLicense}</p>
                         </Card.Body>
                         <Card.Footer>
-                            <Button variant="success" onClick={handleShow1}><i className="fa fa-check" aria-hidden="true"></i> &nbsp; Accepta</Button>
+                            <Button className={styles.acceptButton} onClick={handleShow1}><i className="fa fa-check" aria-hidden="true"></i> &nbsp; Accepta</Button>
                             <Modal show={show1} onHide={handleClose1} animation={false}>
                             <Form>
                                 <Form.Group>
@@ -67,7 +68,7 @@ export default function JobRequests() {
                                 </Form.Group>
                                 </Form>
                             </Modal>
-                            <Button variant="danger" onClick={handleShow2}><i className="fa fa-window-close" aria-hidden="true"></i> &nbsp; Respinge cerere</Button>
+                            <Button className={styles.rejectButton} onClick={handleShow2} ><i className="fa fa-window-close" aria-hidden="true"></i> &nbsp; Respinge cerere</Button>
                             <Modal show={show2} onHide={handleClose2} animation={false}>
                                 <Form.Group>
                                     <Form.Label>Motivatie respingere</Form.Label>

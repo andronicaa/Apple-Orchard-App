@@ -29,10 +29,31 @@ export default function AddJob() {
     const handleShow = () => setShow(true);
     // colectia in care o sa salvam toate anunturile postate pentru un cultivator
     const refPosts = firebase.firestore().collection("users").doc(currentUser.uid).collection("jobPosts");
+
+    function getDriverCateg(driverArray) {
+        // console.log("S-a apelat");
+        let driverCateg = "";
+        if(driverArray[0] == true)
+            driverCateg += "B";
+        if(driverArray[1] == true)
+            driverCateg += "B1";
+        if(driverArray[2] == true)
+            driverCateg += "C";
+        if(driverArray[3] == true)
+            driverCateg += "C1";
+        if(driverArray[4] == true)
+            driverCateg += "D";
+        if(driverArray[5] == true)
+            driverCateg += "D1";
+
+        return driverCateg;
+    }
+
+
     function addJob(e, postName, description, driverLicense, checkedState, location) {
 
         e.preventDefault();
-
+        const categ = getDriverCateg(checkedState);
         console.log("s-a apelat");
         refPosts
         .add({
@@ -43,7 +64,8 @@ export default function AddJob() {
             location: location, 
             salary: "",
             feedback: "",
-            year: year
+            year: year,
+            categ: categ
         })
         .catch((err) => {
             console.log(err);
@@ -61,11 +83,7 @@ export default function AddJob() {
             setPosts(items);
             setTimeout(function() {
                 setLoading(false);
-            }, 100);
-            /*
-            console.log(items);
-            console.log(items.length);
-            */
+            }, 1000);
         });
     }
     function deletePost(e, postId) {
@@ -84,21 +102,20 @@ export default function AddJob() {
         getAllPosts();
     }, []);
     return (
-        <div>
-        <div>
-            <Button onClick={handleShow} className={princStyle.addButton}>Adauga anunt</Button>
-        </div>
-        <div>
+        <>
         <Card className={princStyle.mainCardContainer}>
-            <Card.Header>Anunturi postate</Card.Header>
             <Card.Body>
-            
+            <div className={princStyle.buttonContainer}>
+                <Button onClick={handleShow} className={princStyle.addButton}>Adauga anunt</Button>
+            </div>
             <Modal show={show} onHide={handleClose} animation={false}>
-                <Modal.Header>Anunt angajare</Modal.Header>
+                <Modal.Header className="text-center">
+                    <h4 style={{color: "#871f08", textAlign: "center"}}>Anunt nou</h4>
+                </Modal.Header>
                 <Modal.Body>
                     <Form>
                     <Form.Group className={styles.inputItem}>
-                        <Form.Label>Nume post</Form.Label>
+                        <Form.Label className={styles.tags}><strong>Nume post</strong></Form.Label>
                         <InputGroup>
                             <InputGroup.Prepend id="inputGroupPrependPostName">
                                 <InputGroup.Text>
@@ -197,16 +214,21 @@ export default function AddJob() {
                     </Form.Group>
                     </Form>
                 </Modal.Body>
-                <Button className={`btn btn-success ${styles.saveDataButton}`} onClick={(e) => addJob(e, postName.current.value, description.current.value, driverLicense, checkedState, location.current.value)}>Salveaza</Button>
-            
+                <div className="text-center">
+                    <Button className={princStyle.saveDataButton} onClick={(e) => addJob(e, postName.current.value, description.current.value, driverLicense, checkedState, location.current.value)}>Salveaza</Button>
+                </div>
             </Modal>   
-            <div>
+            <div className={princStyle.flexContainer}>
                 {
                     loading == false ? 
                     (
                         posts.map(post => (
-                            <Card key={post.id}>
-                                <Card.Header>{post.postName}</Card.Header>
+                            <Card key={post.id} className={princStyle.postCard}>
+                                <Card.Header><strong>{post.postName}</strong></Card.Header>
+                                <Card.Body>
+                                    <p><strong>Locatie: </strong>{post.location}</p>
+                                    <p><strong>Categorii permis auto: </strong>{post.driverLicense}</p>
+                                </Card.Body>
                                 <Card.Footer>
                                     <Button variant="danger" onClick={e => deletePost(e, post.id)}><i className="fa fa-trash" aria-hidden="true"></i></Button>
                                 </Card.Footer>
@@ -217,13 +239,13 @@ export default function AddJob() {
                     (
                         <Spinner animation="border" variant="danger"/>
                     )
-                    
                 }
             </div> 
             </Card.Body>
             </Card>
-            </div>
-            </div>
+        
+            
+            </>
                   
     )
 }

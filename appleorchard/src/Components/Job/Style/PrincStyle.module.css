@@ -21,19 +21,3 @@
 	align-items: center;
 	align-self: center;
 }
-.headerTab {
-    background-color: rgba(135, 31, 8, .7);
-}
-
-.navLink {
-    color: white;
-}
-
-.tabs {
-    position: relative;
-    top: 5vh;
-    margin-left: auto;
-    margin-right: auto;
-    width: 80vw;
-    background-color: rgba(250, 253, 243, .8);
-}

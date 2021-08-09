@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import firebase from '../../Firebase/firebase';
 import { useAuth } from '../../Firebase/context/AuthContext';
-import { Card, Button, Modal } from 'react-bootstrap';
+import { Card, Button, Modal, Table } from 'react-bootstrap';
+import styles from './Style/AcceptedRejected.module.css';
+
 
 
 export default function AcceptedOffer() {
@@ -45,20 +47,45 @@ export default function AcceptedOffer() {
         getAcceptedOffer();
     }, [])
     return (
-        <div>
+        <div className={styles.mainCard}>
+            <div className={styles.largeScreen}>
+                <Table className={styles.tableContainer}>
+                    <thead>
+                        <tr className={styles.tableHead}>
+                            <th>Nume</th>
+                            <th>Post</th>
+                            <th>Descriere post</th>
+                            <th>Salariu (lei)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            acceptedOffer.map(p => (
+                                <tr key={p.id}>
+                                    <td>{p.firstName} {p.lastName}</td>
+                                    <td>{p.postName}</td>
+                                    <td>{p.postDescription}</td>
+                                    <td>{p.salary}</td>
+                                </tr>
+                            ))
+                        }
+                    </tbody>
+                </Table>
+            </div>
+            <div className={styles.smallScreen}>
             {
                 loading == false ? 
                 (
                     acceptedOffer.map(p => (
-                        <Card key={p.id}>
-                            <Card.Header>{p.firstName} {p.lastName}</Card.Header>
+                        <Card key={p.id} className={styles.postCard}>
+                            <Card.Header style={{color: "#871f08"}}><strong>{p.firstName} {p.lastName}</strong></Card.Header>
                             <Card.Body>
                                 <p><strong>Post: </strong>{p.postName}</p>
                                 <p><strong>Descriere post: </strong>{p.postDescription}</p>
                                 <p><strong>Salariu: </strong>{p.salary}</p>
                             </Card.Body>
                             <Card.Footer>
-                                <Button onClick={e => getProfile(e, p.employeeId)}>Vezi profil</Button>
+                                <Button onClick={e => getProfile(e, p.employeeId)} className={styles.empProfile}>Vezi profil</Button>
                                 <Modal show={show} onHide={handleClose} animation={false}>
                                     {
                                         profile.map(i => (
@@ -75,6 +102,7 @@ export default function AcceptedOffer() {
                     <div>...loading</div>
                 )
             }
+            </div>
         </div>
     )
 }

@@ -1,9 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Form, Button, Card, Alert, Modal } from 'react-bootstrap';
 import styles from '../Style/SeePosts.module.css';
+import princStyle from '../Style/PrincStyle.module.css'
 import firebase from '../../../Firebase/firebase';
 import { useAuth } from '../../../Firebase/context/AuthContext';
-import PostsPage from './PostsPage';
+import Spinner from 'react-bootstrap/Spinner';
+import EmployeeHeader from '../../Header/EmployeeHeader';
+
 export default function SeePosts() {
     // o sa listez job-urile doar de la agricultorii dintr-o zona selectata
     const profile = useRef();
@@ -86,31 +89,40 @@ export default function SeePosts() {
                 }
 
             });
-          
+            const post = [];
+        // console.log("Userii sunt: ", growerUser);
         growerUser.map(i => {
+            // console.log("Uuserul este: !!!", i);
             var refPost = firebase.firestore().collection("users").doc(i.id).collection("jobPosts");
             if(searchedLocation != '')
             {
+                // console.log("Fac verificarea asta: ");
+                // var upperSearchedLocation = searchedLocation.toUpperCase();
                 var refPostByLoc = refPost.where('location', '==', searchedLocation);
                 var refPost = refPostByLoc;
             }
+
             refPost.onSnapshot((querySnapshot) => {
-                const post = [];
+                
                 querySnapshot.forEach((doc) => {
+                    // console.log("Posturile sunt: ", doc.data(), i.id);
                     var driverCateg = getDriverCateg(doc.data().checkedState);
-                    console.log("Este: ", driverCateg);
+                    // console.log("Este: ", driverCateg);
                     post.push({id: i.id, employeerName: i.lastName, employeerFirstName: i.firstName, jobId: doc.id, categories: driverCateg, ...doc.data()});
                 })
-                setPostPerUser(post);
-                setTimeout(function() {
-                    setLoading(false);
-                }, 2000) 
-                console.log(post);
+               
 
             })
 
         }
+            
         )
+        // console.log("Posturile sunt: ", post);
+            setPostPerUser(post);
+            setTimeout(function() {
+                setLoading(false);
+            }, 2000) 
+            console.log(post);
         });
     }
 
@@ -175,12 +187,13 @@ export default function SeePosts() {
         getAllPosts();
         getProfile();
         getAllAppliedPosts();
-    }, [searchedLocation]);
+    }, []);
     return (
-        <div>
-            <Form>
+        <div className={princStyle.mainPage}>
+            <EmployeeHeader />
+            <Form className={styles.form}>
             <Form.Group>
-                <Form.Label>Localitate</Form.Label>
+                <Form.Label style={{color: "#871f08"}}><strong>Localitate</strong></Form.Label>
                 <Form.Control type="text" placeholder="Locatie..." className={styles.label} onChange={e => setLocation(e.target.value)}/>
                 <Form.Text className="text-muted">
                     Localitatea in care doresti sa lucrezi 
@@ -320,13 +333,15 @@ export default function SeePosts() {
                             )
                             :
                             (
-                                <div>aiciii</div>
+                                <div></div>
                             )
                             
                         ))
                     ) : 
                     (
-                        <div>...loading</div>
+                        <div>
+                            <Spinner animation="border" variant="danger"/>
+                        </div>
                     )
                     
                 }

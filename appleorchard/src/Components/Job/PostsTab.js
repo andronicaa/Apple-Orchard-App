@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import OrchardMenu from '../Orchard/OrchardMenu';
+import GrowerHeader from '../Header/GrowerHeader';
 import { TabContent, TabPane, Nav, NavItem, NavLink, Row, Col } from 'reactstrap';
+import { Button } from 'react-bootstrap';
 import classnames from 'classnames';
 import AddJob from './AddJob';
 import RejectedOffer from './RejectedOffer';
@@ -15,13 +16,13 @@ export default function ReceiptPageTabs() {
             setActiveTab(tab);
     }
     return (
-        <>
-            <OrchardMenu />
+        <div className={styles.mainPage}>
+            <GrowerHeader />
         <div className={styles.tabs}>
-        <Nav tabs>
+        <Nav tabs className={styles.headerTab}>
             <NavItem>
             <NavLink
-                className={classnames({ active: activeTab === '1' })}
+                className={`${classnames({ active: activeTab === '1' })} ${styles.navLink}`}
                 onClick={() => { toggle('1'); }}
             >
                 Anunturi postate
@@ -29,7 +30,7 @@ export default function ReceiptPageTabs() {
             </NavItem>
             <NavItem>
             <NavLink
-                className={classnames({ active: activeTab === '2' })}
+                className={`${classnames({ active: activeTab === '2' })} ${styles.navLink}`}
                 onClick={() => { toggle('2'); }}
             >
                 Cereri
@@ -37,7 +38,7 @@ export default function ReceiptPageTabs() {
             </NavItem>
             <NavItem>
             <NavLink
-                className={classnames({ active: activeTab === '3' })}
+                className={`${classnames({ active: activeTab === '3' })} ${styles.navLink}`}
                 onClick={() => { toggle('3'); }}
             >
                 Oferte respinse
@@ -45,7 +46,7 @@ export default function ReceiptPageTabs() {
             </NavItem>
             <NavItem>
             <NavLink
-                className={classnames({ active: activeTab === '4' })}
+                className={`${classnames({ active: activeTab === '4' })} ${styles.navLink}`}
                 onClick={() => { toggle('4'); }}
             >
                 Oferte acceptate
@@ -83,6 +84,6 @@ export default function ReceiptPageTabs() {
             </TabPane>
         </TabContent>
     </div>
-    </>
+    </div>
     )
 }

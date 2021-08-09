@@ -3,6 +3,9 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../../Firebase/context/AuthContext';
 import firebase from '../../../Firebase/firebase';
 import { Card } from 'react-bootstrap';
+import princStyle from '../Style/PrincStyle.module.css';
+import styles from '../Style/SeePosts.module.css';
+import EmployeeHeader from '../../Header/EmployeeHeader';
 
 
 export default function SavedPosts() {
@@ -28,20 +31,32 @@ export default function SavedPosts() {
         getSavedPost();
     }, []);
     return (
-        <div>
-            {loading == false ? (
-                savedPosts.map(p => (
-                    <Card key={p.id}>
-                        <div>{p.i.employeerFirstName}</div>
-                        <div>{p.employeerFirstName}</div>
-                    </Card>
-                ))
-            )
-            :
-            (
-                <div>...loading</div>
-            )
-            }
+        <div className={princStyle.mainPage}>
+            <EmployeeHeader />
+            <div className={styles.mainContainer}>
+                <h4 className="text-center" style={{color: "#871f08"}}><strong>Anunturi salvate</strong></h4>
+                <div className={styles.postContainer}>
+                    {loading == false ? (
+                        savedPosts.map(p => (
+                            <Card key={p.id}>
+                                <Card.Header>
+                                    <p><strong>{p.i.postName}</strong></p>
+                                </Card.Header>
+                                <Card.Body>
+                                    <p><strong>Locatie:</strong> {p.i.location}</p>
+                                    <p><strong>Angajator:</strong> {p.i.employeerFirstName} {p.i.employeerName}</p>
+                                </Card.Body>
+                            </Card>
+                        ))
+                    
+                    )
+                    :
+                    (
+                        <div>...loading</div>
+                    )
+                    }
+                </div>
+             </div>
         </div>
     )
 }

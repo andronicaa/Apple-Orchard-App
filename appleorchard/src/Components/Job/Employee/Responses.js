@@ -28,10 +28,7 @@ export default function Responses() {
                     if(doc.data().employeeId == currentUser.uid)
                         posts.push({docId: doc.id,...doc.data()});
                 })
-                
-
             })
-                
         })
                 console.log("sunt: ", posts);
                 reqResp.current = posts;

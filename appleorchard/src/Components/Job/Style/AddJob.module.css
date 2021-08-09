@@ -1,11 +1,46 @@
 .mainCardContainer {
     margin-left: auto;
     margin-right: auto; 
-    border: 1px solid red;
     width: 80%;
 }
 
+.saveDataButton {
+    width: 30%;
+    background-color: #67945e !important;
+    border: none !important;
+    margin-bottom: 2vh;
+}
 .addButton {
     width: 20%;
-    float: left;
+    background-color: #67945e !important;
+    border: none !important;
 }
+
+.flexContainer {
+    display: flex;
+}
+
+@media (min-width: 501px) {
+    .flexContainer {
+        flex-direction: row;
+        flex-wrap: wrap;
+        margin-top: 3vh;
+    }
+    .postCard {
+        width: 30%;
+        margin: 1vh;
+    }
+}
+@media (min-width: 300px) and (max-width: 500px) {
+    .addButton {
+        width: 100%;
+    }
+
+    .flexContainer {
+        flex-direction: column;
+    }
+    .postCard {
+        width: 100%;
+    }
+}
+
