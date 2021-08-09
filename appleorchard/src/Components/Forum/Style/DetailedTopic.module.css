@@ -1,0 +1,103 @@
+.mainPage {
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+}
+
+.mainPage::after {
+	background-image: url('../../../Imgs/about_img.jpg');
+	filter: brightness(50%);
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	content: "";
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	position: fixed;
+	z-index: -10;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	align-self: center;
+}
+
+.topicCardContainer {
+    margin-top: 10vh;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+	background-color: rgba(250, 253, 243, 0.8);
+}
+
+.littleTopicCard {
+    width: 80%;
+    margin: 3vw;
+}
+
+.topicHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.flexItems {
+    width: 30%;
+}
+
+.badge {
+	background-color: orange;
+	padding: 1vh;
+}
+
+.ansTopicCard {
+    width: 80%;
+    margin: 3vw;
+}
+.img {
+	max-width: 100%;
+	min-width: 100%;
+}
+.imgContainer {
+	width: 50%;
+	/* border: 1px solid red; */
+}
+
+
+.likeButton {
+	background-color: #871f08 !important;
+	border: none !important;
+}
+.formContainer {
+	padding: 2vw;
+}
+
+.modalHeader {
+	width: 100%;
+	text-align: center;
+}
+
+.icon {
+	color: #871f08;
+}
+
+.addAnsButton {
+	background-color: orange !important;
+	border: none !important;
+	margin: 2vw;
+}
+
+.ansLikeButton {
+	background-color: #64ab55 !important;
+	border: none !important;
+}
+@media (min-width: 300px) and (max-width: 500px) {
+	.topicHeader {
+		display: flex;
+		flex-direction: column;
+	}
+	.flexItems {
+		width: 100%;
+	}
+}

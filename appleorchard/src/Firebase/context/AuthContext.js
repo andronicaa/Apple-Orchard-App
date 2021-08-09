@@ -9,17 +9,21 @@ export function useAuth() {
     return useContext(AuthContext);
 }
 export default function AuthProvider({ children }) {
-    const [currentUser, setCurrentUser] = useState();
+    const [currentUser, setCurrentUser] = useState([]);
     const [loading, setLoading] = useState(true);
     
 
 
     function signInWithGoogle() {
+        console.log("Am intrat in functia asta:");
         if(currentUser)
         {
+            console.log("Userul este: ", currentUser);
             setCurrentUser(currentUser);
         }
-        return auth.signInWithPopup(googleProvider);
+        return auth.signInWithPopup(googleProvider).then((res) => {
+            console.log("User-ul este: ", res.user)
+        }).catch(err => console.log(err.message));
     }
     // functia ce face logarea efectiva cu credentialele date de user
     function signup(email, password) {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import {Doughnut, Line, Bar} from 'react-chartjs-2';
+import {Line, Bar} from 'react-chartjs-2';
 import styles from './Style/Statistics.module.css';
 import { useAuth } from '../../Firebase/context/AuthContext';
 import firebase from '../../Firebase/firebase';
@@ -36,6 +36,8 @@ export default function Statistics() {
     const refUserTrees = firebase.firestore().collection("users").doc(currentUser.uid).collection("receiptTrees");
     const refUserProfit = firebase.firestore().collection("users").doc(currentUser.uid).collection("userProfit");
     const refUserEmployee = firebase.firestore().collection("users").doc(currentUser.uid).collection("onHold").where("status", '==', 'accepted offer');
+    
+    
     function getEmployee() {
         refUserEmployee.onSnapshot(querySnapshot => {
             const items = [];
@@ -115,27 +117,7 @@ export default function Statistics() {
             console.log(err);
         })
     }
-    const pieData = {
-        labels: ['Substante', 'Pomi', 'Utilaje'],
-        datasets: [
-            {
-                label: 'Rainfall',
-                backgroundColor: [
-                  '#e68639',
-                  '#c65547',
-                  '#fed17f'
-                ],
-
-                hoverBackgroundColor: [
-                '#dbeaff',
-                '#314e8d',
-                '#adc8ff'
-                ],
-                data: [substances, trees, machinery]
-              }
-        ]
-    }
-
+    
     function getLineData() {
         return {
         labels: [year - 4, year - 3, year - 2, year - 1],
@@ -211,8 +193,10 @@ export default function Statistics() {
                             ref={formYear}
                             type="number"
                             placeholder="An..."
+                            max={year}
                             aria-describedby="inputGroupPrependYear"
                             required
+                            defaultValue={year}
                         />
                     <Form.Text>
                         Alege anul pentru care doresti sa afli statisticile despre cheltuielile pentru pomi, utilaje, substante
@@ -326,25 +310,6 @@ export default function Statistics() {
                         )
                     }
                 </div>
-                <div lg={4} xs={12} className={styles.colContainer}>
-                    <h5 className={styles.title}>Cheltuieli anul curent</h5>
-                    <Doughnut
-                    data={pieData}
-                    options={{
-                        title:{
-                        display:true,
-                        text:'Cheltuieli anuale',
-                        fontSize:20
-                        },
-                        legend:{
-                        display:true,
-                        position:'right'
-                        }
-                    }}
-                    />
-                </div>
-           
-                
                 <div className={styles.colContainer}>
                     <h5 className={styles.title}>Cheltuieli lunare substante</h5>
                     <Annual type="substante" year={formYearParam} />

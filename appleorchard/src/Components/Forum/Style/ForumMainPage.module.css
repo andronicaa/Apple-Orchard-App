@@ -1,0 +1,152 @@
+.mainPage {
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+}
+
+.mainPage::after {
+	background-image: url('../../../Imgs/about_img.jpg');
+	filter: brightness(50%);
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	content: "";
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	position: fixed;
+	z-index: -10;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	align-self: center;
+}
+.mainCard {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+	background-color: rgba(250, 253, 243, 0.8);
+	margin-top: 10vh;
+	position: relative;
+	bottom: 5vh;
+}
+.top {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+.formContainer {
+	width: 100%;
+	padding: 2vh;
+}
+.formCardContainer {
+	width: 50%;
+	margin-left: auto;
+	margin-right: auto;
+}
+.topicCard {
+	width: 70%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.topicItems {
+	width: 30%;
+}
+
+.topicCard {
+	margin-top: 1vh !important;
+	margin-bottom: 1vh !important;
+	background-color: rgb(250, 253, 243) !important;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.badge {
+	background-color: orange;
+	padding: 1vh;
+}
+
+
+.convButton {
+	background-color: #64ab55 !important;
+	border: none !important;
+}
+
+.cardItem {
+	background: transparent !important;
+}
+
+.addTopicButton {
+	background-color: #64ab55 !important;
+	border: none;
+	margin: 1vh;
+}
+
+.title {
+	color: #871f08;
+	text-align: center;
+}
+
+.icon {
+	color: #871f08;
+}
+
+.submitFormButton {
+	background-color: #871f08 !important;
+	border: none !important;
+}
+
+.descButton {
+	background-color: #871f08 !important;
+	border: none !important;
+	margin-right: 1vw; 
+}
+
+.ascButton {
+	background-color: #871f08 !important;
+	border: none !important;
+	margin-left: 1vw; 
+}
+
+.sortButton {
+	background-color: #871f08 !important;
+	border: none !important;
+}
+.sortArrows {
+	margin: 1vh;
+}
+
+@media (min-width: 500px) {
+
+}
+
+@media (min-width: 300px) and (max-width: 550px) {
+	.topicItems {
+		width: 100%;
+	}
+
+	.formCardContainer {
+		width: 100%;
+	}
+	.topicCard {
+		margin-top: 1vh !important;
+		margin-bottom: 1vh !important;
+		background-color: rgb(250, 253, 243) !important;
+		display: flex;
+		flex-direction: column;
+		/* justify-content: space-between; */
+	}
+	.convButton {
+		margin-top: 2vh;
+	}
+	.topicCard {
+		width: 90%;
+		margin: 2vh;
+	}
+
+	
+
+}
