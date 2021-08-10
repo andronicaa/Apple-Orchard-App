@@ -4,7 +4,7 @@ import firebase from '../../Firebase/firebase';
 import { useAuth } from '../../Firebase/context/AuthContext';
 import { Button, Form, InputGroup, Modal, Row, Col } from 'react-bootstrap';
 import girl_avatar from '../../Imgs/girl_avatar.png';
-import image from '../../Imgs/new_home.png';
+import boy_avatar from '../../Imgs/boy_avatar.png';
 import GrowerHeader from '../Header/GrowerHeader';
 export default function GrowerProfile() {
     const { currentUser } = useAuth();
@@ -24,6 +24,7 @@ export default function GrowerProfile() {
     const [extProfile, setExtProfile] = useState([]);
     const [loading, setLoading] = useState(true);
     const [show, setShow] = useState(false);
+    const [gen, setGen] = useState('');
     const handleShow = () => setShow(true);
     const handleClose = () => setShow(false);
     const refProfile = firebase.firestore().collection("users").doc(currentUser.uid);
@@ -32,6 +33,7 @@ export default function GrowerProfile() {
         const items = [];
         refProfile.onSnapshot(doc => {
             items.push(doc.data());
+            setGen(doc.data().sex);
             setProfile(items);
         })
     } 
@@ -85,7 +87,13 @@ export default function GrowerProfile() {
             <div className={styles.flexContainer}>
                 <div className={styles.mainInfo}>
                     <div className={styles.imgContainer}>
-                        <img src={girl_avatar} alt="Avatar utilizator" className={styles.avatarImg}/>
+                        {
+                            gen == 'F' ?
+                                <img src={girl_avatar} alt="Avatar utilizator" className={styles.avatarImg}/>
+                            :
+                                <img src={boy_avatar} alt="Avatar utilizator" className={styles.avatarImg}/>
+
+                        }
                     </div>
                     <div className={styles.infos}>
                         {

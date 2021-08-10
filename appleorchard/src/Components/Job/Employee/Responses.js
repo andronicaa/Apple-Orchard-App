@@ -2,6 +2,9 @@ import React, { useRef, useState, useEffect } from 'react';
 import firebase from '../../../Firebase/firebase';
 import { useAuth } from '../../../Firebase/context/AuthContext';
 import { Card, Button } from 'react-bootstrap';
+import princStyle from '../Style/PrincStyle.module.css';
+import EmployeeHeader from '../../Header/EmployeeHeader';
+import styles from '../Style/SeePosts.module.css';
 
 export default function Responses() {
     const { currentUser } = useAuth();
@@ -99,18 +102,25 @@ export default function Responses() {
         getUsersId();
     }, [])
     return (
-        loading == false ? 
-        (
-            <div>
-           {
-               reqResp.current.map(p => (
-                   <Card key={p.docId}>
-                       <Card.Header><strong>Raspuns: </strong>
+        <div className={princStyle.mainPage}>
+        <EmployeeHeader />
+        <div className={styles.title}>
+            <p>Răspunsuri angajatori</p>
+        </div>
+        <div className={styles.mainContainer}>
+        {
+            loading == false ? 
+            (
+                
+               
+                reqResp.current.map(p => (
+                    <Card key={p.docId} className={styles.postCard}>
+                        <Card.Header><strong>Raspuns angajator</strong>
                             {
                                 p.status === 'accepted' ? 
                                     <>
                                         <p>Acceptat</p>
-                                        <p>Oferta salariala: {p.salary}</p>
+                                        <p><strong>Oferta salariala:</strong> {p.salary}</p>
                                     </>
                                 :
                                 (   <>
@@ -121,15 +131,15 @@ export default function Responses() {
                             }   
                         </Card.Header>
                         <Card.Body>
-                            <p>{p.postName}</p>
+                            <p><strong>Post: </strong>{p.postName}</p>
                         </Card.Body>
                         <Card.Footer>
                             {
                                 p.status === 'accepted' ? 
                                 (
                                     <>
-                                    <Button variant="success" onClick={e => handleAcceptOffer(e, p)}>Accepta oferta</Button>
-                                    <Button variant="danger" onClick={e => handleRejectedOffer(e, p)}>Respinge oferta</Button>
+                                    <Button className={styles.acceptOfferButton} onClick={e => handleAcceptOffer(e, p)}>Acceptă ofertă &nbsp; <i className="fa fa-check" aria-hidden="true"></i></Button>
+                                    <Button className={styles.rejectOfferButton} onClick={e => handleRejectedOffer(e, p)}>Respinge ofertă &nbsp; <i className="fa fa-window-close" aria-hidden="true"></i></Button>
                                     </>
                                 ) :
                                 (
@@ -138,15 +148,19 @@ export default function Responses() {
                             }
                             
                         </Card.Footer>
-                   </Card>
-               ))
-           }
-        </div>
-        ) 
-        :
-        (
-            <div>loading...</div>
-        )
+                    </Card>
+                ))
+               
+            
+            ) 
+            :
+            (
+                <div>loading...</div>
+            )
+        }
         
+        </div>
+   
+    </div>
     )
 }

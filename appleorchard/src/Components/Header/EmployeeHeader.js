@@ -4,6 +4,7 @@ import firebase from '../../Firebase/firebase';
 import { useHistory } from 'react-router-dom';
 import { useAuth } from '../../Firebase/context/AuthContext';
 import { Nav, Navbar, NavDropdown, Button } from "react-bootstrap";
+import { Modal } from 'bootstrap';
 
 
 export default function Header() {
@@ -12,6 +13,10 @@ export default function Header() {
     const history = useHistory();
     const [userName, setUserName] = useState('');
     const [loading, setLoading] = useState(true);
+
+    const [show, setShow] = useState(false);
+    const handleShow = () => setShow(true);
+    const handleClose = () => setShow(false);
     const refProfile = firebase.firestore().collection("users").doc(currentUser.uid);
     function getUserName() {
         var userName = "";
@@ -47,13 +52,13 @@ export default function Header() {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="mr-auto">
-                <Nav.Link href="/grower-profile" className={styles.linkText}>Profil</Nav.Link>
+                <Nav.Link className={styles.linkText}>Profil</Nav.Link>
                 <NavDropdown title={<span style={{color: 'rgb(255, 255, 255)'}}>Anunturi angajare</span>} id="collasible-nav-dropdown">
                 <NavDropdown.Item href="/see-posts">Anunturi publicate</NavDropdown.Item>
                 <NavDropdown.Item href="/saved-posts">Anunturi salvate</NavDropdown.Item>
-                <NavDropdown.Item href="/daunatori">Oferte angajare</NavDropdown.Item>
+                <NavDropdown.Item href="/responses">Oferte angajare</NavDropdown.Item>
                 <NavDropdown.Item href="/treatment-schedule">Oferte acceptate</NavDropdown.Item>
-                <NavDropdown.Item href="/treatment-schedule">Oferte resspinse</NavDropdown.Item>
+                <NavDropdown.Item href="/treatment-schedule">Oferte respinse</NavDropdown.Item>
             </NavDropdown>
             </Nav>
             <Nav>
@@ -61,6 +66,11 @@ export default function Header() {
                 <Button onClick={handleLogout} className={styles.actionButton}>Logout</Button>
             </Nav>
         </Navbar.Collapse>
+        {/* <Modal show={show} onHide={handleClose}>
+            <Modal.Header>
+                Buna ziua
+            </Modal.Header>
+        </Modal> */}
         </Navbar>
     )
 }

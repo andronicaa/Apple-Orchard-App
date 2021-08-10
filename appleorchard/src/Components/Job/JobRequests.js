@@ -60,11 +60,13 @@ export default function JobRequests() {
                         <Card.Footer>
                             <Button className={styles.acceptButton} onClick={handleShow1}><i className="fa fa-check" aria-hidden="true"></i> &nbsp; Accepta</Button>
                             <Modal show={show1} onHide={handleClose1} animation={false}>
-                            <Form>
+                            <Form className={styles.acceptForm}>
                                 <Form.Group>
-                                    <Form.Label>Oferta salariala</Form.Label>
+                                    <Form.Label style={{color: "#871f08"}}><strong>Oferta salariala (lei)</strong></Form.Label>
                                     <Form.Control type="text" placeholder="Salariu propus..." ref={salary} required/>
-                                    <Button onClick={e => {handleAccept(e, "accepted", p.reqId, salary.current.value, p.employeeId); handleClose1();}}>Trimite oferta</Button>
+                                    <div className={styles.acceptButtonContainer}>
+                                        <Button className={styles.acceptFormButton} onClick={e => {handleAccept(e, "accepted", p.reqId, salary.current.value, p.employeeId); handleClose1();}}>Trimite oferta</Button>
+                                    </div>
                                 </Form.Group>
                                 </Form>
                             </Modal>

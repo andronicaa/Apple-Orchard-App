@@ -19,6 +19,7 @@ export default function AddProfile() {
     const phoneNumber = useRef();
     const companyName = useRef();
     const job = useRef();
+    const sex = useRef();
     const driverLicense = useRef();
     const [jobField, setJobField] = useState('Cultivator');
     const [hasDriverLicense, setDriverLicense] = useState('NU');
@@ -81,10 +82,15 @@ export default function AddProfile() {
     
  
     // functie care adauga un nou profil de utilizator
-    function addProfile(e, role, firstName, lastName, age, address, email, phoneNumber, job, param1, param2) {
+    function addProfile(e, role, sex, firstName, lastName, age, address, email, phoneNumber, job, param1, param2) {
         e.preventDefault();
         var ok = true;
         const errorsMsg = [];
+        if(role == '' || firstName == '' || lastName == '' || age == '' || address == '' || email == '' || phoneNumber == '' || job == '')
+        {
+            ok = false;
+            errorsMsg.push("Trebuie sa completati toate campurile formularului\n");
+        }
         if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email) == false)
         {
             ok = false;
@@ -96,6 +102,7 @@ export default function AddProfile() {
             ok = false;
             errorsMsg.push("Formatul numarului de telefon nu este corect\n");
         }
+
         var companyName = '';
         var hasDriverLicense = '';
         
@@ -112,7 +119,7 @@ export default function AddProfile() {
         if(ok)
         {
             refProfile
-            .set({firstName, lastName, age, email, address, phoneNumber, job, companyName, hasDriverLicense, driverCateg, busy})
+            .set({firstName, lastName, age, email, address, phoneNumber, job, companyName, hasDriverLicense, driverCateg, sex})
             .catch((err) => {
                 console.log(err);
             });
@@ -249,6 +256,26 @@ export default function AddProfile() {
                                     </InputGroup>
                             </Form.Group>
                             <Form.Group className={styles.inputItem}>
+                                    <Form.Label htmlFor="function"><strong className={styles.tags}>Gen</strong></Form.Label>
+                                    <InputGroup>
+                                        <InputGroup.Prepend id="inputGroupPrependSex">
+                                            <InputGroup.Text>
+                                                <i className={`fa fa-user ${styles.icons}`} aria-hidden="true"></i>
+                                            </InputGroup.Text>
+                                        </InputGroup.Prepend>
+                                        <Form.Control as="select" ref={sex} aria-describedby="inputGroupPrependSex"
+                            required>
+                                            {
+                                                ['F', 'M'].map((j) => (
+                                                    <option key={j}>
+                                                        {j}
+                                                    </option>
+                                                ))
+                                            }
+                                        </Form.Control>
+                                    </InputGroup>
+                                </Form.Group>
+                            <Form.Group className={styles.inputItem}>
                                     <Form.Label htmlFor="function"><strong className={styles.tags}>Funcție</strong></Form.Label>
                                     <InputGroup>
                                         <InputGroup.Prepend id="inputGroupPrependFunction">
@@ -358,7 +385,7 @@ export default function AddProfile() {
                                 {
                                     ['Cultivator', 'Cumparator'].includes(jobField) ? (
                                         <button className={`btn btn-success ${styles.saveDataButton}`}
-                                        onClick={(e) => {e.preventDefault();  console.log(firstName.current.value, lastName.current.value, age.current.value, address.current.value, email.current.value, phoneNumber.current.value, job.current.value, companyName.current.value); addProfile(e, 'CC', firstName.current.value, lastName.current.value, age.current.value, address.current.value, email.current.value, phoneNumber.current.value, job.current.value, companyName.current.value, null )}}
+                                        onClick={(e) => {e.preventDefault();  console.log(firstName.current.value, lastName.current.value, age.current.value, address.current.value, email.current.value, phoneNumber.current.value, job.current.value, sex.current.value, companyName.current.value); addProfile(e, 'CC', sex.current.value, firstName.current.value, lastName.current.value, age.current.value, address.current.value, email.current.value, phoneNumber.current.value, job.current.value, companyName.current.value, null )}}
                                         >
                                             Salvează date
                                         </button>
@@ -373,7 +400,7 @@ export default function AddProfile() {
                                             phoneNumber.current.value, 
                                             job.current.value, 
                                             hasDriverLicense, 
-                                            checkedState); addProfile(e, 'A', firstName.current.value, lastName.current.value, age.current.value, address.current.value, email.current.value, phoneNumber.current.value, job.current.value, hasDriverLicense, checkedState )}}
+                                            checkedState); addProfile(e, 'A', sex.current.value, firstName.current.value, lastName.current.value, age.current.value, address.current.value, email.current.value, phoneNumber.current.value, job.current.value, hasDriverLicense, checkedState )}}
                                         >
                                             Salvează date
                                         </button>

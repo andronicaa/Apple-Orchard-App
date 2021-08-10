@@ -18,6 +18,19 @@
     border: none !important;
 }
 
+.acceptForm {
+    padding: 1vw;
+}
+.acceptFormButton {
+    background-color: #67945e !important;
+    border: none !important;
+    margin-top: 1vh;
+    width: 50%;
+}
+.acceptButtonContainer {
+    width: 100;
+    text-align: center;
+}
 @media (min-width: 501px) {
     .cardContainer {
         flex-direction: row;
@@ -29,5 +42,13 @@
 @media (min-width: 300px) and (max-width: 500px) {
     .cardContainer {
         flex-direction: column;
+    }
+    .reqCard {
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .rejectButton {
+        margin-top: 1vh;
     }
 }

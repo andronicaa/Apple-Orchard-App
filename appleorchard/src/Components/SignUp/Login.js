@@ -3,8 +3,6 @@ import { Form, Button, Alert, InputGroup } from 'react-bootstrap';
 import { Link, useHistory } from 'react-router-dom';
 import styles from "./Styles/SignUp.module.css";
 import { useAuth } from '../../Firebase/context/AuthContext';
-import firebase from "../../Firebase/firebase";
-import 'font-awesome/css/font-awesome.min.css';
 import temp_logo from "../../Imgs/temp_logo.png";
 import ForgotPassword from "./ForgotPassword";
 import Modal from 'react-bootstrap/Modal';

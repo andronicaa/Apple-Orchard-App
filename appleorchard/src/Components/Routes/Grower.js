@@ -9,6 +9,7 @@ export default function Grower({ component: Component, ...rest }) {
     const [loading, setLoading] = useState(true);
     const role = useRef("");
     
+    
     const refRole = firebase.firestore().collection("userRole").doc(currentUser.uid); 
     function getUserRole() {
         refRole.get()

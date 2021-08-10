@@ -23,11 +23,25 @@ export default function SeePosts() {
     const [loading, setLoading] = useState(true);
     const [loading1, setLoading1] = useState(true);
     const [loading2, setLoading2] = useState(true);
+    const [savedPosts, setSavedPosts] = useState([]);
     const { currentUser } = useAuth();
     const refUsers = firebase.firestore().collection("users");
     const refProfile = firebase.firestore().collection("users").doc(currentUser.uid);
+    // aici se retin job-urile la care a aplicat
     const refSeenJobs = firebase.firestore().collection("users").doc(currentUser.uid).collection("seenJobs"); 
     
+    const refSavedPosts = firebase.firestore().collection("users").doc(currentUser.uid).collection("savePost");
+
+    function getIdSavedPosts() {
+        refSavedPosts.onSnapshot(querySnapshot => {
+            const savedItems = [];
+            querySnapshot.forEach(doc => {
+                savedItems.push(doc.data().i.jobId);
+            })
+            // console.log("Posturile salvate sunt: ", savedItems);
+            setSavedPosts(savedItems);
+        })
+    }
     function getAllAppliedPosts() {
         const items = [];
         const itemsId = [];
@@ -47,9 +61,10 @@ export default function SeePosts() {
     }
     
     function getProfile() {
+        console.log("Am intrat in functia de profil");
         refProfile.onSnapshot((doc) => {
             profile.current = doc.data();
-            userDriverCateg.current = getDriverCateg(doc.data().catState);
+            userDriverCateg.current = doc.data().driverCateg;
             
             console.log("Categoriile userului sunt: ", userDriverCateg.current);
             /*
@@ -59,25 +74,7 @@ export default function SeePosts() {
         })
     }
 
-    function getDriverCateg(driverArray) {
-        // console.log("S-a apelat");
-        let driverCateg = "";
-        if(driverArray[0] == true)
-            driverCateg += "B";
-        if(driverArray[1] == true)
-            driverCateg += "B1";
-        if(driverArray[2] == true)
-            driverCateg += "C";
-        if(driverArray[3] == true)
-            driverCateg += "C1";
-        if(driverArray[4] == true)
-            driverCateg += "D";
-        if(driverArray[5] == true)
-            driverCateg += "D1";
-
-        return driverCateg;
-
-    }
+ 
     function getAllPosts() {
         refUsers.onSnapshot((querySnapshot) => {
             const growerUser = [];
@@ -106,9 +103,9 @@ export default function SeePosts() {
                 
                 querySnapshot.forEach((doc) => {
                     // console.log("Posturile sunt: ", doc.data(), i.id);
-                    var driverCateg = getDriverCateg(doc.data().checkedState);
+                    // var driverCateg = getDriverCateg(doc.data().checkedState);
                     // console.log("Este: ", driverCateg);
-                    post.push({id: i.id, employeerName: i.lastName, employeerFirstName: i.firstName, jobId: doc.id, categories: driverCateg, ...doc.data()});
+                    post.push({id: i.id, employeerName: i.lastName, employeerFirstName: i.firstName, jobId: doc.id, categories: doc.data().categ, ...doc.data()});
                 })
                
 
@@ -117,7 +114,7 @@ export default function SeePosts() {
         }
             
         )
-        // console.log("Posturile sunt: ", post);
+        console.log("Posturile sunt: ", post);
             setPostPerUser(post);
             setTimeout(function() {
                 setLoading(false);
@@ -174,6 +171,7 @@ export default function SeePosts() {
             console.log(err);
         });
     }
+    /*
     function setCurrentLocation(e, location) {
         e.preventDefault();
         console.log(location);
@@ -181,12 +179,13 @@ export default function SeePosts() {
         setTimeout(function() {
             setLoading2(false);
         }, 1000);
-    }
+    }*/
 
     useEffect(() => {
         getAllPosts();
         getProfile();
         getAllAppliedPosts();
+        getIdSavedPosts();
     }, []);
     return (
         <div className={princStyle.mainPage}>
@@ -201,14 +200,14 @@ export default function SeePosts() {
                 {/* <Button variant="success" onClick={e => setCurrentLocation(e, location.current.value)}>Cauta</Button> */}
             </Form.Group>
             </Form>
-            <div className={styles.postContainer}>
+            <div className={styles.mainContainer}>
                 {
                     loading == false ? (
                         postPerUser.map(i => (
                             i.location == searchedLocation || searchedLocation == '' ? 
                             (
                                 <Card className={styles.postCard} key={i.jobId}>
-                                <Card.Header>{i.postName}</Card.Header>
+                                <Card.Header><strong>{i.postName}</strong></Card.Header>
                                 <Card.Body>
                                     <p><strong>Descriere post: </strong>{i.description}</p>
                                     <p><strong>Angajator: </strong>{i.employeerName} {i.employeerFirstName}</p>
@@ -317,10 +316,17 @@ export default function SeePosts() {
                                         )
 
                                     }
-                                    <Button variant="danger" onClick={e => {handleShow1(); savePost(e, i)}}><i className="fa fa-star" aria-hidden="true"></i> &nbsp; Salveaza job</Button>
+                                    {
+                                        savedPosts.includes(i.jobId) ?
+                                            <div></div>
+                                        :
+                                            <Button variant="danger" onClick={e => {handleShow1(); savePost(e, i)}}><i className="fa fa-star" aria-hidden="true"></i> &nbsp; Salveaza job</Button>
+                                    }
                                     <Modal show={show1} onHide={handleClose1} animation={false}>
                                         <Alert variant="warning">Acest job a fost salvat cu succces</Alert>
-                                        <Button onClick={handleClose1}><i className="fa fa-window-close" aria-hidden="true"></i></Button>
+                                        <div className={styles.exitButtonContainer}>
+                                            <Button onClick={handleClose1} className={styles.exitButton}><i className="fa fa-window-close" aria-hidden="true"></i></Button>
+                                        </div>
                                     </Modal>
                                     <Modal show={show} onHide={handleClose} animation={false}>
                                         <Alert variant="success">Cererea dumneavoastra a fost inregistrata.

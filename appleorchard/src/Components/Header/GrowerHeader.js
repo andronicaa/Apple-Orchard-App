@@ -29,6 +29,7 @@ export default function Grower1() {
 
         try {
             await logout();
+            // setTimeout
             history.push("/neauth-home");
         } catch {
             setError("Failed to log out");
