@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { auth, googleProvider } from '../firebase';
+import { useHistory } from 'react-router-dom';
 
 // stabilim contextul
 const AuthContext = React.createContext();
@@ -11,24 +12,36 @@ export function useAuth() {
 export default function AuthProvider({ children }) {
     const [currentUser, setCurrentUser] = useState([]);
     const [loading, setLoading] = useState(true);
-    
+    const history = useHistory();
+
 
 
     function signInWithGoogle() {
-        console.log("Am intrat in functia asta:");
-        if(currentUser)
-        {
-            console.log("Userul este: ", currentUser);
-            setCurrentUser(currentUser);
-        }
-        return auth.signInWithPopup(googleProvider).then((res) => {
-            console.log("User-ul este: ", res.user)
-        }).catch(err => console.log(err.message));
+        auth.signInWithPopup(googleProvider)
+        .then((result) => {
+            var credential = result.credential;
+            /*
+            var token = credential.accessTocken;
+            var user = result.user;
+            */
+            setTimeout(function(){
+                history.push("/addprofile");
+            }, 1000);
+        }).catch(error => {
+            var errorCode = error.errorCode;
+            var errorMessage = error.message;
+            var email = error.email;
+            // The firebase.auth.AuthCredential type that was used.
+            var credential = error.credential;
+        })
     }
+
+
+
+
     // functia ce face logarea efectiva cu credentialele date de user
     function signup(email, password) {
         // se va trimite mail de confirmare
-        
         auth.createUserWithEmailAndPassword(email, password).then(
         () => {
             console.log("S-a autentificat cu succes");
@@ -65,8 +78,6 @@ export default function AuthProvider({ children }) {
             setCurrentUser(user);
             setLoading(false);
             // setam userul curent
-            
-            
         })
         return unsubscribe;
     }, [])

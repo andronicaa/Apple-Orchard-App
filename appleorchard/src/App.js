@@ -17,11 +17,9 @@ import TreatmentSchedule from "./Components/Orchard/TreatmentSchedule";
 import Weather from "./Components/Weather/Weather";
 import NotFoundPage from "./Components/Home/NotFoundPage";
 import ProgramTreatment from './Components/Orchard/ProgramTreatment/ProgramTreatment';
-import FunctionalProgramTreatment from "./Components/Orchard/ProgramTreatment/FunctionalProgramTreatment";
 import Equipment from "./Components/Orchard/Equipment";
 import TreeReceipts from './Components/Orchard/TreeReceipts';
 import Task from './Components/Weather/Task/Task';
-import AddJob from './Components/Job/AddJob';
 import PostsTab from './Components/Job/PostsTab';
 import SeePosts from './Components/Job/Employee/SeePosts';
 import Responses from './Components/Job/Employee/Responses';
@@ -31,7 +29,7 @@ import GrowerProfile from './Components/GrowerProfile/GrowerProfile';
 import Statistics from './Components/Statistics/Statistics';
 import ForumMainPage from './Components/Forum/ForumMainPage';
 import DetailedTopic from './Components/Forum/DetailedTopic';
-import { useAuth } from './Firebase/context/AuthContext';
+import EmployeeTask from './Components/Job/Employee/EmployeeTask';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 
@@ -72,7 +70,7 @@ function App() {
                 <Employee path="/responses" component={Responses} />
                 <Employee path="/saved-posts" component={SavedPosts} />
                 <Employee path="/employer" component={Employer} />
-               
+                <Employee path="/employee-task" component={EmployeeTask} />
                 <Route component={NotFoundPage} />
             </Switch>
         </AuthProvider>
