@@ -2,7 +2,6 @@ import React from 'react';
 import styles from './Style/TreatmentSchedule.module.css';
 import OrchardMenu from './OrchardMenu';
 import program_tehnologic from '../../Imgs/program-tehnologic-mar.jpg';
-import { Link } from 'react-router-dom';
 
 export default function TreatmentSchedule() {
     

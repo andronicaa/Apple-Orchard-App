@@ -23,3 +23,14 @@
 .homeButton {
     width: 60%;
 }
+.textCol {
+    /* border: 1px solid red; */
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+@media (min-width: 300px) and (max-width: 500px) {
+    /* .col {
+        display: none;
+    } */
+}

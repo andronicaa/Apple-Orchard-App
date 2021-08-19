@@ -20,7 +20,7 @@ export default function TaskTabs() {
                 onClick={() => { toggle('1'); }}
                
             >
-                Operatiuni programate 
+                Operațiuni programate (ziua curentă)
                 
             </NavLink>
             </NavItem >
@@ -29,7 +29,7 @@ export default function TaskTabs() {
                 className={`${classnames({ active: activeTab === '2' })} ${styles.navLink}`}
                 onClick={() => { toggle('2'); }}
             >
-                Operatiuni finalizate
+                Operațiuni finalizate
             </NavLink>
             </NavItem>
            

@@ -10,14 +10,11 @@
 	background-repeat: no-repeat;
 	background-size: cover;
 	content: "";
-	background-position: center;
-	background-repeat: no-repeat;
-	background-size: cover;
 	top: 0;
 	left: 0;
 	bottom: 0;
 	right: 0;
-	position: absolute;
+	position: fixed;
 	z-index: -10;
 	display: flex;
 	justify-content: center;
@@ -53,9 +50,14 @@
 }
 
 .quitButton {
-	background-color: rgb(135, 31, 8) !important;
-	border: none !important;
-	float: right;
+	width: 100;
+	text-align: center;
+	margin-top: 1vh;
+} 
+
+.saveButtonContainer {
+	width: 100;
+	text-align: center;
 }
 
 @media (min-width: 300px) and (max-width: 500px) {

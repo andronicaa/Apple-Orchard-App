@@ -42,12 +42,7 @@
     width: 100%;
     padding: 2vw;
 }
-.flexContainer {
-    margin: 2vw;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
+
 .addDetailsButton {
     background-color: #67945e !important;
     border: none !important;
@@ -55,6 +50,7 @@
 
 .extProfileContainer {
     width: 50%;
+    padding-top: 6vh;
 }
 .modalContainer {
     background-color: #fff3eb;
@@ -69,18 +65,58 @@
     color: #871f08;
 }
 .tags { 
-    color: #e36e10;
+    color: #871f08;
 }
 .submitButton {
+    margin-top: 1vh;
     background-color: #67945e !important;
-    border: none;
+    border: none !important;
 }
 .buttonContainer {
     position: relative;
     bottom: 2vh;
 }
 .title {
-    color: #c65547;
+    text-align: center;
+    margin-top: 2vh;
+    color: #871f08;
+}
+
+.updateCont {
+    width: 100%;
+    text-align: center;
+}
+
+.updateButton {
+    background-color: #871f08 !important;
+    border: none !important;
+}
+@media (min-width: 501px) {
+    .flexContainer {
+        margin: 2vw;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        /* border: 1px solid red; */
+    }
+}
+@media (min-width: 300px) and (max-width: 500px) {
+    .mainContainer {
+        width: 90%;
+    }
+
+    .flex-container {
+        display: flex;
+        flex-direction: column;
+        border: 1px solid red;
+    }
+    .mainInfo, .extProfileContainer {
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+   
 }
 
 

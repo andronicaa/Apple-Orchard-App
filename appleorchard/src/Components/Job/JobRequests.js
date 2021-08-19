@@ -56,6 +56,7 @@ export default function JobRequests() {
                         <Card.Body>
                             <p><strong>Nume aplicant: </strong>{p.lastName} {p.firstName}</p>
                             <p><strong>Permis de conducere: </strong>{p.driverLicense}</p>
+                            <p><strong>Categorii: </strong>{p.categories}</p>
                         </Card.Body>
                         <Card.Footer>
                             <Button className={styles.acceptButton} onClick={handleShow1}><i className="fa fa-check" aria-hidden="true"></i> &nbsp; Accepta</Button>

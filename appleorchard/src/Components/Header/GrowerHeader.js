@@ -54,7 +54,7 @@ export default function Grower1() {
             </Nav>
             <Nav>
                 <Nav.Link className={styles.linkText}>Bine ai venit, {userName}</Nav.Link>
-                <Button onClick={handleLogout} className={styles.actionButton}>Logout</Button>
+                <Button onClick={handleLogout} className={styles.actionButton}>Logout &nbsp; <i className="fa fa-sign-out" aria-hidden="true"></i></Button>
             </Nav>
         </Navbar.Collapse>
         </Navbar>

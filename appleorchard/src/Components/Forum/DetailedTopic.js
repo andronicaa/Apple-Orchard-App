@@ -2,9 +2,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router';
 import firebase from '../../Firebase/firebase';
 import { useAuth } from '../../Firebase/context/AuthContext';
-import { Form, InputGroup, Button, Card, Modal, ToggleButton } from 'react-bootstrap';
+import { Form, InputGroup, Button, Card, Modal, Alert } from 'react-bootstrap';
 import styles from './Style/DetailedTopic.module.css';
 import GrowerHeader from '../Header/GrowerHeader';
+
+
 export default function DetailedTopic() {
     const { currentUser } = useAuth();
     const location = useLocation();
@@ -14,6 +16,7 @@ export default function DetailedTopic() {
     const [loadingTopic, setLoadingTopic] = useState(true);
     const [answers, setAnswers] = useState([]);
     const [loadingAns, setLoadingAns] = useState(true);
+    const [error, setErros] = useState([]);
     const [show, setShow] = useState(false);
     const handleShow = () => setShow(true);
     const handleClose = () => setShow(false);
@@ -56,8 +59,16 @@ export default function DetailedTopic() {
         console.log("Am intrat in functia de adauga raspuns");
         const refTopicAns = firebase.firestore().collection("forumTopic").doc(topicId).collection("answers");
       
-        
-        if(existsImage)
+        var ok = true;
+        const err = [];
+        if(answer == '')
+        {
+            err.push("Trebuie sa completati toate campurile. \n");
+            ok = false;
+        }
+        if(ok)
+        {
+            if(existsImage)
         {
             const storageRef = firebase.storage().ref();
             const fileRef = storageRef.child(file.name);
@@ -88,6 +99,14 @@ export default function DetailedTopic() {
             })
         handleClose();
         setImage(false);
+        
+        }
+        else
+        {
+            setErros(err);
+        }
+        
+        
     }
 
     function getTopic() {
@@ -270,10 +289,10 @@ export default function DetailedTopic() {
                                 <p>{p.question}</p>
                                 <div className={styles.imgContainer}>
                                     {
-                                        typeof p.imgUlr == 'undefined' ?
-                                            <div></div>
-                                        : 
+                                        typeof p.imgUrl != 'undefined' ?
                                             <img src={p.imgUrl} alt="Imagine" className={styles.img}/>
+                                        : 
+                                            <div></div>
                                     }
                                 </div>
                             </Card.Body>
@@ -345,6 +364,18 @@ export default function DetailedTopic() {
                                         <Form.Control type="file" onChange={onFileChange} aria-describedby="inputGroupPrependTopicImage"
                             required/>
                                     </InputGroup>
+                                    {
+                                        error.length ?
+                                        (
+                                            error.map(p => (
+                                                <Alert variant="danger">
+                                                    {p}
+                                                </Alert>
+                                            ))
+                                        )
+                                        :
+                                        <div></div>
+                                    }
                             </Form.Group>
                         <div className="text-center">
                             <Button onClick={e => addResponse(e, topics[0].id, answer.current.value)} className={styles.likeButton}>Adauga raspuns</Button>

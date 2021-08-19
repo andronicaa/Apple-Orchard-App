@@ -46,11 +46,11 @@ export default function ToDoTask() {
                     <Table className={styles.table}>
                         <thead className={styles.tableHead}>
                             <tr>
-                                <th>Operatiune</th>
+                                <th>Operațiune</th>
                                 <th>Data</th>
                                 <th>Ora</th>
                                 <th>Angajat</th>
-                                <th>Elimina</th>
+                                <th>Elimină</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -70,11 +70,12 @@ export default function ToDoTask() {
                     <div className={styles.smallScreen}>
                         {
                             doneTask.map(p => (
-                                <Card>
-                                    <p><strong>Operatiune: </strong>{p.taskName}</p>
+                                <Card key={p.id}>
+                                    <p><strong>Operațiune: </strong>{p.taskName}</p>
                                     <p><strong>Data: </strong>{p.date}</p>
                                     <p><strong>Ora: </strong>{p.startHour}</p>
                                     <p><strong>Angajat: </strong>{p.employeeFirstName} {p.employeeLastName}</p>
+                                    <p><Button  variant="danger" onClick={e => deleteTask(p.id)}><i className="fa fa-trash" aria-hidden="true"></i></Button></p>
                                 </Card>
                             ))
                         }

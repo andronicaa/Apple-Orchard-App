@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import firebase from '../../../Firebase/firebase';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../../../Firebase/context/AuthContext';
 import { useLocation } from 'react-router';
 import { Modal, Button, Form, Alert, InputGroup, Card } from 'react-bootstrap';
@@ -24,7 +25,7 @@ export default function Task() {
     const currentDate = new Date().getFullYear() + "-" + currentMonth + "-" +  currentDay;
     /* citiri din baza de date */
     const productsCharac = firebase.firestore().collection("productsCondition");
-    const refExtProfile = firebase.firestore().collection("users").doc(currentUser.uid).collection("extProfile");
+    const refArea = firebase.firestore().collection("users").doc(currentUser.uid);
     const refMachinery = firebase.firestore().collection("users").doc(currentUser.uid).collection("receiptEquipment");
     const refUsers = firebase.firestore().collection("users");
     /* date care se completeaza in formular */
@@ -165,17 +166,9 @@ export default function Task() {
         
     }
     function getProfile() {
-        refExtProfile.onSnapshot(querySnapshot => {
-            const items = [];
-            var area = 0;
-            querySnapshot.forEach(doc => {
-                items.push(doc.data());
-            })
-            items.map(p => {
-                area = p.area;
-            })
-            console.log("SUPRAFATA LIVEZII ESTE: ", area);
-            setOrchardArea(area);
+        refArea.onSnapshot(doc => {
+            console.log("SUPRAFATA LIVEZII ESTE: ", doc.data().suprf);
+            setOrchardArea(doc.data().suprf);
             setTimeout(function() {
                 setLoadingArea(false);
             }, 1000);
@@ -213,6 +206,7 @@ export default function Task() {
                 items.push({id: doc.id,...doc.data()});
             })  
             setMachinery(items);
+            console.log("Utilajele sunt: ", items);
             setTimeout(function() {
                 setLoadingMachinery(false);
             }, 1000);
@@ -400,7 +394,7 @@ export default function Task() {
 
     function handleCalculateDose(product) {
        
-            // console.log("ALEG SUBSTANTA");
+            console.log("ALEG SUBSTANTA");
             console.log(product);
             setChosenProduct(product);
             var calcDose = 0;
@@ -411,7 +405,7 @@ export default function Task() {
                     dose = p.dose;
                 }
             })
-            console.log(orchardArea);
+            console.log("aria este: ", orchardArea);
             console.log(dose);
             // acum trebuie sa calculez doza in functie de aria livezii
             calcDose = (dose * orchardArea).toFixed(2);
@@ -448,8 +442,10 @@ export default function Task() {
         productsCharac.onSnapshot(querySnapshot => {
             const items = [];
             querySnapshot.forEach(doc => {
+                console.log(doc.data());
                 items.push({id: doc.id, ...doc.data()});
             })
+            console.log("produsele sunt: ", items);
             setProducts(items);
         })
     }
@@ -459,25 +455,31 @@ export default function Task() {
    
     function getAvailableMachinery() {
         const items = [];
-        console.log("AM INTRAT IN FUNCTIA CARE ALEG UTILAJELE")
+        console.log("AM INTRAT IN FUNCTIA CARE ALEG UTILAJELE", machinery);
         machinery.map(mch => {
-            console.log("utilajul este: ", mch);
+            //console.log("utilajul este: ", mch);
             var ok = false;
             task.map(tsk => {
                 // trebuie sa iau un utilaj care nu este folosit la ora 
                 // daca utilajul este deja asignat pt un task
+
                 if(mch.id == tsk.machineryId)
-                {
-                    console.log(date, tsk.date)
+                {//console.log("Un alt task este: ", tsk);
+                    //console.log("Aici: ", date, tsk.date)
                     // daca sunt in aceeasi data
                     if(date == tsk.date) {
+                        console.log("AM INTRAT IN ACEST IF PENTRU ", tsk);
+                        //console.log("doua task-uri cu aceeasi data")
                         // acum trebuie sa verific si ora
                         if(startHour == tsk.startHour)
                         {
+                            //console.log("Doua task-uri cu aceeasi ora");
+                            console.log("s-a facut ok true");
                             ok = true;
                         }
                         else
                         {
+                            //console.log("Am intrat pe else:");
                             // daca sunt la ora diferite 
                             // trebuie sa verific durata
                             if(tsk.startHour[1] == ':')
@@ -504,30 +506,42 @@ export default function Task() {
 
                             // trebuie ca ora existenta deja + durata sa fie mai mici decat ora care e acum
                             var ex_h_dur = ex_hh + parseInt(tsk.duration);
-
-                            // trebuie sa compar
-                            if(ex_h_dur > new_hh)
+                            var curr_h_dur = new_hh + parseInt(duration);
+                            /*
+                            if(curr_h_dur > ex_hh)
                             {
-                                //inseamna ca nu pot programa
+                                console.log("Am intrat in acest IIIFFFF1");
                                 ok = true;
-                            }
+                            }*/
+                            // trebuie sa compar
+                            /*if(ex_h_dur > new_hh)
+                            {console.log("Am intrat in acest IIIIFFFF1");
+                                //inseamna ca nu pot programa
+                                console.log(ex_h_dur, new_hh);
+                                ok = true;
+                            }*/
                             if(ex_h_dur == new_hh)
                             {
                                 // daca orele sunt egale => trebuie sa verific minutele
                                 if(ex_mm > new_mm)
-                                {
+                                {//onsole.log("Am intrat in acest IIIIFFFF");
                                     // inseamna ca nu pot programa
                                     ok = true;
+                                    console.log("s-a facut ok true");
                                 }
                             }
                             
                         }
                     }
+                    else
+                    {
+                        console.log("NU AU ACEEASI DATA", ok);
+                    }
                 }
 
             })
             if(!ok)
-            {   console.log("Am intrat AICI");
+            {   console.log("AM INTRAT AICI");
                 items.push(mch);
             }
         })
@@ -593,15 +607,20 @@ export default function Task() {
 
                             // trebuie ca ora existenta deja + durata sa fie mai mici decat ora care e acum
                             var ex_h_dur = ex_hh + parseInt(tsk.duration);
-
+                            var curr_h_dur = new_hh + parseInt(duration);
+                            /*if(curr_h_dur > ex_hh)
+                            {
+                                ok = true;
+                            }*/
                             // trebuie sa compar
-                            if(ex_h_dur > new_hh)
+                            /*if(ex_h_dur > new_hh)
                             {
                                 //inseamna ca nu pot programa
                                 ok = true;
-                            }
+                            }*/
                             if(ex_h_dur == new_hh)
                             {
+                                console.log("ore egale");
                                 // daca orele sunt egale => trebuie sa verific minutele
                                 if(ex_mm > new_mm)
                                 {
@@ -664,6 +683,7 @@ export default function Task() {
         e.preventDefault();
         console.log("Parametrii sunt: ", operationType, startHour, duration, date, phase, problem, chosenProduct, calculatedDose, assignedMachinery, assignedEmployee)
         const refTask = firebase.firestore().collection("users").doc(currentUser.uid).collection("tasks");
+        const refEmployeeTask = firebase.firestore().collection("users").doc(assignedEmployee.employeeId).collection("emplTask");
         if(operationType == 'Tratament')
         {
             console.log("aici aici")
@@ -682,10 +702,33 @@ export default function Task() {
                 employeeFirstName: assignedEmployee.firstName,
                 employeeLastName: assignedEmployee.lastName,
                 status: 'To do',
-                timestamp: new Date()
+                timestamp: new Date(),
+                growerId: currentUser.uid
             }).catch(err => {
                 console.log(err);
-            })
+            });
+
+            refEmployeeTask.add({
+                taskName: taskName,
+                startHour: startHour,
+                duration: duration, 
+                date: date,
+                phase: phase,
+                problem: problem, 
+                chosenProduct: chosenProduct,
+                calculatedDose: calculatedDose,
+                machineryId: assignedMachinery.id,
+                machineryName: assignedMachinery.nameEq,
+                employeeId: assignedEmployee.employeeId,
+                employeeFirstName: assignedEmployee.firstName,
+                employeeLastName: assignedEmployee.lastName,
+                status: 'To do',
+                timestamp: new Date(),
+                growerId: currentUser.uid
+            }).catch(err => {
+                console.log(err);
+            });
+
         }
         else
         {
@@ -701,7 +744,24 @@ export default function Task() {
                 employeeFirstName: assignedEmployee.firstName,
                 employeeLastName: assignedEmployee.lastName,
                 status: 'To do', 
-                timestamp: new Date()
+                timestamp: new Date(),
+                growerId: currentUser.uid
+            }).catch(err => {
+                console.log(err);
+            });
+            refEmployeeTask.add({
+                taskName: taskName,
+                startHour: startHour,
+                duration: duration, 
+                date: date,
+                machineryId: assignedMachinery.id,
+                machineryName: assignedMachinery.nameEq,
+                employeeId: assignedEmployee.employeeId,
+                employeeFirstName: assignedEmployee.firstName,
+                employeeLastName: assignedEmployee.lastName,
+                status: 'To do', 
+                timestamp: new Date(),
+                growerId: currentUser.uid
             }).catch(err => {
                 console.log(err);
             })
@@ -711,20 +771,22 @@ export default function Task() {
     }
 
     useEffect(() => {
+        getMachinery();
         getProducts();
         getWeatherAlerts();
         getProfile();
         getTask();
         getEmployee();
-        getMachinery();
     }, []);
     return (
         <div className={styles.mainPage}>
         <OrchardMenu />
         <div>
             
-            <Button onClick={handleShow} className={styles.programButton}>Programeaza operatiune</Button>
-               
+            <Button onClick={handleShow} className={styles.programButton}>Programează operațiune</Button>
+            <Link to={{
+                pathname: '/treatment-schedule'
+                }}><Button className={styles.programButton}>Program tehnologic &nbsp; <i className="fa fa-arrow-right" aria-hidden="true"></i></Button></Link>
             <Modal show={show} onHide={handleClose} animation={false}>
                 <Card>
                 <Card.Header className="text-center" style={{backgroundColor: "rgba(135, 31, 8, .8)", color: "orange"}}><h4><strong>Adăugare nou task</strong></h4></Card.Header>
@@ -790,7 +852,7 @@ export default function Task() {
                                         <div>
                                             
                                             <Form.Group>
-                                                <Form.Label htmlFor="taskName" className={styles.formLabel}><strong>Nume operatiune</strong></Form.Label>
+                                                <Form.Label htmlFor="taskName" className={styles.formLabel}><strong>Nume operațiune</strong></Form.Label>
                                                 <InputGroup>
                                                     <InputGroup.Prepend id="inputGroupPrependTaskName">
                                                         <InputGroup.Text>
@@ -803,7 +865,7 @@ export default function Task() {
                                             </Form.Group>
 
                                             <Form.Group>
-                                                <Form.Label htmlFor="jobType" className={styles.formLabel}><strong>Tipul de job</strong></Form.Label>
+                                                <Form.Label htmlFor="jobType" className={styles.formLabel}><strong>Tip job angajat</strong></Form.Label>
                                                 <InputGroup>
                                                     <InputGroup.Prepend id="inputGroupPrependJobType">
                                                         <InputGroup.Text>
@@ -824,7 +886,7 @@ export default function Task() {
                                             </Form.Group>
 
                                             <Form.Group>
-                                                <Form.Label htmlFor="startHour" className={styles.formLabel}><strong>Ora inceput</strong></Form.Label>
+                                                <Form.Label htmlFor="startHour" className={styles.formLabel}><strong>Oră inceput</strong></Form.Label>
                                                 <InputGroup>
                                                     <TimeKeeper 
                                                         time={startHour}
@@ -857,7 +919,7 @@ export default function Task() {
                                                 (
                                                     <>
                                                     <Form.Group>
-                                                        <Form.Label htmlFor="operationType" className={styles.formLabel}><strong>Tip operatiune</strong></Form.Label>
+                                                        <Form.Label htmlFor="operationType" className={styles.formLabel}><strong>Tip operațiune</strong></Form.Label>
                                                         <InputGroup>
                                                             <InputGroup.Prepend id="inputGroupPrependOperationType">
                                                                 <InputGroup.Text>
@@ -867,7 +929,7 @@ export default function Task() {
                                                             <Form.Control as="select" aria-describedby="inputGroupPrependOperationType"
                                                 required  onChange={(e) => setOperationType(e.target.value)}>
                                                                 {
-                                                                    ['Alege tip operatiune', 'Tratament', 'Operatiuni sol'].map((j) => (
+                                                                    ['Alege tip operatiune', 'Tratament', 'Operatiuni sol', 'Alt tip operatiune'].map((j) => (
                                                                         <option key={j}>
                                                                             {j}
                                                                         </option>
@@ -877,7 +939,7 @@ export default function Task() {
                                                         </InputGroup>
                                                     </Form.Group>
                                                     <Form.Group>
-                                                        <Form.Label htmlFor="duration" className={styles.formLabel}><strong>Durata operatiune (h)</strong></Form.Label>
+                                                        <Form.Label htmlFor="duration" className={styles.formLabel}><strong>Durată operațiune (h)</strong></Form.Label>
                                                         <InputGroup>
                                                             <InputGroup.Prepend id="inputGroupPrependDuration">
                                                                 <InputGroup.Text>
@@ -916,7 +978,7 @@ export default function Task() {
                                                                     phase != 'Alege faza' ?
                                                                     (<>
                                                                         <Form.Group>
-                                                                            <Form.Label htmlFor="problem" className={styles.formLabel}><strong>Problema</strong></Form.Label>
+                                                                            <Form.Label htmlFor="problem" className={styles.formLabel}><strong>Problemă</strong></Form.Label>
                                                                             <InputGroup>
                                                                                 <InputGroup.Prepend id="inputGroupPrependDisease">
                                                                                     <InputGroup.Text>
@@ -942,7 +1004,7 @@ export default function Task() {
                                                                            (    
                                                                                <>
                                                                                     <Form.Group>
-                                                                                        <Form.Label htmlFor="chosenProduct" className={styles.formLabel}><strong>Substante recomandate pentru tratament</strong></Form.Label>                                                                                
+                                                                                        <Form.Label htmlFor="chosenProduct" className={styles.formLabel}><strong>Substanțe recomandate pentru tratament</strong></Form.Label>                                                                                
                                                                                         <InputGroup>
                                                                                         <InputGroup.Prepend id="inputGroupPrependChosenProduct">
                                                                                             <InputGroup.Text>
@@ -966,7 +1028,7 @@ export default function Task() {
                                                                                     {
                                                                                                 loadingCalcDose == false ?
                                                                                                 (
-                                                                                                    <p>Doza calculata este: {calculatedDose} kg</p>
+                                                                                                    <p>Doza calculată este: {calculatedDose} kg</p>
                                                                                                 )
                                                                                                 :
                                                                                                 (
@@ -999,7 +1061,7 @@ export default function Task() {
                                                             <div></div>
                                                         )
                                                     }
-                                                    <Button onClick={getAvailableMachinery}>Cauta utilaj</Button>
+                                                    <Button onClick={getAvailableMachinery}>Caută utilaj</Button>
                                                                         {
                                                                             searchMachinery == false ?
                                                                             (
@@ -1010,11 +1072,11 @@ export default function Task() {
                                                                                         availableMachinery.length ?
                                                                                         (
                                                                                             <>
-                                                                                                <p><strong>Utilaje disponibile</strong></p>
+                                                                                                <p style={{color: "#871f08"}}><strong>Utilaje disponibile</strong></p>
                                                                                                 {availableMachinery.map(p => (
                                                                                                     
                                                                                                         
-                                                                                                    <p key={p.id}>{p.nameEq}
+                                                                                                    <p key={p.id}>{p.nameEq} &nbsp;
                                                                                                     {
                                                                                                         typeof assignedMachinery.nameEq == 'undefined' ? 
                                                                                                             <Button variant="success" onClick={e => chosenMachinery(e, p)}><i className="fa fa-plus" aria-hidden="true"></i></Button>
@@ -1028,7 +1090,7 @@ export default function Task() {
                                                                                         )
                                                                                         :
                                                                                         (
-                                                                                            <div>Nu exista utilaje disponibile</div>
+                                                                                            <div>Nu există utilaje disponibile</div>
                                                                                         )
                                                                                     }
                                                                                     
@@ -1040,10 +1102,11 @@ export default function Task() {
                                                                                             availableEmployee.length ?
                                                                                             (
                                                                                                 <>
+                                                                                                    <p style={{color: "#871f08"}}><strong>Angajați disponibili</strong></p>
                                                                                                     {availableEmployee.map(p => (
                                                                                                     
-                                                                                                        
-                                                                                                    <p key={p.id}>{p.firstName} {p.lastName} 
+                                                                                                    
+                                                                                                    <p key={p.id}>{p.firstName} {p.lastName} &nbsp;
                                                                                                     {
                                                                                                         typeof assignedEmployee.firstName == 'undefined' ? 
                                                                                                             <Button variant="success" onClick={e => chosenEmployee(e, p)}><i className="fa fa-plus" aria-hidden="true"></i></Button>
@@ -1052,15 +1115,17 @@ export default function Task() {
                                                                                                     }
                                                                                                     </p>
                                                                                                 ))}
-                                                                                                    
+                                                                                                <div className={styles.saveButtonContainer}>
+                                                                                                    <Button className={styles.saveButton} onClick={e => handleSubmit(e, operationType, taskName, startHour, duration, date, phase, problem, chosenProduct, calculatedDose, assignedMachinery, assignedEmployee)}>Salvează &nbsp; <i className="fa fa-check" aria-hidden="true"></i></Button>
+                                                                                                </div>
                                                                                                 </>
                                                                                             )
                                                                                             :
                                                                                             (
-                                                                                                    <div>Nu exista angajati disponibili</div>
+                                                                                                    <div>Nu există angajati disponibili</div>
                                                                                             )
                                                                                         }
-                                                                                        
+
                                                                                         </>
                                                                                     )
                                                                                     :
@@ -1081,6 +1146,7 @@ export default function Task() {
                                                                                 <div></div>
                                                                             )
                                                                         }
+
                                                    
                                                 </>
                                                 )
@@ -1099,13 +1165,12 @@ export default function Task() {
                                     )
                                 }
                                 
-                            <Button className={styles.saveButton} onClick={e => handleSubmit(e, operationType, taskName, startHour, duration, date, phase, problem, chosenProduct, calculatedDose, assignedMachinery, assignedEmployee)}>Salveaza</Button>
                             </>
                         )
                     }
-                    
-                    <Button className={styles.quitButton} onClick={handleClose}>Renunta</Button>
-                    
+                    <div className={styles.quitButton}>
+                        <Button onClick={handleClose}>Renunță</Button>
+                    </div>
                 </Form>
                 </Card>
             </Modal>

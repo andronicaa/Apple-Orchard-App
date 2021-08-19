@@ -11,14 +11,11 @@
 	background-repeat: no-repeat;
 	background-size: cover;
 	content: "";
-	background-position: center;
-	background-repeat: no-repeat;
-	background-size: cover;
 	top: 0;
 	left: 0;
 	bottom: 0;
 	right: 0;
-	position: absolute;
+	position: fixed;
 	z-index: -10;
 	display: flex;
 	justify-content: center;
@@ -28,6 +25,10 @@
 
 .mainContainer {
     background-color: rgba(250, 253, 243, .7);
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+
 }
 .inputItem {
     position: relative;
@@ -64,7 +65,6 @@
 
 .rowContainer {
     width: 80%;
-    /* border: 1px solid red; */
     margin-left: auto;
     margin-right: auto;
     display: flex;
@@ -74,12 +74,21 @@
 }
 
 .flexItem {
-    /* border: 1px solid green; */
     width: 30%;
 }
 .alerts {
     width: 40%;
     margin: 1.5vw;
+}
+
+.updateContainer {
+    padding: 2vw;
+}
+
+.saveEditButton {
+    margin-top: 2vh;
+    background-color: #871f08 !important;
+    border: none !important;
 }
 @media (min-width: 1025px) {
     .mainContainer {
@@ -95,9 +104,7 @@
         flex-direction: column;
     }
     .flexItem {
-        /* border: 1px solid green; */
         width: 97%;
-        /* border: 1px solid red; */
         margin-left: auto;
         margin-right: auto;
     }
@@ -105,9 +112,6 @@
         width: 90%;
         margin-left: auto;
         margin-right: auto;
-        position: relative;
-        top: 0;
-        /* margin-top: 2vh; */
     }
     .formTitle {
         visibility: hidden;

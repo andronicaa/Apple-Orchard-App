@@ -2,8 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import firebase from '../../Firebase/firebase';
 import { useAuth } from '../../Firebase/context/AuthContext';
 import styles from './Style/ForumMainPage.module.css';
-import OrchardMenu from '../Orchard/OrchardMenu';
-import { Form, InputGroup, Button, Card } from 'react-bootstrap';
+import { Form, InputGroup, Button, Card, Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import GrowerHeader from '../Header/GrowerHeader';
 
@@ -17,7 +16,7 @@ export default function ForumMainPage() {
     const [loadingTopic, setLoadingTopic] = useState(true);
     const [userName, setUserName] = useState('');
     const [loadingUserName, setLoadingUserName] = useState(true);
-
+    const [error, setErros] = useState([]);
     const [existsImage, setImage] = useState(false);
     
     const [sortType, setSortType] = useState('asc');
@@ -42,28 +41,21 @@ export default function ForumMainPage() {
 
     const addTopic = async (e, topicName, question, topicCateg) => {
         e.preventDefault();
-        
-        if(existsImage)
+        const err = [];
+        var ok = true;
+        if(topicName == '' || question == '' || topicCateg == '')
         {
-            const storageRef = firebase.storage().ref();
-            const fileRef = storageRef.child(file.name);
-            await fileRef.put(file);
-            refTopic.add({
-            author: currentUser.uid, 
-            topicName: topicName,
-            question: question,
-            topicCateg: topicCateg,
-            timestamp: currentDate + " " + currentTime,
-            likes: 0,
-            userName: userName,
-            timestampOrd: new Date(),
-            imgName: file.name,
-            imgUrl: await fileRef.getDownloadURL()
-        });
+            ok = false;
+            err.push("Trebuie sa completati toate campurile!\n");
         }
-        else
+        if(ok)
         {
-            refTopic.add({
+            if(existsImage)
+            {
+                const storageRef = firebase.storage().ref();
+                const fileRef = storageRef.child(file.name);
+                await fileRef.put(file);
+                refTopic.add({
                 author: currentUser.uid, 
                 topicName: topicName,
                 question: question,
@@ -71,12 +63,35 @@ export default function ForumMainPage() {
                 timestamp: currentDate + " " + currentTime,
                 likes: 0,
                 userName: userName,
-                timestampOrd: new Date()
+                timestampOrd: new Date(),
+                imgName: file.name,
+                imgUrl: await fileRef.getDownloadURL()
             });
+            }
+            else
+            {
+                refTopic.add({
+                    author: currentUser.uid, 
+                    topicName: topicName,
+                    question: question,
+                    topicCateg: topicCateg,
+                    timestamp: currentDate + " " + currentTime,
+                    likes: 0,
+                    userName: userName,
+                    timestampOrd: new Date()
+                });
+            }
+            
+            setShowForm(false);
+            setImage(false);
+            
+        }
+        else
+        {
+            setErros(err);
         }
         
-        setShowForm(false);
-        setImage(false);
+        
     }
 
     function getUserName() {
@@ -136,10 +151,10 @@ export default function ForumMainPage() {
                 {
                     showForm ?
                     (   <Card className={styles.formCardContainer}>
-
                         <Card.Header className={styles.title}>
                             <h4>Topic nou</h4>
                         </Card.Header>
+
                         <Form className={styles.formContainer}>
                             <Form.Group>
                                 <Form.Label style={{color: "#871f08"}}><strong>Subiect</strong></Form.Label>
@@ -192,6 +207,18 @@ export default function ForumMainPage() {
                             required/>
                                     </InputGroup>
                             </Form.Group>
+                            {
+                                error.length ?
+                                (
+                                    error.map(p => (
+                                        <Alert variant="danger">
+                                            {p}
+                                        </Alert>
+                                    ))
+                                )
+                                :
+                                <div></div>
+                            }
                         </Form>
                         <Card.Footer className="text-center">
                             <Button className={styles.submitFormButton} onClick={e => addTopic(e, topicName.current.value, question.current.value, topicCateg.current.value)}>Adaugă</Button>

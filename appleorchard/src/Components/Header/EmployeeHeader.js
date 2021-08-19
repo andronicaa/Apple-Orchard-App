@@ -53,24 +53,18 @@ export default function Header() {
         <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="mr-auto">
                 <Nav.Link className={styles.linkText}>Profil</Nav.Link>
+                <Nav.Link className={styles.linkText} href="/employee-task">Task</Nav.Link>
                 <NavDropdown title={<span style={{color: 'rgb(255, 255, 255)'}}>Anunturi angajare</span>} id="collasible-nav-dropdown">
                 <NavDropdown.Item href="/see-posts">Anunturi publicate</NavDropdown.Item>
                 <NavDropdown.Item href="/saved-posts">Anunturi salvate</NavDropdown.Item>
                 <NavDropdown.Item href="/responses">Oferte angajare</NavDropdown.Item>
-                <NavDropdown.Item href="/treatment-schedule">Oferte acceptate</NavDropdown.Item>
-                <NavDropdown.Item href="/treatment-schedule">Oferte respinse</NavDropdown.Item>
             </NavDropdown>
             </Nav>
             <Nav>
                 <Nav.Link className={styles.linkText}>Bine ai venit, {userName}</Nav.Link>
-                <Button onClick={handleLogout} className={styles.actionButton}>Logout</Button>
+                <Button onClick={handleLogout} className={styles.actionButton}>Logout &nbsp; <i className="fa fa-sign-out" aria-hidden="true"></i></Button>
             </Nav>
         </Navbar.Collapse>
-        {/* <Modal show={show} onHide={handleClose}>
-            <Modal.Header>
-                Buna ziua
-            </Modal.Header>
-        </Modal> */}
         </Navbar>
     )
 }

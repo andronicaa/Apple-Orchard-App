@@ -81,7 +81,7 @@
 
 .addTopicButton {
 	background-color: #64ab55 !important;
-	border: none;
+	border: none !important;
 	margin: 1vh;
 }
 

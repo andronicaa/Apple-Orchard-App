@@ -6,6 +6,8 @@ import { useAuth } from '../../Firebase/context/AuthContext';
 import temp_logo from "../../Imgs/temp_logo.png";
 import ForgotPassword from "./ForgotPassword";
 import Modal from 'react-bootstrap/Modal';
+import firebase from '../../Firebase/firebase';
+
 
 export function Login() {
   const refEmail = useRef();
@@ -25,6 +27,15 @@ export function Login() {
     setTyped(typed);
     handleSubmit(e);
   }
+  function checkProfile() {
+    const refProfile = firebase.firestore().collection("users").doc(currentUser.uid);
+    refProfile.onSnapshot(doc => {
+      const items = [];
+      items.push(doc.data());
+      return items.length == 0 ? false : true;
+    }) 
+    
+}
   async function handleSubmit(e) {
     e.preventDefault();
     try {
@@ -41,19 +52,17 @@ export function Login() {
       {
         console.log("Autentificare cu google");
         await signInWithGoogle();
-        history.push("/");
       }
         
       
     } catch {
-      setError("Failed to login");
+      setError("Autentificarea a eșuat.");
     }
     setLoading(false);
   }
 
 
   return (
-    // <div className={styles.loginPage}>
     <div className={styles.cardForm}>
      <h3 className="text-center">Măruleț</h3>
       <div className={`text-center ${styles.logoContainer}`}>
@@ -86,16 +95,16 @@ export function Login() {
             
           </Form.Group>
           <Button disabled={loading} className="w-100 btn btn-success" type="submit" onClick={(e) => setTyped('normalLogin')}>
-            Log In
+            Conectare <i className="fa fa-sign-in" aria-hidden="true"></i>
           </Button>
         </Form>
-        <Button disabled={loading} className={`w-100 ${styles.googleButton}`} onClick={(e) => loginWithGoogle(e, 'googleLogin')}><i className="fa fa-google"></i> Autentificare cu Google</Button>
+        <Button disabled={loading} className={`w-100 ${styles.googleButton}`} onClick={(e) => loginWithGoogle(e, 'googleLogin')}><i className="fa fa-google"></i> Conectare cu Google</Button>
         <button type="link" onClick={handleShow} className={styles.forgotButton}>
           Ai uitat parola?
         </button>
         <Modal show={show} onHide={handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Resetare parola</Modal.Title>
+            <Modal.Title>Resetare parolă</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <ForgotPassword />
@@ -103,11 +112,10 @@ export function Login() {
         </Modal>
       </div>
       <div className="w-100 text-center mt-2">
-      <strong>Creeaza cont </strong><Link to="/signup" className={styles.signUpLink}><strong>Sign Up</strong></Link>
+      <strong>Creează cont </strong><Link to="/signup" className={styles.signUpLink}><strong>Autentificare</strong></Link>
     </div>
     </div>
     
-    // </div>
   )
 }
 

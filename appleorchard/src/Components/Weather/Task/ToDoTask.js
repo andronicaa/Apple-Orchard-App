@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import firebase from '../../../Firebase/firebase';
 import { useAuth } from '../../../Firebase/context/AuthContext';
-import { Table, Button } from 'react-bootstrap';
+import { Table, Button, Card } from 'react-bootstrap';
 import styles from '../Style/AllTasks.module.css';
 
 export default function ToDoTask() {
@@ -41,11 +41,11 @@ export default function ToDoTask() {
         <div className={styles.tableContainer}>
              {
                 loadingToDoTask == false ?
-                (
-                    <Table>
+                (<>
+                    <Table className={styles.table}>
                         <thead className={styles.tableHead}>
                             <tr>
-                                <th>Operatiune</th>
+                                <th>Operațiune</th>
                                 <th>Data</th>
                                 <th>Ora</th>
                                 <th>Angajat</th>
@@ -66,6 +66,20 @@ export default function ToDoTask() {
                             }
                         </tbody>
                     </Table>
+                    <div className={styles.smallScreen}>
+                    {
+                        toDotask.map(p => (
+                            <Card key={p.id}>
+                                <p><strong>Operațiune: </strong>{p.taskName}</p>
+                                <p><strong>Data: </strong>{p.date}</p>
+                                <p><strong>Ora: </strong>{p.startHour}</p>
+                                <p><strong>Angajat: </strong>{p.employeeFirstName} {p.employeeLastName}</p>
+                                <td><Button variant="success" onClick={e => moveToDone(p.id)}><i className="fa fa-check" aria-hidden="true"></i></Button></td>
+                            </Card>
+                        ))
+                    }
+                    </div>
+                </>
                 )
                 :
                 (

@@ -47,11 +47,11 @@ export default function ForgotPassword() {
             
           </Form.Group>
             <Button disabled={loading} className={`w-100 ${styles.resetButton}`} type="submit">
-              Reseteaza parola
+              Reseteaza parolă
             </Button>
           </Form>
           <div className="w-100 text-center mt-3">
-            <Link to="/login" className={styles.loginLink}><strong>Login</strong></Link>
+            <Link to="/login" className={styles.loginLink}><strong>Conectare</strong></Link>
           </div>
         </Card.Body>
       </Card>

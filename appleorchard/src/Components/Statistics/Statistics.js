@@ -29,7 +29,7 @@ export default function Statistics() {
     const handleShow = () => setShow(true);
     const handleClose = () => setShow(false);
     const year = new Date().getFullYear();
-    const formYear = useRef(year);
+    const formYear = useRef();
     const [formYearParam, setFormYearParam] = useState(year);
     const refUserSubst = firebase.firestore().collection("users").doc(currentUser.uid).collection("receipt");
     const refUserMach = firebase.firestore().collection("users").doc(currentUser.uid).collection("receiptEquipment");
@@ -177,8 +177,9 @@ export default function Statistics() {
         getEmployee();
     }, [formYearParam]);
     return (
-        <div className={styles.page}>
+        <div className={styles.mainPage}>
         <OrchardMenu />
+        <div className={styles.totContainer}>
         <div className={styles.formContainer}>
             <Form>
             <Form.Group>
@@ -199,10 +200,10 @@ export default function Statistics() {
                             defaultValue={year}
                         />
                     <Form.Text>
-                        Alege anul pentru care doresti sa afli statisticile despre cheltuielile pentru pomi, utilaje, substante
+                        Alege anul pentru care dorești să afli statisticile despre cheltuielile pentru pomi, utilaje, substanțe
                     </Form.Text>
                     </InputGroup>
-                    <Button onClick={e => handleSubmit(e, formYear.current.value)} className={styles.handleSubmitButton}>Cauta</Button>
+                    <Button className={styles.searchButton} onClick={e => handleSubmit(e, formYear.current.value)}>Caută</Button>
                 </Form.Group>
             </Form>
         </div>
@@ -359,9 +360,6 @@ export default function Statistics() {
                     }}
                     />
                 </div>
-           
-        <div>
-            
         </div>
         </div>
         </div>
