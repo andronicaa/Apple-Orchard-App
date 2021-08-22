@@ -90,6 +90,16 @@
     background-color: #871f08 !important;
     border: none !important;
 }
+
+.emplUpdateCont {
+    width: 100%;
+    text-align: center;
+}
+
+.saveEmplButton {
+    background-color: #871f08 !important;
+    border: none !important;
+}
 @media (min-width: 1025px) {
     .mainContainer {
         width: 90%;

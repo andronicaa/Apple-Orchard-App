@@ -5,6 +5,7 @@ import { useAuth } from '../../Firebase/context/AuthContext';
 import styles from './Style/Receipts.module.css';
 import { months, equipmentType } from './Utility/ProductsFeature';
 import { Modal, Table, Card, Alert, InputGroup, Form, Button } from 'react-bootstrap';
+import generatePdfReceipt from './Utility/GeneratePdfReceipt';
 export default function PhoneEquipmentReceipt() {
     const [totalPrice, setTotalPrice] = useState(0);
     const [data, setReceipts] = useState([]);
@@ -279,7 +280,7 @@ export default function PhoneEquipmentReceipt() {
                         </Card.Body>
                         <Card.Footer>
                             <Button variant="danger" className={styles.deleteButton} onClick = {e => deleteProduct(e, rc)}><i className="fa fa-trash" aria-hidden="true"></i></Button>
-                            <Button className={styles.pdfButton}><i className="fa fa-file-pdf-o" aria-hidden="true"></i></Button>
+                            <Button className={styles.pdfButton} onClick={e => generatePdfReceipt(e, rc, "equipment")}><i className="fa fa-file-pdf-o" aria-hidden="true"></i></Button>
                        </Card.Footer>
                     </Card>
                ))

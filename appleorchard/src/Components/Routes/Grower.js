@@ -10,8 +10,8 @@ export default function Grower({ component: Component, ...rest }) {
     const role = useRef("");
     
     
-    const refRole = firebase.firestore().collection("userRole").doc(currentUser.uid); 
     function getUserRole() {
+        const refRole = firebase.firestore().collection("userRole").doc(currentUser.uid); 
         refRole.get()
             .then(doc => {
                 if(doc.exists)
@@ -28,7 +28,8 @@ export default function Grower({ component: Component, ...rest }) {
             })
     }
     useEffect(() => {
-        getUserRole();
+        if(currentUser)
+            getUserRole();
     }, []);
 
 
@@ -40,7 +41,7 @@ export default function Grower({ component: Component, ...rest }) {
                 
                 if (currentUser)
                 {
-                    console.log(role.current);
+                    console.log("Utilizatorul este: ", role.current);
                     // <Component {...props} />
                 }
                 else
@@ -51,16 +52,15 @@ export default function Grower({ component: Component, ...rest }) {
                 }
                 if(loading)
                 {
-                    return <div>...</div>
+                    return <div></div>
                 }
                 else
                 if(role.current == 'Cultivator' && currentUser) 
                 {
-                    console.log("am intrat aici");
                     return <Component {...props} />
                 }
                 else 
-                return <Redirect to="/login" />
+                return <Redirect to="/neauth-home" />
             }}
         >
         </Route>

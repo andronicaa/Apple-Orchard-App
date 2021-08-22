@@ -118,7 +118,9 @@
 .sortArrows {
 	margin: 1vh;
 }
-
+.chCateg {
+	margin: 1vh;
+}
 @media (min-width: 500px) {
 
 }

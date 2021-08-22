@@ -9,6 +9,8 @@ import { Card, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Spinner from 'react-bootstrap/Spinner';
 import { receiptTotal } from '../Statistics/UtilityFunctions';
+import EmployeeCurrentTasks from './EmployeeCurrentTask';
+
 
 export default function MainPage() {
     const{ currentUser } = useAuth();
@@ -30,6 +32,7 @@ export default function MainPage() {
     // data curenta
     const currentMonth = new Date().getMonth() < 10 ? '0' +  (new Date().getMonth() + 1) : (new Date().getMonth() + 1);
     const currentDay = new Date().getDate() < 10 ? '0' + new Date().getDate() : new Date().getDate();
+
     const currentDate = new Date().getFullYear() + "-" + currentMonth + "-" +  currentDay;
     const currentHour = new Date().getHours();
     const currentMinutes = new Date().getMinutes();
@@ -120,20 +123,6 @@ export default function MainPage() {
     }
 
 
-/*
-    function getTask() {
-        refUserTask.onSnapshot(querySnapshot => {
-            var taskItems = [];
-            querySnapshot.forEach(doc => {
-                if(doc.data().date == currentDate)
-                    taskItems.push({id: doc.id,...doc.data()});
-            })
-
-            taskItems = sortAllTasks(taskItems);
-            console.log("Task-urile din ziua curenta sunt: ", taskItems);
-            console.log("Cel mai recent task: ", taskItems[0]);
-        })
-    }*/
 
 
     useEffect(() => {
@@ -201,8 +190,9 @@ export default function MainPage() {
                     </Card>
                 )
                 :
-                (
-                    <div></div>
+                (<div className={styles.employeeContainer}>
+                    <EmployeeCurrentTasks/>
+                </div>
                 )
                 
             )
@@ -215,7 +205,7 @@ export default function MainPage() {
         }
 
         
-        {/* <div lg={4} xs={12} className={styles.pieContainer}>
+        <div lg={4} xs={12} className={styles.pieContainer}>
             <h5 className="text-center">Cheltuieli anul curent</h5>
             <Doughnut
             data={pieData}
@@ -231,7 +221,7 @@ export default function MainPage() {
                 }
             }}
             />
-        </div> */}
+        </div>
         </div>
     </div>
     )

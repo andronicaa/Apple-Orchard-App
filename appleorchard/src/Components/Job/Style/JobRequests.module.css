@@ -31,6 +31,21 @@
     width: 100;
     text-align: center;
 }
+
+.rejectModal {
+    padding: 2vh;
+}
+
+.rejectButtonContainer {
+    width: 100%;
+    text-align: center;
+}
+
+.rejectButtonFed {
+    margin-top: 2vh;
+    background-color:#871f08 !important;
+    border: none !important;
+}
 @media (min-width: 501px) {
     .cardContainer {
         flex-direction: row;

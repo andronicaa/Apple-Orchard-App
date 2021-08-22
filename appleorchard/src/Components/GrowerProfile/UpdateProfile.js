@@ -19,6 +19,8 @@ export default function UpdateProfile({handleCloseEdit}) {
     const job = useRef();
     const phoneNumber = useRef();
     const address = useRef();
+    const area = useRef();
+    const measure = useRef();
     const [p, setProfile] = useState([]);
     const [loading, setLoading] = useState(true);
     const refProfile = firebase.firestore().collection("users").doc(currentUser.uid);
@@ -34,7 +36,10 @@ export default function UpdateProfile({handleCloseEdit}) {
             }, 1000);
         })
     }
-    function editProfile(e, lastName, firstName, age, address, email, phoneNumber) {
+    function editProfile(e, lastName, firstName, age, address, email, phoneNumber, area, measure) {
+        var suprf = area;
+        if(measure == 'mp')
+            suprf = suprf / 10000;
         e.preventDefault();
         refProfile.update(
             {
@@ -43,7 +48,8 @@ export default function UpdateProfile({handleCloseEdit}) {
                 age: age,
                 address: address, 
                 email: email,
-                phoneNumber: phoneNumber
+                phoneNumber: phoneNumber,
+                suprf: suprf
             }
         ).then(() => {console.log("s-a facut update")}).catch(err => console.log(err));
         handleCloseEdit();
@@ -169,11 +175,37 @@ export default function UpdateProfile({handleCloseEdit}) {
                     />
                 </InputGroup>
         </Form.Group>
+        <Form.Group className={styles.inputItem}>
+        <Form.Label htmlFor="area"><strong className={styles.tags}>Suprafață</strong></Form.Label>
+            <InputGroup>
+                <InputGroup.Prepend id="inputGroupArea">
+                    <InputGroup.Text>
+                        <i className={`fa fa-area-chart ${styles.icons}`} aria-hidden="true" />
+                    </InputGroup.Text>
+                </InputGroup.Prepend>
+                <Form.Control 
+                    ref={area}
+                    type="number"
+                    min="1"
+                    placeholder="Suprafață"
+                    aria-describedby="inputGroupArea"
+                    defaultValue={p[0].suprf}
+                    required
+                />
+                <InputGroup.Prepend id="inputGroupPrependMeasure">
+                <Form.Control as="select" ref={measure} aria-describedby="inputGroupPrependMeasure" defaultValue="ha"
+            required>
+                    <option>mp</option>
+                    <option>ha</option>
+                </Form.Control>
+            </InputGroup.Prepend>
+            </InputGroup>
+        </Form.Group>
             </div>
                
             <div className="text-center">
                 <Button className={styles.saveEditButton}
-                    onClick={e => editProfile(e, lastName.current.value, firstName.current.value, age.current.value, address.current.value, email.current.value, phoneNumber.current.value)}
+                    onClick={e => editProfile(e, lastName.current.value, firstName.current.value, age.current.value, address.current.value, email.current.value, phoneNumber.current.value, area.current.value, measure.current.value)}
                 >Salveaza</Button>
             </div>
            </Form>

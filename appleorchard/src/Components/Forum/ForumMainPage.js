@@ -18,7 +18,7 @@ export default function ForumMainPage() {
     const [loadingUserName, setLoadingUserName] = useState(true);
     const [error, setErros] = useState([]);
     const [existsImage, setImage] = useState(false);
-    
+    const [filter, setFilter] = useState('');
     const [sortType, setSortType] = useState('asc');
     const currentMonth = new Date().getMonth() < 10 ? '0' +  (new Date().getMonth() + 1) : (new Date().getMonth() + 1);
     const currentDay = new Date().getDate() < 10 ? '0' + new Date().getDate() : new Date().getDate();
@@ -120,7 +120,14 @@ export default function ForumMainPage() {
         refTopic.onSnapshot(querySnapshot => {
             var topicItems = [];
             querySnapshot.forEach(doc => {
-                topicItems.push({id: doc.id,...doc.data()})
+                if(filter == '' || filter == 'Alege categorie')
+                    topicItems.push({id: doc.id,...doc.data()})
+                else
+                {
+                    if(doc.data().topicCateg == filter)
+                        topicItems.push({id: doc.id,...doc.data()})
+                }
+                
             })
             console.log("Postarile inainte de sortare: ", topicItems);
             topicItems = sortAllTopics(topicItems);
@@ -134,7 +141,7 @@ export default function ForumMainPage() {
     useEffect(() => {
         getUserName();
         getAllTopics();
-    }, [sortType]);
+    }, [sortType, filter]);
 
     return (
         <div className={styles.mainPage}>
@@ -143,6 +150,20 @@ export default function ForumMainPage() {
                 <div className={styles.top}>
                 <div>
                     <Button className={styles.addTopicButton} onClick={e => setShowForm(!showForm)}>Topic nou &nbsp; <i className="fa fa-plus" aria-hidden="true"></i></Button>
+                </div>
+                <div>
+                <Form.Group>
+                    <Form.Control as="select" className={styles.chCateg} onChange={e => {console.log("categoria aleasa este: ", e.target.value); setFilter(e.target.value)}}
+                                required>
+                        {
+                            categ.map((j) => (
+                                <option key={j}>
+                                    {j}
+                                </option>
+                            ))
+                        }
+                    </Form.Control>
+                </Form.Group>
                 </div>
                 <div className={styles.sortArrows}>
                     <Button onClick={e => setSortType('desc')} className={styles.descButton}><i className="fa fa-arrow-down" aria-hidden="true"></i></Button><Button disabled="true" className={styles.sortButton}>Sortează</Button><Button onClick={e => setSortType('asc')} className={styles.ascButton}><i className="fa fa-arrow-up" aria-hidden="true"></i></Button>

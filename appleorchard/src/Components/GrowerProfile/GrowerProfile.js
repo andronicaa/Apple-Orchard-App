@@ -23,6 +23,7 @@ export default function GrowerProfile() {
     // end form data
 
     const [profile, setProfile] = useState([]);
+    const [loadingProfile, setLoadingProfile] = useState(true);
     const [extProfile, setExtProfile] = useState([]);
     const [loading, setLoading] = useState(true);
     const [gen, setGen] = useState('');
@@ -34,6 +35,7 @@ export default function GrowerProfile() {
     const handleCloseEdit = () => setShowEdit(false);
     const refProfile = firebase.firestore().collection("users").doc(currentUser.uid);
     const refProfileExt = firebase.firestore().collection("users").doc(currentUser.uid).collection("extProfile");
+
     function getProfile() {
         const items = [];
         refProfile.onSnapshot(doc => {
@@ -41,6 +43,7 @@ export default function GrowerProfile() {
             setGen(doc.data().sex);
             console.log("Profilul este: ", items);
             setProfile(items);
+            
             
         })
     } 
@@ -91,7 +94,7 @@ export default function GrowerProfile() {
     useEffect(() => {
         getProfile();
         getExtProfile();
-    }, []);
+    }, [profile]);
     return (
         <div className={styles.mainPage}>
             <GrowerHeader />
@@ -116,8 +119,9 @@ export default function GrowerProfile() {
                                     <h6>{p.email}</h6>
                                     <p>{p.phoneNumber}</p>
                                 </>
-                            ))   
+                            ))
                         }
+                                
                         <div className={styles.updateCont}>
                        <Button className={styles.updateButton} onClick={handleShowEdit}>Editează profil &nbsp; <i className="fa fa-pencil-square-o" aria-hidden="true"></i></Button>
                       

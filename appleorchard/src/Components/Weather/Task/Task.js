@@ -683,7 +683,6 @@ export default function Task() {
         e.preventDefault();
         console.log("Parametrii sunt: ", operationType, startHour, duration, date, phase, problem, chosenProduct, calculatedDose, assignedMachinery, assignedEmployee)
         const refTask = firebase.firestore().collection("users").doc(currentUser.uid).collection("tasks");
-        const refEmployeeTask = firebase.firestore().collection("users").doc(assignedEmployee.employeeId).collection("emplTask");
         if(operationType == 'Tratament')
         {
             console.log("aici aici")
@@ -707,28 +706,6 @@ export default function Task() {
             }).catch(err => {
                 console.log(err);
             });
-
-            refEmployeeTask.add({
-                taskName: taskName,
-                startHour: startHour,
-                duration: duration, 
-                date: date,
-                phase: phase,
-                problem: problem, 
-                chosenProduct: chosenProduct,
-                calculatedDose: calculatedDose,
-                machineryId: assignedMachinery.id,
-                machineryName: assignedMachinery.nameEq,
-                employeeId: assignedEmployee.employeeId,
-                employeeFirstName: assignedEmployee.firstName,
-                employeeLastName: assignedEmployee.lastName,
-                status: 'To do',
-                timestamp: new Date(),
-                growerId: currentUser.uid
-            }).catch(err => {
-                console.log(err);
-            });
-
         }
         else
         {
@@ -749,22 +726,6 @@ export default function Task() {
             }).catch(err => {
                 console.log(err);
             });
-            refEmployeeTask.add({
-                taskName: taskName,
-                startHour: startHour,
-                duration: duration, 
-                date: date,
-                machineryId: assignedMachinery.id,
-                machineryName: assignedMachinery.nameEq,
-                employeeId: assignedEmployee.employeeId,
-                employeeFirstName: assignedEmployee.firstName,
-                employeeLastName: assignedEmployee.lastName,
-                status: 'To do', 
-                timestamp: new Date(),
-                growerId: currentUser.uid
-            }).catch(err => {
-                console.log(err);
-            })
         }
             
         handleClose();

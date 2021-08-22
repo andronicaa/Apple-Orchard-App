@@ -115,14 +115,13 @@ export default function SubstanceReceipt() {
                 Header: 'Detalii',
                 accessor: (row) => {
                     return (
-                        <Button className={styles.pdfButton} onClick={(e) => generatePdfReceipt(e, row)}><i className="fa fa-file-pdf-o" aria-hidden="true"></i></Button>
+                        <Button className={styles.pdfButton} onClick={(e) => generatePdfReceipt(e, row, "substance")}><i className="fa fa-file-pdf-o" aria-hidden="true"></i></Button>
                     )
                 }
             }
         ],
         []
     );
-
 
     const {
         getTableProps, // table props from react-table

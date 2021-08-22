@@ -47,6 +47,7 @@ function App() {
                 <Route path="/forgot-password" component={ForgotPassword} />
                 <Route path="/login" component={Login} />
                 <Route path="/addprofile" component={AddProfile} />
+                
                 {/* Rutele pentru utilizatorii de tip cultivatori */}
                 <Grower path="/orchardinfo" component={OrchardInfo}/>
                 <Grower path="/receiptpagetabs" component={ReceiptPageTabs} />

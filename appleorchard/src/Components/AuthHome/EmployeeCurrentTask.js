@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import firebase from '../../../Firebase/firebase';
-import { useAuth } from '../../../Firebase/context/AuthContext';
-import styles from '../Style/EmployeeTask.module.css';
-import { Button, Table, Card } from 'react-bootstrap';
-import EmployeeHeader from '../../Header/EmployeeHeader';
+import firebase from '../../Firebase/firebase';
+import { useAuth } from '../../Firebase/context/AuthContext';
+import { Button, Card } from 'react-bootstrap';
+import styles from './Styles/EmployeeCurrentTask.module.css';
 
 export default function EmployeeTask(type) {
     const { currentUser } = useAuth();
     const [task, setTask] = useState([]);
     const [loading, setLoading] = useState(true);
+    /*data curenta*/
     const currentMonth = new Date().getMonth() < 10 ? '0' +  (new Date().getMonth() + 1) : (new Date().getMonth() + 1);
     const currentDay = new Date().getDate() < 10 ? '0' + new Date().getDate() : new Date().getDate();
     const currentDate = new Date().getFullYear() + "-" + currentMonth + "-" +  currentDay;
@@ -30,8 +30,8 @@ export default function EmployeeTask(type) {
                 userTask.onSnapshot(querySnapshot => {
                     querySnapshot.forEach(doc => {
                         // console.log(doc.data());
-                        task.push({id: doc.id, ...doc.data()});
-                            
+                        if(doc.data().date == currentDate)
+                            task.push({id: doc.id, ...doc.data()});  
                     })
                 })
 
@@ -49,6 +49,7 @@ export default function EmployeeTask(type) {
         console.log(growerId);
         const refTask = firebase.firestore().collection("users").doc(growerId).collection("tasks").doc(taskId);
         refTask.update({status: "Pending"});
+        getTask();
     }
     useEffect(() => {
         getTask();
@@ -56,49 +57,32 @@ export default function EmployeeTask(type) {
     return (
         
             
-        <div className={styles.mainPage}>
-        <EmployeeHeader />  
-        <div className={styles.tableContainer}>
+        <>
+        <div className={styles.cardsContainer}>
             {
             loading == false ?
             (<>
-                <Table className={styles.table}>
-                    <thead className={styles.tableHead}>
-                        <tr>
-                            <th>Operațiune</th>
-                            <th>Data</th>
-                            <th>Ora</th>
-                            <th>Angajat</th>
-                            <th>Finalizat</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            task.map(p => (
-                                <tr key={p.id}>
-                                    <td>{p.taskName}</td>
-                                    <td>{p.date}</td>
-                                    <td>{p.startHour}</td>
-                                    <td>{p.employeeFirstName} {p.employeeLastName}</td>
-                                    <td><Button variant="success" onClick={e => moveToPending(p.id, p.growerId)}><i className="fa fa-check" aria-hidden="true"></i></Button></td>
-                                </tr>
-                            ))
-                        }
-                    </tbody>
-                </Table>
-                <div className={styles.smallScreen}>
+                
                 {
                     task.map(p => (
-                        <Card key={p.id}>
-                            <p><strong>Operațiune: </strong>{p.taskName}</p>
-                            <p><strong>Data: </strong>{p.date}</p>
-                            <p><strong>Ora: </strong>{p.startHour}</p>
-                            <p><strong>Angajat: </strong>{p.employeeFirstName} {p.employeeLastName}</p>
-                            {/* <td><Button variant="success" onClick={e => moveToDone(p.id)}><i className="fa fa-check" aria-hidden="true"></i></Button></td> */}
+                        <Card key={p.id} className={styles.card}>
+                            <Card.Header>
+                                <p><strong>Operațiune: </strong>{p.taskName}</p>
+                            </Card.Header>
+                            <Card.Body>
+                                <p><strong>Data: </strong>{p.date}</p>
+                                <p><strong>Ora: </strong>{p.startHour}</p>
+                                <p><strong>Angajat: </strong>{p.employeeFirstName} {p.employeeLastName}</p>
+                                <p><strong>Utilaj: </strong>{p.machineryName}</p>
+                            </Card.Body>
+                            <Card.Footer>
+                                <Button variant="success" onClick={e => moveToPending(p.id, p.growerId)}>Finalizat &nbsp;<i className="fa fa-check" aria-hidden="true"></i></Button>
+                            </Card.Footer>
+
                         </Card>
                     ))
                 }
-                </div>
+               
             </>
             )
             :
@@ -106,9 +90,15 @@ export default function EmployeeTask(type) {
                 <div></div>
             )
         }
+       
         </div>
-        </div>
-          
+        {
+            task.length == 0 ?
+            <p style={{color: "#871f08", fontSize: "1.2em"}}><strong>Nu există task-uri de realizat pentru ziua curentă</strong></p>
+            :
+            <div></div>
+        }
+        </>
         
        
     )

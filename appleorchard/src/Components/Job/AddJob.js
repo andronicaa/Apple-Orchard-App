@@ -31,7 +31,6 @@ export default function AddJob() {
     const refPosts = firebase.firestore().collection("users").doc(currentUser.uid).collection("jobPosts");
 
     function getDriverCateg(driverArray) {
-        // console.log("S-a apelat");
         let driverCateg = "";
         if(driverArray[0] == true)
             driverCateg += "B";
@@ -172,6 +171,12 @@ export default function AddJob() {
                         </InputGroup>
                     </Form.Group>
                     <Form.Group>
+                        {
+                            driverLicense == 'DA' ?
+                                <Form.Label htmlFor="location"><strong className={styles.tags}>Categorii permis</strong></Form.Label>
+                            :
+                                <div></div>
+                        }
                     {
                         driverLicense === 'DA' ? (
                             driverCategories.map(({name}, index) => (

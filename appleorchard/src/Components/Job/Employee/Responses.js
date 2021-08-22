@@ -43,64 +43,24 @@ export default function Responses() {
 
     function handleAcceptOffer(e, p) {
         e.preventDefault();
-        console.log(p);
-        console.log(p.docId);
-       
-
-      
+        // console.log(p);
+        // console.log(p.docId);
         const refGrower = firebase.firestore().collection("users").doc(p.growerId).collection("onHold").doc(p.docId);
         refGrower.update({status: "accepted offer"})
-        /*
-        const refEmployee = firebase.firestore().collection("users").doc(p.employeeId).collection("employer");
-        refGrower
-        .add(
-            {
-                growerId: p.growerId,
-                employeeId: p.employeeId,
-                postId: p.postId,
-                salary: p.salary
-            }
-        )
-        .catch(err => {
-            console.log(err)
-        });
-
-        refEmployee
-        .add(
-            {
-                growerId: p.growerId,
-                employeeId: p.employeeId,
-                postId: p.postId
-            }
-        )
-        .catch(err => {
-            console.log(err)
-        });
-        
-        // 2. Trebuie sa sterg aceasta inregistrare din onHold
-        const refReq = firebase.firestore().collection("users").doc(p.growerId).collection("onHold").doc(p.docId);
-        refReq
-        .delete()
-        .then(() => {
-            console.log("Documentul s-a sters");
-        })
-        .catch(err => {
-            console.log(err);
-        })
-        */
-
-
-
     }
 
     function handleRejectedOffer(e, p) {
-        // trebuie sa-l trec din nou in onHold => dar cu status schimbat
+        e.preventDefault();
         const refPost = firebase.firestore().collection("users").doc(p.growerId).collection("onHold").doc(p.docId);
         refPost.update({status: "rejected offer"});
     }
+
+
     useEffect(() => {
         getUsersId();
-    }, [])
+    }, []);
+
+
     return (
         <div className={princStyle.mainPage}>
         <EmployeeHeader />

@@ -192,11 +192,7 @@ export default function AddProfile() {
                                                 <i className={`fa fa-user ${styles.icons}`} aria-hidden="true" />
                                             </InputGroup.Text>
                                         </InputGroup.Prepend>
-                                        <Form.Control 
-                                            ref={lastName}
-                                            type="text"
-                                            placeholder="Nume"
-                                            aria-describedby="inputGroupPrependLastName"
+                                        <Form.Control ref={lastName} type="text" placeholder="Nume" aria-describedby="inputGroupPrependLastName"
                                             required
                                             className={styles.formInputControl}
                                         />

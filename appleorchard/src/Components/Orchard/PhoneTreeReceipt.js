@@ -4,6 +4,8 @@ import { useAuth } from '../../Firebase/context/AuthContext';
 import { Modal, Card, Alert, InputGroup, Form, Button } from 'react-bootstrap';
 import { months, appleTypes } from './Utility/ProductsFeature';
 import styles from './Style/Receipts.module.css';
+import generatePdfReceipt from './Utility/GeneratePdfReceipt';
+
 
 export default function PhoneTreeReceipt() {
     const [totalPrice, setTotalPrice] = useState(0);
@@ -194,7 +196,7 @@ export default function PhoneTreeReceipt() {
                         </Card.Body>
                         <Card.Footer>
                             <Button variant="danger" className={styles.deleteButton} onClick = {e => deleteProduct(e, rc)}><i className="fa fa-trash" aria-hidden="true"></i></Button>
-                            <Button className={styles.pdfButton}><i className="fa fa-file-pdf-o" aria-hidden="true"></i></Button>
+                            <Button className={styles.pdfButton} onClick={e => generatePdfReceipt(e, rc, "trees")}><i className="fa fa-file-pdf-o" aria-hidden="true"></i></Button>
                        </Card.Footer>
                     </Card>
                ))

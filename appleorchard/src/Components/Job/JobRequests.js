@@ -72,11 +72,13 @@ export default function JobRequests() {
                                 </Form>
                             </Modal>
                             <Button className={styles.rejectButton} onClick={handleShow2} ><i className="fa fa-window-close" aria-hidden="true"></i> &nbsp; Respinge cerere</Button>
-                            <Modal show={show2} onHide={handleClose2} animation={false}>
-                                <Form.Group>
-                                    <Form.Label>Motivatie respingere</Form.Label>
+                            <Modal show={show2} onHide={handleClose2} animation={false} >
+                                <Form.Group className={styles.rejectModal}>
+                                    <Form.Label style={{color: "#871f08"}}><strong>Motivație respingere</strong></Form.Label>
                                     <Form.Control type="text" placeholder="Feedback..." ref={rejectMotivation} required/>
-                                    <Button onClick={e => {handleReject(e, "rejected", p.reqId, rejectMotivation.current.value); handleClose2();}}>Trimite feedback</Button>
+                                    <div className={styles.rejectButtonContainer}>
+                                        <Button onClick={e => {handleReject(e, "rejected", p.reqId, rejectMotivation.current.value); handleClose2();}} className={styles.rejectButtonFed}>Trimite feedback</Button>
+                                    </div>
                                 </Form.Group>
                             </Modal>
                         </Card.Footer>

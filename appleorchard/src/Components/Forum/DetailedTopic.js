@@ -53,6 +53,7 @@ export default function DetailedTopic() {
         
     }
 
+
     // functia care adauga raspunsul la o intrebare
     const addResponse = async (e, topicId, answer) => {
         e.preventDefault();
@@ -91,6 +92,7 @@ export default function DetailedTopic() {
             refTopicAns.add({
                 respAuthour: currentUser.uid,
                 answer: answer, 
+                userName: userName,
                 timestamp: currentDate + " " + currentTime,
                 timestampOrd: new Date(),
                 likes: 0
@@ -126,6 +128,7 @@ export default function DetailedTopic() {
         const sortedTopics = tpc.sort((a, b) => a.timestampOrd - b.timestampOrd);
         return sortedTopics;
     }
+
 
     function getAllTopics() {
         refTopicAns.onSnapshot(querySnapshot => {
