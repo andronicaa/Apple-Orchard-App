@@ -643,7 +643,7 @@ export default function Task() {
                 {
                     if(mach.driverCateg.includes(emp.categories))
                     {
-                        // inseamna ca angajatul are acele categorii
+                        // inseamna ca angajatul are acele categorii de permis
                         items.push(emp);
                     }
                    

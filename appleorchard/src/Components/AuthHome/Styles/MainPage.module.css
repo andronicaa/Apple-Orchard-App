@@ -28,6 +28,12 @@
 	justify-content: space-between;
 	margin-top: 10vh;
 }
+.mainFlexContainer {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	margin-top: 10vh;
+}
 .weatherCard {
 	margin-top: 3vh;
 	margin-left: 3vh;
@@ -49,7 +55,7 @@
 }
 
 .pieContainer {
-	width: 30%;
+	width: 25vw;
 	background-color: rgba(255, 255, 255, .6) !important;
 	padding: 3vw;
 }
@@ -60,7 +66,17 @@
 	margin-right: auto;
 	background-color: rgba(255, 255, 255, .6) !important;
 }
+.taskCard {
+	margin-top: 3vh;
+	margin-right: 3vh;
+	width: 25vw;
+	background-color: rgba(255, 255, 255, .6) !important;
+}
 
+.taskButton {
+	background-color: orange !important;
+	border: none !important;
+}
 /* dimensiunile pentru tableta */
 @media (min-width: 300px) and (max-width: 1024px) {
 	.weatherCard {

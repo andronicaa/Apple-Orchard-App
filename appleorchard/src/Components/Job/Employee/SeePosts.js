@@ -61,16 +61,9 @@ export default function SeePosts() {
     }
     
     function getProfile() {
-        console.log("Am intrat in functia de profil");
         refProfile.onSnapshot((doc) => {
             profile.current = doc.data();
             userDriverCateg.current = doc.data().driverCateg;
-            
-            console.log("Categoriile userului sunt: ", userDriverCateg.current);
-            /*
-            console.log("Categoriile sunt: ", profile.current);
-            // setProfile(localProfile);
-            */
         })
     }
 

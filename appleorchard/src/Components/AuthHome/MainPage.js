@@ -162,14 +162,14 @@ export default function MainPage() {
                     <GrowerHeader />
                 )  
         }
-        <div className={styles.flexContainer}>
+        <div>
 
         
         {
             (typeof data.current != 'undefined') ?
             (
                 role.current === 'Cultivator' ?
-                (
+                (<div className={styles.flexContainer}>
                     <Card className={styles.weatherCard}>
                         <Card.Header className={styles.cardHeader}><strong>Vremea la {new Date(data.current.dt * 1000).getDate()}-{new Date(data.current.dt * 1000).getMonth() + 1}-{new Date(data.current.dt * 1000).getFullYear()} {new Date(data.current.dt * 1000).getHours()}:{new Date(data.current.dt * 1000).getMinutes()}</strong>
                             <img src={"http://openweathermap.org/img/wn/" + data.current.weather[0].icon + ".png"} />
@@ -188,6 +188,25 @@ export default function MainPage() {
                                 }}><Button className={styles.progTreat}>Vremea &nbsp; <i className="fa fa-arrow-right" aria-hidden="true"></i></Button></Link>
                         </Card.Footer>
                     </Card>
+                    <Card className={styles.taskCard}>
+                        <Card.Header>
+                            <strong>Stropit acarieni</strong>
+                        </Card.Header>
+                        <Card.Body>
+                            <p><strong>Data: </strong>25-08-2021</p>
+                            <p><strong>Angajat: </strong> Andronic Alexandru</p>
+                            <p><strong>Utilaj: </strong> Tractor v4</p>
+                            <p><strong>Substante utilizate: </strong> Chorus50</p>
+                            <p><strong>Doza: </strong> 1.49kg</p>
+                        </Card.Body>
+                        <Card.Footer>
+                            <Button className={styles.taskButton}>
+                                Vezi operațiuni &nbsp; <i className="fa fa-tasks" aria-hidden="true"></i>
+                            </Button>
+                        </Card.Footer>
+                    </Card>
+                </div>
+
                 )
                 :
                 (<div className={styles.employeeContainer}>
@@ -205,7 +224,7 @@ export default function MainPage() {
         }
 
         
-        <div lg={4} xs={12} className={styles.pieContainer}>
+        {/* <Card className={styles.pieContainer}>
             <h5 className="text-center">Cheltuieli anul curent</h5>
             <Doughnut
             data={pieData}
@@ -221,7 +240,7 @@ export default function MainPage() {
                 }
             }}
             />
-        </div>
+        </Card> */}
         </div>
     </div>
     )
