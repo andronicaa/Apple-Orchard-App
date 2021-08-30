@@ -249,7 +249,8 @@ export default function Task() {
 
                 if(weatherId.includes(stringId[0]))
                 {
-                    setBadWeatherAlert(<Alert variant="warning">Vremea nu este prielnica pentru aplicarea de tratamente</Alert>);
+
+                    setBadWeatherAlert(<Alert variant="warning">Vremea nu este prielnica pentru aplicarea de tratamente: {p.weather[0].description}</Alert>);
                     setCheckBadWeather(true);
                 }
                 else
@@ -287,9 +288,9 @@ export default function Task() {
             const month = new Date(p.dt * 1000).getMonth() < 10 ? '0' +  (new Date(p.dt * 1000).getMonth() + 1) : (new Date(p.dt * 1000).getMonth() + 1);
             const day = new Date(p.dt * 1000).getDate() < 10 ? '0' + new Date(p.dt * 1000).getDate() : new Date(p.dt * 1000).getDate();
             const dt = year + "-" + month + "-" + day;
-            if(p.temp.day > 30)
+            if(p.temp.day > 25)
             {
-                // daca temperatura este mai mare de 28 de grade => este indicat sa nu se administreze tratamente in acele zile
+                // daca temperatura este mai mare de 25 de grade => este indicat sa nu se administreze tratamente in acele zile
                 items.push({id: id, data: dt, temperature: p.temp.max});
                 hot = true;
                 id += 1;
@@ -376,7 +377,7 @@ export default function Task() {
                 var hh = hour.substring(0, 1);
             else
                 var hh = hour.substring(0, 2);
-            if(parseInt(hh) > 8)
+            if(parseInt(hh) > 8 && parseInt(hh) < 19)
             {
                 setHourAlert(<Alert variant="info">Nu este recomandata efectuarea de tratamente dupa ora 8 in conditiile meteorologice actuale</Alert>);
                 setCheckHour(true);
@@ -1076,9 +1077,15 @@ export default function Task() {
                                                                                                     }
                                                                                                     </p>
                                                                                                 ))}
-                                                                                                <div className={styles.saveButtonContainer}>
-                                                                                                    <Button className={styles.saveButton} onClick={e => handleSubmit(e, operationType, taskName, startHour, duration, date, phase, problem, chosenProduct, calculatedDose, assignedMachinery, assignedEmployee)}>Salvează &nbsp; <i className="fa fa-check" aria-hidden="true"></i></Button>
-                                                                                                </div>
+                                                                                                {
+                                                                                                    typeof assignedEmployee.firstName != 'undefined' ?
+                                                                                                        <div className={styles.saveButtonContainer}>
+                                                                                                            <Button className={styles.saveButton} onClick={e => handleSubmit(e, operationType, taskName, startHour, duration, date, phase, problem, chosenProduct, calculatedDose, assignedMachinery, assignedEmployee)}>Salvează &nbsp; <i className="fa fa-check" aria-hidden="true"></i></Button>
+                                                                                                        </div>
+                                                                                                    :
+                                                                                                        <div></div>
+                                                                                                }
+                                                                                                
                                                                                                 </>
                                                                                             )
                                                                                             :

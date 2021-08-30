@@ -36,7 +36,7 @@ export default function PhoneTreeReceipt() {
         }
         if(name === '' || quantity === '' || currency === '' || price === '' || month === '')
         {
-            errors.push("Trebuie sa specificati o valoare pentru fiecare camp");
+            errors.push("Trebuie să specificați o valoare pentru fiecare câmp");
             ok = false;
         }
         if(ok)
@@ -179,7 +179,7 @@ export default function PhoneTreeReceipt() {
                                     <Button className={styles.addProductButton}
                                         onClick={(e) => addTree(e, name.current.value, price.current.value, month.current.value, currency.current.value, quantity.current.value)}
                                     >
-                                        Incarcă factură
+                                        Încarcă factură
                                     </Button>
                                 </div>
                             </Form>

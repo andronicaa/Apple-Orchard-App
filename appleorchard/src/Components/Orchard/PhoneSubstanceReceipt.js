@@ -50,7 +50,7 @@ export default function PhoneSubstanceReceipt() {
 
         if(product === '' || price === '' || quantity === '' || month === '')
         {
-            errors.push("Trebuie sa specificati o valoare pentru fiecare camp");
+            errors.push("Trebuie să specificați o valoare pentru fiecare câmp");
             ok = false;
         }
         if(ok)
@@ -203,7 +203,7 @@ export default function PhoneSubstanceReceipt() {
                                     <Button className={styles.addProductButton}
                                         onClick={(e) => addReceipt(e, product.current.value, price.current.value, quantity.current.value, month.current.value, currency.current.value, measureQuantity.current.Value)}
                                     >
-                                        Incarcă factura
+                                        Încarcă factura
                                     </Button>
                                 </div>
                             </Form>

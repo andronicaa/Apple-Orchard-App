@@ -56,9 +56,10 @@ export function Login() {
         
       
     } catch {
+      setLoading(false);
       setError("Autentificarea a eșuat.");
     }
-    setLoading(false);
+    
   }
 
 

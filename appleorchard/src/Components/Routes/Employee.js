@@ -59,7 +59,7 @@ export default function Employee({ component: Component, ...rest }) {
                     return <Component {...props} />
                 }
                 else 
-                return <Redirect to="/login" />
+                return <Redirect to="/neauth-home" />
             }}
         >
         </Route>

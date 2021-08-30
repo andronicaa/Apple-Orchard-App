@@ -52,6 +52,7 @@ export default function AddJob() {
     function addJob(e, postName, description, driverLicense, checkedState, location) {
 
         e.preventDefault();
+        
         const categ = getDriverCateg(checkedState);
         console.log("s-a apelat");
         refPosts
@@ -105,11 +106,11 @@ export default function AddJob() {
         <Card className={princStyle.mainCardContainer}>
             <Card.Body>
             <div className={princStyle.buttonContainer}>
-                <Button onClick={handleShow} className={princStyle.addButton}>Adauga anunt</Button>
+                <Button onClick={handleShow} className={princStyle.addButton}>Adaugă anunț</Button>
             </div>
             <Modal show={show} onHide={handleClose} animation={false}>
                 <Modal.Header className="text-center">
-                    <h4 style={{color: "#871f08", textAlign: "center"}}>Anunt nou</h4>
+                    <h4 style={{color: "#871f08", textAlign: "center"}}>Anunț nou</h4>
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
@@ -133,7 +134,7 @@ export default function AddJob() {
                         
                     </Form.Group>
                     <Form.Group className={styles.inputItem}>
-                        <Form.Label htmlFor="description"><strong className={styles.tags}>Scurta descriere</strong></Form.Label>
+                        <Form.Label htmlFor="description"><strong className={styles.tags}>Scurtă descriere</strong></Form.Label>
                             <InputGroup>
                                 <InputGroup.Prepend id="inputGroupPrependDescription">
                                     <InputGroup.Text>
@@ -231,7 +232,7 @@ export default function AddJob() {
                             <Card key={post.id} className={princStyle.postCard}>
                                 <Card.Header><strong>{post.postName}</strong></Card.Header>
                                 <Card.Body>
-                                    <p><strong>Locatie: </strong>{post.location}</p>
+                                    <p><strong>Locație: </strong>{post.location}</p>
                                     <p><strong>Categorii permis auto: </strong>{post.driverLicense}</p>
                                 </Card.Body>
                                 <Card.Footer>

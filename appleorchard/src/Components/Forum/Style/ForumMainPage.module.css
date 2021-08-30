@@ -52,7 +52,7 @@
 }
 
 .topicItems {
-	width: 30%;
+	width: 35%;
 }
 
 .topicCard {
@@ -118,14 +118,18 @@
 .sortArrows {
 	margin: 1vh;
 }
-.chCateg {
-	margin: 1vh;
-}
-@media (min-width: 500px) {
 
+@media (min-width: 550px) {
+	.chCateg {
+		margin: 1vh;
+	}
 }
 
 @media (min-width: 300px) and (max-width: 550px) {
+	.top {
+		flex-direction: column;
+	}
+	
 	.topicItems {
 		width: 100%;
 	}

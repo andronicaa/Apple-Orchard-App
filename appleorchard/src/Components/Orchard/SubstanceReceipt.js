@@ -57,7 +57,7 @@ export default function SubstanceReceipt() {
 
         if(product === '' || price === '' || quantity === '' || month === '')
         {
-            errors.push("Trebuie sa specificati o valoare pentru fiecare camp");
+            errors.push("Trebuie să specificați o valoare pentru fiecare câmp");
             ok = false;
         }
         if(ok)

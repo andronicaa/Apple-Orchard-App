@@ -55,6 +55,7 @@ export default function AcceptedOffer() {
                             <th>Nume</th>
                             <th>Post</th>
                             <th>Descriere post</th>
+                            <th>Categorii permis</th>
                             <th>Salariu (lei)</th>
                         </tr>
                     </thead>
@@ -65,6 +66,7 @@ export default function AcceptedOffer() {
                                     <td>{p.firstName} {p.lastName}</td>
                                     <td>{p.postName}</td>
                                     <td>{p.postDescription}</td>
+                                    <td>{p.categories}</td>
                                     <td>{p.salary}</td>
                                 </tr>
                             ))

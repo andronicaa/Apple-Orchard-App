@@ -159,7 +159,13 @@ export default function AddProfile() {
                 console.log(err);
             })
             console.log("S-a facut adaugarea de profil cu succes");
-            history.push("/");
+            if(currentUser.emailVerified == false)
+                {
+                    alert("Trebuie sa verificati adresa de mail.");
+                    console.log("email ver ", currentUser.emailVerified);
+                }
+            else
+                history.push("/");
         }
         setErros(errorsMsg);
         
@@ -167,9 +173,16 @@ export default function AddProfile() {
 
         
     }
+    function checkVerifiedEmail() {
+        if(currentUser.emailVerified == true) 
+            console.log("A verificat email-ul");
+        else
+            console.log("N-a verificat email-ul");
+    }
 
     useEffect(() => {
        checkIfUserExists();
+       checkVerifiedEmail();
     }, [])
     return (
         <div className={styles.mainPage}>

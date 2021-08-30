@@ -7,16 +7,16 @@ export const driverCategories = [
         name: 'B1'
     },
     {
-        name: 'C1'
-    },
-    {
         name: 'C'
     },
     {
-        name: 'D1'
+        name: 'C1'
     },
     {
         name: 'D'
+    },
+    {
+        name: 'D1'
     }
 ]
     

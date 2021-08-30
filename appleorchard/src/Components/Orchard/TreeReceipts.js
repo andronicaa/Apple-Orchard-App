@@ -42,7 +42,7 @@ export default function Equipment() {
         }
         if(name === '' || quantity === '' || currency === '' || price === '' || month === '')
         {
-            errors.push("Trebuie sa specificati o valoare pentru fiecare camp");
+            errors.push("Trebuie să specificați o valoare pentru fiecare câmp");
             ok = false;
         }
         // pentru utilajele stationare capacitatea poate fi 0
@@ -94,7 +94,7 @@ export default function Equipment() {
                 
             },
             {
-                Header: 'Pret (lei)',
+                Header: 'Preț (lei)',
                 accessor: 'price'
             },
             {
@@ -102,7 +102,7 @@ export default function Equipment() {
                 accessor: 'quantity'
             },
             {
-                Header: 'Sterge',
+                Header: 'Șterge',
                 accessor: (row) => {
                    return (
                        <Button variant="danger" onClick = {e => deleteProduct(e, row)}><i className="fa fa-trash" aria-hidden="true"></i></Button>

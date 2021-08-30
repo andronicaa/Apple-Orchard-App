@@ -46,7 +46,7 @@ export default function ForumMainPage() {
         if(topicName == '' || question == '' || topicCateg == '')
         {
             ok = false;
-            err.push("Trebuie sa completati toate campurile!\n");
+            err.push("Trebuie să completați toate câmpurile!\n");
         }
         if(ok)
         {
@@ -261,7 +261,7 @@ export default function ForumMainPage() {
                             <Card.Header className={styles.topicCard}>
                             <div className={styles.topicItems}>
                                 <p>{p.topicName}</p>
-                                <span>Categorie: <span className={`badge ${styles.badge}`}>{p.topicCateg}</span></span>
+                                <span>Categorie: <span className={`badge ${styles.badge}`}>{p.topicCateg}</span> {p.timestamp}</span>
                             </div>
                             <div className={styles.topicItems}>
                                 <Link

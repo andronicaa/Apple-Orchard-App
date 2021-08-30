@@ -62,7 +62,7 @@ export default function PhoneEquipmentReceipt() {
         }
         if(nameEq === '' || price === '' || capacity === '' || month === '' || currency === '')
         {
-            errors.push("Trebuie sa specificati o valoare pentru fiecare camp");
+            errors.push("Trebuie să specificați o valoare pentru fiecare câmp");
             ok = false;
         }
         // pentru utilajele stationare capacitatea poate fi 0
@@ -136,13 +136,18 @@ export default function PhoneEquipmentReceipt() {
                         <div>
                             <h3 className={`text-center`}>Adauga factura</h3>
                             <Form>
-                                {errorMsg.length && <Alert variant="danger">
-                                    {
-                                        errorMsg.map((err) => (
-                                            <p>{err}</p>
-                                        ))
-                                    }    
-                                </Alert>}
+                                    {errorMsg.length ?
+                                        (
+                                            errorMsg.map((err) => (
+                                                <Alert variant="danger">{err}</Alert>
+                                            ))
+                                        )
+                                        :
+                                        (
+                                            <div></div>
+                                        ) 
+                                    }   
+                               
                                 <Form.Group>
                                     <Form.Label><strong>Nume utilaj</strong></Form.Label>
                                     <InputGroup>
@@ -262,7 +267,7 @@ export default function PhoneEquipmentReceipt() {
                                     <button className={`btn btn-success`}
                                         onClick={(e) => addEquipment(e, nameEq.current.value, price.current.value, capacity.current.value, month.current.value, currency.current.value, type.current.value, checkedState)}
                                     >
-                                        Incarca factura
+                                    Încarca factura
                                     </button>
                                 </div>
                             </Form>

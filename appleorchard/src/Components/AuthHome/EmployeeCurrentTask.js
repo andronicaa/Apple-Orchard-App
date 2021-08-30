@@ -92,12 +92,12 @@ export default function EmployeeTask(type) {
         }
        
         </div>
-        {
+        {/* {
             task.length == 0 ?
             <p style={{color: "#871f08", fontSize: "1.2em"}}><strong>Nu există task-uri de realizat pentru ziua curentă</strong></p>
             :
             <div></div>
-        }
+        } */}
         </>
         
        

@@ -84,6 +84,7 @@ export default function SeePosts() {
         growerUser.map(i => {
             // console.log("Uuserul este: !!!", i);
             var refPost = firebase.firestore().collection("users").doc(i.id).collection("jobPosts");
+            
             if(searchedLocation != '')
             {
                 // console.log("Fac verificarea asta: ");
@@ -188,7 +189,7 @@ export default function SeePosts() {
                 <Form.Label style={{color: "#871f08"}}><strong>Localitate</strong></Form.Label>
                 <Form.Control type="text" placeholder="Locatie..." className={styles.label} onChange={e => setLocation(e.target.value)}/>
                 <Form.Text className="text-muted">
-                    Localitatea in care doresti sa lucrezi 
+                    Localitatea în care dorești să lucrezi 
                 </Form.Text>
                 {/* <Button variant="success" onClick={e => setCurrentLocation(e, location.current.value)}>Cauta</Button> */}
             </Form.Group>
@@ -205,8 +206,9 @@ export default function SeePosts() {
                                     <p><strong>Descriere post: </strong>{i.description}</p>
                                     <p><strong>Angajator: </strong>{i.employeerName} {i.employeerFirstName}</p>
                                     <p><strong>Necesitate permis conducere: </strong>{i.driverLicense}</p>
+                                    <p><strong>Categorii: </strong> {i.categ}</p>
                                     <p><strong>An: </strong>{i.year}</p>
-                                    <p><strong>Locatie: </strong>{i.location}</p>
+                                    <p><strong>Locație: </strong>{i.location}</p>
                                     {
                                         i.categories.length <  userDriverCateg.current.length ? 
                                         (
@@ -216,7 +218,7 @@ export default function SeePosts() {
                                             )
                                             :
                                             (
-                                                <Alert variant="warning">Nu aveti categoriile necesare pentru permisul de conducere</Alert>
+                                                <Alert variant="warning">Nu aveți categoriile necesare pentru permisul de conducere</Alert>
                                             )
                                         )
                                         :
@@ -227,7 +229,7 @@ export default function SeePosts() {
                                             )
                                             :
                                             (
-                                                <Alert variant="warning">Nu aveti categoriile necesare pentru permisul de conducere</Alert>
+                                                <Alert variant="warning">Nu aveți categoriile necesare pentru permisul de conducere</Alert>
                                             )
                                         )
 
@@ -236,7 +238,7 @@ export default function SeePosts() {
                                     {
                                             seenJobs.includes(i.jobId) == true ? 
                                             (
-                                                <Alert variant="success">Ati aplicat pentru acest job</Alert>
+                                                <Alert variant="success">Ați aplicat pentru acest job</Alert>
                                             )
                                             :
                                             (
@@ -260,7 +262,7 @@ export default function SeePosts() {
                                                         :
                                                         (
                                                             // console.log("VERIFICARE: ", seenJobs.includes(i.jobId), i.jobId, seenJobs)
-                                                            <Button variant="success" onClick={e => {handleShow(); applyToJob(e, currentUser.uid, i.id, i.jobId, i.postName, i.description, i.categories, i.year)}}><i className="fa fa-plus" aria-hidden="true"></i> &nbsp; Aplica</Button>
+                                                            <Button variant="success" onClick={e => {handleShow(); applyToJob(e, currentUser.uid, i.id, i.jobId, i.postName, i.description, i.categories, i.year)}}><i className="fa fa-plus" aria-hidden="true"></i> &nbsp; Aplică</Button>
         
                                                         )
                                                     )
@@ -291,7 +293,7 @@ export default function SeePosts() {
                                                 
                                                 (
                                                     // console.log("VERIFICARE: ", seenJobs.includes(i.postId))
-                                                    <Button variant="success" onClick={e => {handleShow(); applyToJob(e, currentUser.uid, i.id, i.jobId, i.postName, i.description, i.categories, i.year)}}><i className="fa fa-plus" aria-hidden="true"></i> &nbsp; Aplica</Button>
+                                                    <Button variant="success" onClick={e => {handleShow(); applyToJob(e, currentUser.uid, i.id, i.jobId, i.postName, i.description, i.categories, i.year)}}><i className="fa fa-plus" aria-hidden="true"></i> &nbsp; Aplică</Button>
                                                 
                                                 )
                                                 )
@@ -322,9 +324,9 @@ export default function SeePosts() {
                                         </div>
                                     </Modal>
                                     <Modal show={show} onHide={handleClose} animation={false}>
-                                        <Alert variant="success">Cererea dumneavoastra a fost inregistrata.
+                                        <Alert variant="success">Cererea dumneavoastră a fost inregistrată.
                                             <br/>
-                                            Veti primi raspuns intr-un timp cat mai scurt
+                                            Veți primi raspuns într-un timp cât mai scurt
                                         </Alert>
                                     </Modal>
                                 </Card.Footer>

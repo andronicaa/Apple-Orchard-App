@@ -23,7 +23,7 @@ export default function ReceiptPageTabs() {
                 className={`${classnames({ active: activeTab === '1' })} ${styles.navLink}`}
                 onClick={() => { toggle('1'); }}
             >
-                Facturi substante
+                Facturi substanțe
             </NavLink>
             </NavItem>
             <NavItem>

@@ -64,7 +64,7 @@ export default function DetailedTopic() {
         const err = [];
         if(answer == '')
         {
-            err.push("Trebuie sa completati toate campurile. \n");
+            err.push("Trebuie să completați toate câmpurile. \n");
             ok = false;
         }
         if(ok)

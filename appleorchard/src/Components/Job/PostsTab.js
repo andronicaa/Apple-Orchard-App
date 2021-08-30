@@ -25,7 +25,7 @@ export default function ReceiptPageTabs() {
                 className={`${classnames({ active: activeTab === '1' })} ${styles.navLink}`}
                 onClick={() => { toggle('1'); }}
             >
-                Anunturi postate
+                Anunțuri postate
             </NavLink>
             </NavItem>
             <NavItem>

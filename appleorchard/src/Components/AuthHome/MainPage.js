@@ -22,7 +22,8 @@ export default function MainPage() {
     const [substances, setSubstances] = useState();
     const [machinery, setMachinery] = useState();
     const [trees, setTrees] = useState();
-    const [tasks, setTask] = useState([]);
+    const [currentTask, setCurrentTask] = useState({});
+    const [loadingTask, setLoadingTask] = useState(true);
     const refRole = firebase.firestore().collection("userRole").doc(currentUser.uid); 
     const refUserSubst = firebase.firestore().collection("users").doc(currentUser.uid).collection("receipt");
     const refUserMach = firebase.firestore().collection("users").doc(currentUser.uid).collection("receiptEquipment");
@@ -122,9 +123,106 @@ export default function MainPage() {
             })
     }
 
+    function checkHour(time1, time2) {
+        if(time1[1] == ':')
+        {
+            var hh1 = parseInt(time1[0]);
+            var mm1 = parseInt(time1.substring(2, 4));
+        }
+        else
+        {
+            var hh1 = parseInt(time1.substring(0, 2));
+            var mm1 = parseInt(time1.substring(3, 5));
+        }
+        
+        if(time2[1] == ':')
+        {
+            var hh2 = parseInt(time2[0]);
+            var mm2 = parseInt(time2.substring(2, 4));
+        }
+        else
+        {
+            var hh2 = parseInt(time2.substring(0, 2));
+            var mm2 = parseInt(time2.substring(3, 5));
+        }
+        if(hh1 > hh2) {
+            return true;
+        }
+        if(hh1 < hh2) {
+            return false;
+        }
+        if(hh1 == hh2) {
+            if(mm1 > mm2)
+                return true;
+            else
+                return false;
+        }
+    }
+    function sortByHour(tsk) {
+        var sortedTask = [];
+        for(let i = 0; i < tsk.length - 1; i++)
+            for (let j = i + 1; j < tsk.length; j++) {
+                if(checkHour(tsk[i].startHour, tsk[j].startHour))
+                {
+                    let aux = tsk[i];
+                    tsk[i] = tsk[j];
+                    tsk[j] = aux;
+                }
+            }
+        return tsk;
+    }
+    function afterCurrentHour(hour) {
+        
+        if(hour[1] == ':')
+        {
+            var hh1 = parseInt(hour[0]);
+            var mm1 = parseInt(hour.substring(2, 4));
+        }
+        else
+        {
+            var hh1 = parseInt(hour.substring(0, 2));
+            var mm1 = parseInt(hour.substring(3, 5));
+        }
+        
+        if(hh1 > currentHour) {
+            return true;
+        }
+        if(hh1 == currentHour)
+        {
+            if(mm1 >= currentMinutes)
+                return true;
+        }
+        return false;
+    }
+    function getCurrentTask() {
+        console.log("Data curenta este: ", currentDate);
+        refUserTask.onSnapshot(querySnapshot => {
+            var taskItems = [];
+            querySnapshot.forEach(doc => {
+                // console.log(doc.data().date == currentDate && afterCurrentHour(doc.data().startHour));
+                if(doc.data().date == currentDate)
+                    taskItems.push(doc.data());
+            })
+            // console.log("Task-urile inainte de sortare sunt: ", taskItems);
+            taskItems = sortByHour(taskItems);
+            // console.log("Task-urile sortate dupa ora sunt: ", taskItems);
+            
+            taskItems.map(t => {
+                // console.log("Task-urile sortate sunt: ", t);
+                if(afterCurrentHour(t.startHour))
+                {   
+                    console.log("Task-ul este: ", t);
+                    setCurrentTask(t);
+                    setTimeout(function() {
+                        setLoadingTask(false);
+                    }, 1000);
+                    return;
+                }
+            })
+        })
+    }
 
-
-
+    
     useEffect(() => {
         const fetchWeatherData = async () => {
             navigator.geolocation.getCurrentPosition(function(position) {
@@ -142,14 +240,16 @@ export default function MainPage() {
         });
         }
         fetchWeatherData();
+        // getTask();
+    }, [lat, long]);
+    
+    useEffect(() => {
         getUserRole();
         getSubsts();
         getEquip();
         getTrees();
-        // getTask();
-    }, [lat, long]);
-    
-
+        getCurrentTask();
+    }, []);
     return (
     <div className={styles.mainPage}>
         {
@@ -170,16 +270,17 @@ export default function MainPage() {
             (
                 role.current === 'Cultivator' ?
                 (<div className={styles.flexContainer}>
+                    
                     <Card className={styles.weatherCard}>
                         <Card.Header className={styles.cardHeader}><strong>Vremea la {new Date(data.current.dt * 1000).getDate()}-{new Date(data.current.dt * 1000).getMonth() + 1}-{new Date(data.current.dt * 1000).getFullYear()} {new Date(data.current.dt * 1000).getHours()}:{new Date(data.current.dt * 1000).getMinutes()}</strong>
                             <img src={"http://openweathermap.org/img/wn/" + data.current.weather[0].icon + ".png"} />
                         </Card.Header>
                         <Card.Body>
                             <p><strong>Temperatura: </strong>{data.current.temp} &deg;C</p>
-                            <p><strong>Temp. resimtita: </strong>{data.current.feels_like} &deg;C</p>
+                            <p><strong>Temp. resimtiță: </strong>{data.current.feels_like} &deg;C</p>
                             <p><strong>Nori: </strong>{data.current.clouds} %</p>
                             <p><strong>Umiditate: </strong>{data.current.humidity} %</p>
-                            <p><strong>Precipitatii: </strong>{data.current.weather[0].description}</p>
+                            <p><strong>Precipitații: </strong>{data.current.weather[0].description}</p>
                         </Card.Body>
                         <Card.Footer>
                             <Link to={{
@@ -193,16 +294,34 @@ export default function MainPage() {
                             <strong>Stropit acarieni</strong>
                         </Card.Header>
                         <Card.Body>
-                            <p><strong>Data: </strong>25-08-2021</p>
-                            <p><strong>Angajat: </strong> Andronic Alexandru</p>
-                            <p><strong>Utilaj: </strong> Tractor v4</p>
-                            <p><strong>Substante utilizate: </strong> Chorus50</p>
-                            <p><strong>Doza: </strong> 1.49kg</p>
+                            <p><strong>Data: </strong>{currentTask.date}</p>
+                            <p><strong>Angajat: </strong>{currentTask.employeeLastName} {currentTask.employeeFirstName}</p>
+                            <p><strong>Utilaj: </strong>{currentTask.machineryName}</p>
+                            <p><strong>Ora: </strong>{currentTask.startHour}</p>
+                            {
+                                typeof currentUser.chosenProduct != 'undefined'?
+                                <>
+                                    <p><strong>Substanțe utilizate: </strong>{currentTask.chosenProduct}</p>
+                                    <p><strong>Doza: </strong>{currentTask.calcultedDose}</p>
+                                </>
+                                :
+                                    <div></div>
+                            }
+                            
+                            
                         </Card.Body>
                         <Card.Footer>
-                            <Button className={styles.taskButton}>
-                                Vezi operațiuni &nbsp; <i className="fa fa-tasks" aria-hidden="true"></i>
-                            </Button>
+                            <Link
+                                to={{
+                                    pathname:'/weather',
+                                    state:{data}
+                                }}
+                            >
+                                <Button className={styles.taskButton}>
+                                    Vezi operațiuni &nbsp; <i className="fa fa-tasks" aria-hidden="true"></i>
+                                </Button>
+                            </Link>
+                            
                         </Card.Footer>
                     </Card>
                 </div>
@@ -217,30 +336,9 @@ export default function MainPage() {
             )
             :
             (
-                <div>
-                    <Spinner animation="border" variant="danger"/>
-                </div>
+                <div> </div>
             )
         }
-
-        
-        {/* <Card className={styles.pieContainer}>
-            <h5 className="text-center">Cheltuieli anul curent</h5>
-            <Doughnut
-            data={pieData}
-            options={{
-                title:{
-                display:true,
-                text:'Cheltuieli anuale',
-                fontSize:20
-                },
-                legend:{
-                display:true,
-                position:'right'
-                }
-            }}
-            />
-        </Card> */}
         </div>
     </div>
     )
