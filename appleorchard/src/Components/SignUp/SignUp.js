@@ -12,7 +12,7 @@ export function SignUp() {
   const refPassword = useRef();
   const refPasswordConfirm = useRef();
   const { currentUser, signup } = useAuth();
-  const [error, setError] = useState('');
+  const [error, setError] = useState([]);
   const[loading, setLoading] = useState(false);
   const [show, setShow] = useState(false);
   const handleShow = () => setShow(true);
@@ -70,17 +70,20 @@ export function SignUp() {
     }
 
     try {
-      setError('');
+      setError([]);
       setLoading(true);
       await signup(refEmail.current.value, refPassword.current.value);
+      
       setTimeout(function(){
         history.push("/addprofile");
       }, 1500);
       
-    } catch {
-      setError("Failed to create an account");
+    }catch(err) {
+      setLoading(false);
+      alert(err.message);
     }
-    setLoading(false);
+      setError(errs);
+
   }
   return (
     <div className={styles.loginPage}>

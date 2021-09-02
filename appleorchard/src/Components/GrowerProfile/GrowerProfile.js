@@ -2,11 +2,14 @@ import React, { useState, useEffect, useRef } from 'react';
 import styles from './Style/GrowerProfile.module.css';
 import firebase from '../../Firebase/firebase';
 import { useAuth } from '../../Firebase/context/AuthContext';
-import { Button, Form, InputGroup, Modal } from 'react-bootstrap';
+import { Button, Form, InputGroup, Modal, Alert } from 'react-bootstrap';
 import girl_avatar from '../../Imgs/girl_avatar.png';
 import boy_avatar from '../../Imgs/boy_avatar.png';
 import GrowerHeader from '../Header/GrowerHeader';
 import UpdateProfile from './UpdateProfile';
+
+
+
 export default function GrowerProfile() {
     const { currentUser } = useAuth();
     // form data
@@ -19,11 +22,12 @@ export default function GrowerProfile() {
     const plantationPerYear = useRef('');
     const averageAnnualProfit = useRef(); // sa pun sa aleaga in lei sau euro
     const currentYear = new Date().getFullYear();
-    const [validate, setValidate] = useState(false);
     // end form data
 
     const [profile, setProfile] = useState([]);
     const [loadingProfile, setLoadingProfile] = useState(true);
+    const [errorMsg, setErrorMsg] = useState([]);
+
     const [extProfile, setExtProfile] = useState([]);
     const [loading, setLoading] = useState(true);
     const [gen, setGen] = useState('');
@@ -38,13 +42,11 @@ export default function GrowerProfile() {
 
     function getProfile() {
         const items = [];
-        refProfile.onSnapshot(doc => {
+        refProfile.get().then(doc => {
             items.push(doc.data());
             setGen(doc.data().sex);
             console.log("Profilul este: ", items);
             setProfile(items);
-            
-            
         })
     } 
     function getExtProfile() {
@@ -63,9 +65,13 @@ export default function GrowerProfile() {
     // functie care adauga datele suplimentare despre livada
     function addExtProfile(e, area, noTrees, year, location, plantationPerYear, averageAnnualProfit, currency, measureArea) {
         e.preventDefault();
-        const form = e.currentTarget;
-        setValidate(true);
-        if (form.checkValidity() === true) {
+        var errors = [];
+        if(area == '' || noTrees == '' || year == '' || location == '' || plantationPerYear == '' || averageAnnualProfit == '' || currency == '' || measureArea == '')
+        {   
+            errors.push('Trebuie să specificați câte o valoare pentru ficare câmp.')
+        }
+        else
+        {
             var suprf = area;
             if(currency == 'EUR')
             {
@@ -87,14 +93,16 @@ export default function GrowerProfile() {
             ).catch(err => {
                 console.log(err)
             });
-            // setShow(false);
+            setShow(false);
         }
+        setErrorMsg(errors);
+        
         
     }
     useEffect(() => {
         getProfile();
         getExtProfile();
-    }, [profile]);
+    }, []);
     return (
         <div className={styles.mainPage}>
             <GrowerHeader />
@@ -134,6 +142,14 @@ export default function GrowerProfile() {
                     </div>
                 </div>
                 <div className={styles.extProfileContainer}>
+                    {
+                        errorMsg.length ?
+                            errorMsg.map(p => (
+                                <Alert variant="danger">{p}</Alert>
+                            ))
+                        :
+                            <div></div>
+                    }
                     <div className={styles.title}>
                         <h4>Detalii livadă</h4>
                     </div>
@@ -173,8 +189,8 @@ export default function GrowerProfile() {
                            
                                show ?
                                (
-                                    <Form validated={validate}>
-                                
+                                    <Form>
+                                    
                                     <Form.Group className={styles.inputItem}>
                                     <Form.Label htmlFor="area"><strong className={styles.tags}>Suprafață</strong></Form.Label>
                                         <InputGroup>

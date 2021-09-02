@@ -12,6 +12,7 @@ export default function Responses() {
     // const [reqResp, setReqResp] = useState([]);
     const reqResp = useRef([]);
     const [loading, setLoading] = useState(true);
+   
     function getUsersId() {
         const items = [];
         refUsers.onSnapshot(querySnapshot => {
@@ -29,7 +30,16 @@ export default function Responses() {
                 
                 querySnapshot.forEach(doc => {
                     if(doc.data().employeeId == currentUser.uid)
-                        posts.push({docId: doc.id,...doc.data()});
+                    {
+                        var name = "";
+                        var refGrower = firebase.firestore().collection("users").doc(doc.data().growerId);
+                        refGrower.get().then(doc1 => {
+                            name =  doc1.data().firstName + " " + doc1.data().lastName;
+                            posts.push({docId: doc.id,grower: name, ...doc.data()});
+                        })
+                        
+                    }
+                        
                 })
             })
         })
@@ -75,7 +85,7 @@ export default function Responses() {
                
                 reqResp.current.map(p => (
                     <Card key={p.docId} className={styles.postCard}>
-                        <Card.Header><strong>Raspuns angajator</strong>
+                        <Card.Header><strong>Angajator: </strong>{p.grower}
                             {
                                 p.status === 'accepted' ? 
                                     <>

@@ -41,14 +41,8 @@ export default function AuthProvider({ children }) {
 
     // functia ce face logarea efectiva cu credentialele date de user
     function signup(email, password) {
-        // se va trimite mail de confirmare
-        auth.createUserWithEmailAndPassword(email, password).then(
-        () => {
-            console.log("S-a autentificat cu succes");
-            auth.currentUser.sendEmailVerification();
-        }
-    )
-    }
+        return auth.createUserWithEmailAndPassword(email, password);
+      }
 
     // it is a promise!
     function login(email, password) {
@@ -73,6 +67,9 @@ export default function AuthProvider({ children }) {
     function updatePassword(password) {
         return currentUser.updatePassword(password)
     }
+    function emailVerification() {
+        return auth.currentUser.sendEmailVerification();
+    }
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(user => {
             setCurrentUser(user);
@@ -90,7 +87,8 @@ export default function AuthProvider({ children }) {
         logout,
         resetPassword,
         updateEmail,
-        updatePassword
+        updatePassword,
+        emailVerification
     }
     return (
         <AuthContext.Provider value={value}>

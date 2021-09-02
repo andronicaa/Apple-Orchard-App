@@ -231,6 +231,7 @@ export default function Task() {
             
         // trebuie sa caut data corespunzatoare cele pe care a ales-o utilizatorul
         weatherData.daily.map(p => {
+            
             var month = new Date(p.dt * 1000).getMonth() + 1;
             if(month < 10) 
                 month = '0' + month;
@@ -240,17 +241,17 @@ export default function Task() {
             var data = new Date(p.dt * 1000).getFullYear() + "-" + month + "-" + day;
             // console.log("Aici: ", data, date, data == date);
             if(data == param_date)
-            {
+            {console.log(weatherData);
                 // console.log("am intrat aici", weatherId.includes(p.weather[0].id[0]));
                 var stringId = p.weather[0].id.toString();
                 // console.log(weatherId.includes(stringId[0]));
                 // tot aici trebuie sa fac verificare sa vad daca ziua care este aleasa este buna (nu trebuie sa ploua)
                 // pentru nicio operatiune nu trebuie sa ploua
-
+                console.log("ESTEEEE:", stringId, p.dt, p);
                 if(weatherId.includes(stringId[0]))
                 {
-
-                    setBadWeatherAlert(<Alert variant="warning">Vremea nu este prielnica pentru aplicarea de tratamente: {p.weather[0].description}</Alert>);
+                    console.log("Am intrat in acest warning");
+                    setBadWeatherAlert(<Alert variant="warning">Vremea nu este prielnică pentru aplicarea de tratamente: {p.weather[0].description}</Alert>);
                     setCheckBadWeather(true);
                 }
                 else
@@ -1038,14 +1039,23 @@ export default function Task() {
                                                                                                 {availableMachinery.map(p => (
                                                                                                     
                                                                                                         
-                                                                                                    <p key={p.id}>{p.nameEq} &nbsp;
+                                                                                                    <div key={p.id}>
                                                                                                     {
-                                                                                                        typeof assignedMachinery.nameEq == 'undefined' ? 
-                                                                                                            <Button variant="success" onClick={e => chosenMachinery(e, p)}><i className="fa fa-plus" aria-hidden="true"></i></Button>
+                                                                                                        typeof assignedMachinery.nameEq != 'undefined'  && p.id == assignedMachinery.id? 
+                                                                                                            <Button style={{backgroundColor: "#871f08"}} onClick={e => giveUpMachinery(e)}><i className="fa fa-trash" aria-hidden="true"></i> &nbsp;{p.nameEq}</Button>
+
                                                                                                         :
-                                                                                                            <Button variant="danger" onClick={e => giveUpMachinery(e)}><i className="fa fa-trash" aria-hidden="true"></i></Button>
-                                                                                                    }</p>
-                                                                                                
+                                                                                                            <div></div>
+                                                                                                    }
+                                                                                                    
+                                                                                                    {
+                                                                                                        typeof assignedMachinery.nameEq == 'undefined' ?
+                                                                                                            <Button style={{backgroundColor: "orange"}} onClick={e => chosenMachinery(e, p)}><i className="fa fa-plus" aria-hidden="true"></i> &nbsp;{p.nameEq}</Button>
+                                                                                                        :
+                                                                                                            <div></div>
+                                                                                                    }
+                                                                                                    </div>
+                                                                                                    
                                                                                                     
                                                                                                 ))}
                                                                                             </>
@@ -1068,14 +1078,22 @@ export default function Task() {
                                                                                                     {availableEmployee.map(p => (
                                                                                                     
                                                                                                     
-                                                                                                    <p key={p.id}>{p.firstName} {p.lastName} &nbsp;
+                                                                                                    <div key={p.id}>
                                                                                                     {
-                                                                                                        typeof assignedEmployee.firstName == 'undefined' ? 
-                                                                                                            <Button variant="success" onClick={e => chosenEmployee(e, p)}><i className="fa fa-plus" aria-hidden="true"></i></Button>
+                                                                                                        typeof assignedEmployee.firstName != 'undefined' && assignedEmployee.id == p.id? 
+                                                                                                            <Button variant="danger" onClick={e => giveUpEmployee(e)}><i className="fa fa-trash" aria-hidden="true"></i>&nbsp; {p.firstName} {p.lastName}</Button>
+
                                                                                                         :
-                                                                                                            <Button variant="danger" onClick={e => giveUpEmployee(e)}><i className="fa fa-trash" aria-hidden="true"></i></Button>
+                                                                                                            <div></div>
                                                                                                     }
-                                                                                                    </p>
+
+                                                                                                    {
+                                                                                                        typeof assignedEmployee.firstName == 'undefined' ?
+                                                                                                            <Button variant="success" onClick={e => chosenEmployee(e, p)}><i className="fa fa-plus" aria-hidden="true"></i>&nbsp; {p.firstName} {p.lastName}</Button>
+                                                                                                        :
+                                                                                                            <div></div>
+                                                                                                    }
+                                                                                                    </div>
                                                                                                 ))}
                                                                                                 {
                                                                                                     typeof assignedEmployee.firstName != 'undefined' ?

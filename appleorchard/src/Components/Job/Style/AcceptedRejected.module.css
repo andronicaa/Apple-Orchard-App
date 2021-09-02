@@ -27,7 +27,9 @@
     background-color: #871f08 !important;
     border: none !important;
 }
-
+.empModal {
+    padding: 1.5vw;
+}
 @media (min-width: 501px) {
     .smallScreen {
         display: none;

@@ -58,10 +58,11 @@ export default function EmployeeTask(type) {
             
         <div className={styles.mainPage}>
         <EmployeeHeader />  
-        <div className={styles.tableContainer}>
+        
             {
             loading == false ?
             (<>
+                <div className={styles.tableContainer}>
                 <Table className={styles.table}>
                     <thead className={styles.tableHead}>
                         <tr>
@@ -86,10 +87,11 @@ export default function EmployeeTask(type) {
                         }
                     </tbody>
                 </Table>
+                </div>
                 <div className={styles.smallScreen}>
                 {
                     task.map(p => (
-                        <Card key={p.id}>
+                        <Card key={p.id} className={styles.card}>
                             <p><strong>Operațiune: </strong>{p.taskName}</p>
                             <p><strong>Data: </strong>{p.date}</p>
                             <p><strong>Ora: </strong>{p.startHour}</p>
@@ -106,7 +108,7 @@ export default function EmployeeTask(type) {
                 <div></div>
             )
         }
-        </div>
+        
         </div>
           
         

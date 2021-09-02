@@ -3,14 +3,16 @@ import styles from "./Styles/AddProfile.module.css";
 import firebase from "../../Firebase/firebase";
 import { useAuth } from '../../Firebase/context/AuthContext';
 import { useHistory } from 'react-router-dom';
-import { InputGroup, Form, Alert } from 'react-bootstrap';
+import { InputGroup, Form, Alert, Button } from 'react-bootstrap';
 import { jobs, driverCategories } from './UtilityStuff';
+import Tooltip from "@material-ui/core/Tooltip";
 
 
 export default function AddProfile() {
-    const { currentUser } = useAuth();
+    const { currentUser, emailVerification } = useAuth();
     const [loading, setLoading] = useState(true);
     const [errors, setErros] = useState([]);
+    const [verifEmail, setVerifEmail] = useState(false);
     const firstName = useRef();
     const lastName = useRef();
     const age = useRef();
@@ -158,14 +160,17 @@ export default function AddProfile() {
             .catch((err) => {
                 console.log(err);
             })
-            console.log("S-a facut adaugarea de profil cu succes");
-            if(currentUser.emailVerified == false)
-                {
-                    alert("Trebuie sa verificati adresa de mail.");
-                    console.log("email ver ", currentUser.emailVerified);
-                }
-            else
+            if(verifEmail)
+            {
+                console.log("S-a facut adaugarea de profil cu succes");
                 history.push("/");
+            }
+            else
+            {
+                console.log("n-a facut verificarea");
+            }
+            
+            
         }
         setErros(errorsMsg);
         
@@ -175,18 +180,34 @@ export default function AddProfile() {
     }
     function checkVerifiedEmail() {
         if(currentUser.emailVerified == true) 
+        {
             console.log("A verificat email-ul");
+            setVerifEmail(true);
+        }
         else
+        {
             console.log("N-a verificat email-ul");
+        }
+    }
+
+    async function handleEmailVerification() {
+        try {
+            await emailVerification();
+        } catch(err) {
+            console.log("Nu s-a putut trimite email-ul de verificare");
+        }
     }
 
     useEffect(() => {
        checkIfUserExists();
        checkVerifiedEmail();
-    }, [])
+    }, []);
+    
     return (
         <div className={styles.mainPage}>
-       
+        <Tooltip title="Apasati pentru a verifica adresa de email.">
+            <Button onClick={handleEmailVerification} className={styles.verEmailButton}>Verificare email</Button>
+        </Tooltip>
         {
             (typeof currentUser.uid != 'undefined') ?
             <div className={styles.princContainer}>
@@ -458,11 +479,13 @@ export default function AddProfile() {
                             <div className="text-center">
                                 {
                                     ['Cultivator'].includes(jobField) ? (
-                                        <button className={`btn btn-success ${styles.saveDataButton}`} 
-                                        onClick={(e) => {e.preventDefault();  console.log(firstName.current.value, lastName.current.value, age.current.value, address.current.value, email.current.value, phoneNumber.current.value, job.current.value, sex.current.value, companyName.current.value); addProfile(e, 'CC', sex.current.value, area.current.value, measure.current.value, firstName.current.value, lastName.current.value, age.current.value, address.current.value, email.current.value, phoneNumber.current.value, job.current.value, companyName.current.value, null )}}
-                                        >
-                                            Salvează date
-                                        </button>
+                                        <Tooltip title="Adresa de mail trebuie confirmata pentru salvarea datelor. Dupa confirmarea adresei dati refresh paginii.">
+                                            <button className={`btn btn-success ${styles.saveDataButton}`} 
+                                            onClick={(e) => {e.preventDefault();  console.log(firstName.current.value, lastName.current.value, age.current.value, address.current.value, email.current.value, phoneNumber.current.value, job.current.value, sex.current.value, companyName.current.value); addProfile(e, 'CC', sex.current.value, area.current.value, measure.current.value, firstName.current.value, lastName.current.value, age.current.value, address.current.value, email.current.value, phoneNumber.current.value, job.current.value, companyName.current.value, null )}}
+                                            >
+                                                Salvează date
+                                            </button>
+                                        </Tooltip>
                                     ) :
                                     (
                                         <button className={`btn btn-success ${styles.saveDataButton}`}

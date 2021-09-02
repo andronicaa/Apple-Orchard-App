@@ -52,7 +52,10 @@ export default function UpdateProfile({handleCloseEdit}) {
                 suprf: suprf
             }
         ).then(() => {console.log("s-a facut update")}).catch(err => console.log(err));
-        handleCloseEdit();
+        setTimeout(function() {
+            handleCloseEdit();
+        }, 1000);
+        
     }
 
     useEffect(() => {

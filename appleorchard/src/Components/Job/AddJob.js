@@ -1,5 +1,5 @@
 import React,{ useState, useRef, useEffect } from 'react';
-import { Modal, InputGroup, Form, Button, Card } from 'react-bootstrap';
+import { Modal, InputGroup, Form, Button, Card, Alert } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
 import { useAuth } from '../../Firebase/context/AuthContext';
 import firebase from '../../Firebase/firebase';
@@ -16,6 +16,7 @@ export default function AddJob() {
     const [driverLicense, setDriverLicense] = useState('NU');
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState([]);
     // numarul de locuri pentru job-ul postat - cand un candidat este acceptat -> o sa scada cu 1 acest numar
     const nrJob = useRef(0);
     const [checkedState, setCheckedState] = useState(new Array(driverCategories.length).fill(false));
@@ -50,27 +51,34 @@ export default function AddJob() {
 
 
     function addJob(e, postName, description, driverLicense, checkedState, location) {
-
         e.preventDefault();
-        
-        const categ = getDriverCateg(checkedState);
-        console.log("s-a apelat");
-        refPosts
-        .add({
-            postName: postName,
-            description: description,
-            driverLicense: driverLicense,
-            checkedState: checkedState,
-            location: location, 
-            salary: "",
-            feedback: "",
-            year: year,
-            categ: categ
-        })
-        .catch((err) => {
-            console.log(err);
-        });
-        handleClose();
+        var err = [];
+        if(postName == '' || description == '' || driverLicense == '' || location == '')
+        {
+            err.push('Trebuie să completați toate câmpurile.');
+        }
+        else
+        {
+            const categ = getDriverCateg(checkedState);
+            console.log("s-a apelat");
+            refPosts
+            .add({
+                postName: postName,
+                description: description,
+                driverLicense: driverLicense,
+                checkedState: checkedState,
+                location: location, 
+                salary: "",
+                feedback: "",
+                year: year,
+                categ: categ
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+            handleClose();
+        }
+        setError(err);
 
     }
 
@@ -113,6 +121,14 @@ export default function AddJob() {
                     <h4 style={{color: "#871f08", textAlign: "center"}}>Anunț nou</h4>
                 </Modal.Header>
                 <Modal.Body>
+                    {
+                        error.length ?
+                            error.map(p => (
+                                <Alert variant="danger">{p}</Alert>
+                            ))
+                        :
+                            <div></div>
+                    }
                     <Form>
                     <Form.Group className={styles.inputItem}>
                         <Form.Label className={styles.tags}><strong>Nume post</strong></Form.Label>
@@ -221,7 +237,7 @@ export default function AddJob() {
                     </Form>
                 </Modal.Body>
                 <div className="text-center">
-                    <Button className={princStyle.saveDataButton} onClick={(e) => addJob(e, postName.current.value, description.current.value, driverLicense, checkedState, location.current.value)}>Salveaza</Button>
+                    <Button className={princStyle.saveDataButton} onClick={(e) => addJob(e, postName.current.value, description.current.value, driverLicense, checkedState, location.current.value)}>Salvează</Button>
                 </div>
             </Modal>   
             <div className={princStyle.flexContainer}>

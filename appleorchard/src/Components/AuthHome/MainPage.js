@@ -291,7 +291,13 @@ export default function MainPage() {
                     </Card>
                     <Card className={styles.taskCard}>
                         <Card.Header>
-                            <strong>Stropit acarieni</strong>
+                            {
+                                typeof currentTask.taskName == 'undefined' ?
+                                    <p><strong>Nu există o operațiune ulterioară orei curente pentru această dată.</strong></p>
+                                :
+                                    <strong>{currentTask.taskName}</strong>
+                            }
+                            
                         </Card.Header>
                         <Card.Body>
                             <p><strong>Data: </strong>{currentTask.date}</p>

@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import firebase from '../../../Firebase/firebase';
 import { useAuth } from '../../../Firebase/context/AuthContext';
-
+import styles from '../Style/AcceptedRejected.module.css';
+import empStyles from '../Style/Employer.module.css';
+import { Table, Card } from 'react-bootstrap';
+import EmployeeHeader from '../../Header/EmployeeHeader';
 
 
 export default function Employer() {
@@ -22,7 +25,7 @@ export default function Employer() {
                 var refEmployer = firebase.firestore().collection("users").doc(i.id).collection("onHold").where('employeeId', '==', currentUser.uid).where('status', '==', 'accepted offer');
                 refEmployer.onSnapshot(querySnapshot => {
                     querySnapshot.forEach(doc => {
-                        employer.push({employerFirstName: i.firstName, employerLastName: i.lastName, ...doc.data()})
+                        employer.push({id: doc.id, employerFirstName: i.firstName, employerLastName: i.lastName, suprf: i.suprf, phoneNumber: i.phoneNumber, companyName: i.companyName, address: i.address, ...doc.data()})
                     })
                 })
             
@@ -31,7 +34,7 @@ export default function Employer() {
             setEmployer(employer);
             setTimeout(function() {
                 setLoading(false);
-            }, 1000)
+            }, 1000);
         })
        
     }
@@ -40,19 +43,64 @@ export default function Employer() {
         getEmployer();
     }, []);
     return (
-        <div>
+        <div className={empStyles.mainPage}>
+            <EmployeeHeader />
+            <div className={empStyles.tableContainer}>
+            <Table className={empStyles.table}>
+                <thead>
+                    <tr className={styles.tableHead}>
+                        <th>Nume</th>
+                        <th>Localitate</th>
+                        <th>Denumire companie</th>
+                        <th>Suprafata livada</th>
+                        <th>Nr. Telefon</th>
+                        <th>Post</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        loading == false ?
+                            employer.map(p => (
+                           
+                            <tr key={p.id}>
+                                <td>{p.employerFirstName} {p.employerLastName}</td>
+                                <td>{p.address}</td>
+                                <td>{p.companyName}</td>
+                                <td>{p.suprf}</td>
+                                <td>{p.phoneNumber}</td>
+                                <td>{p.postName}</td>
+                            </tr>
+                            ))
+                        :
+                            <div></div>
+                    
+                        
+                    }
+                </tbody>
+            </Table>
+            </div>
+            <div className={empStyles.smallScreen}>
             {
                 loading == false ? 
                 (
                     employer.map(p => (
-                        <p key={p.postId}>DA</p>
+                        <Card key={p.id} className={empStyles.postCard}>
+                            <Card.Header style={{color: "#871f08"}}><strong>{p.employerFirstName} {p.employerLastName}</strong></Card.Header>
+                            <Card.Body>
+                                <p><strong>Adresa: </strong>{p.address}</p>
+                                <p><strong>Denumire companie: </strong>{p.companyName}</p>
+                                <p><strong>Suprafata livada: </strong>{p.suprf}</p>
+                                <p><strong>Post: </strong>{p.postName}</p>
+                            </Card.Body>
+                        </Card>
                     ))
                 )
                 :
                 (
-                    <div>...loading</div>
+                    <div></div>
                 )
             }
+            </div>
         </div>
     )
 }

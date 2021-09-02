@@ -53,7 +53,7 @@ export default function Header() {
     }, []);
 
     return (
-        <Navbar collapseOnSelect expand="lg"variant="light" className={styles.navbar} >
+        <Navbar collapseOnSelect expand="lg"variant="light" className={styles.navbar}  animation="false">
         <Navbar.Brand href="/" className={styles.linkText}>
             Măruleț
         </Navbar.Brand>
@@ -66,6 +66,7 @@ export default function Header() {
                 <NavDropdown.Item href="/see-posts">Anunturi publicate</NavDropdown.Item>
                 <NavDropdown.Item href="/saved-posts">Anunturi salvate</NavDropdown.Item>
                 <NavDropdown.Item href="/responses">Oferte angajare</NavDropdown.Item>
+                <NavDropdown.Item href="/employer">Angajatori</NavDropdown.Item>
             </NavDropdown>
             </Nav>
             <Nav>

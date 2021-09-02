@@ -5,7 +5,6 @@ import { Card, Button, Modal, Table } from 'react-bootstrap';
 import styles from './Style/AcceptedRejected.module.css';
 
 
-
 export default function AcceptedOffer() {
     const { currentUser } = useAuth();
     const [acceptedOffer, setAcceptedOffer] = useState([]);
@@ -57,6 +56,7 @@ export default function AcceptedOffer() {
                             <th>Descriere post</th>
                             <th>Categorii permis</th>
                             <th>Salariu (lei)</th>
+                            <th>Profil</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -68,6 +68,9 @@ export default function AcceptedOffer() {
                                     <td>{p.postDescription}</td>
                                     <td>{p.categories}</td>
                                     <td>{p.salary}</td>
+                                    <td>
+                                        <Button onClick={e => getProfile(e, p.employeeId)} className={styles.empProfile}><i className="fa fa-user" aria-hidden="true"></i></Button>
+                                    </td>
                                 </tr>
                             ))
                         }
@@ -91,7 +94,21 @@ export default function AcceptedOffer() {
                                 <Modal show={show} onHide={handleClose} animation={false}>
                                     {
                                         profile.map(i => (
-                                            <p>{i.firstName}</p>
+                                            <>
+                                                <p><strong>{i.firstName} {i.lastName}</strong></p>
+                                                <p><strong>Adresa: </strong>{i.address}</p>
+                                                <p><strong>Varsta: </strong>{i.age}</p>
+                                                <p><strong>Nr. Telefon:</strong>{i.phoneNumber}</p>
+                                                <p><strong>Email: </strong>{i.email}</p>
+                                                <p><strong>Permis conducere: </strong>{i.hasDriverLicense}</p>
+                                                {
+                                                    i.hasDriverLicense == 'DA' ?
+                                                        <p><strong>Categorii permis: </strong>{i.driverCateg}</p>
+                                                    :
+                                                        <div></div>
+
+                                                }
+                                            </>
                                         ))
                                     }
                                 </Modal>

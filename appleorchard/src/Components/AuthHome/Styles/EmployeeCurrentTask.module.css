@@ -11,3 +11,11 @@
     margin: 2vh;
     padding: 2vh;
 }
+
+@media (max-width: 1024px) {
+    .card {
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
