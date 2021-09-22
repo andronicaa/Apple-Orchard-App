@@ -39,7 +39,7 @@ export function annualSalary(data, year) {
     var total = 0;
     data.map(p => {
         if(p.year == year) {
-            total += p.salary;
+            total += parseFloat(p.salary);
         }
     })
     return total;

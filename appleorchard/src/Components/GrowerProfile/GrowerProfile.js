@@ -43,7 +43,7 @@ export default function GrowerProfile() {
     function getProfile() {
         const items = [];
         refProfile.get().then(doc => {
-            items.push(doc.data());
+            items.push({id: doc.id,...doc.data()});
             setGen(doc.data().sex);
             console.log("Profilul este: ", items);
             setProfile(items);
@@ -53,7 +53,7 @@ export default function GrowerProfile() {
         const items = [];
         refProfileExt.onSnapshot(querySnapshot => {
             querySnapshot.forEach(doc => {
-                items.push(doc.data());
+                items.push({id:doc.id,...doc.data()});
             })
             // console.log(items.length);
             setExtProfile(items);
@@ -121,12 +121,12 @@ export default function GrowerProfile() {
                     <div className={styles.infos}>
                         {
                             profile.map(p => (
-                                <>
+                                <div key={p.id}>
                                     <h4>{p.firstName} {p.lastName}</h4>
                                     <h5 style={{color: "#871f08"}}><i className="fa fa-building" aria-hidden="true"></i> &nbsp; <strong>{p.companyName}</strong></h5>
                                     <h6>{p.email}</h6>
                                     <p>{p.phoneNumber}</p>
-                                </>
+                                </div>
                             ))
                         }
                                 
@@ -169,14 +169,14 @@ export default function GrowerProfile() {
                             loading == false ?
                             (
                                 extProfile.map(p => (
-                                    <>
+                                    <div key={p.id}>
                                         <p><strong>Suprafață: </strong>{p.area} ha</p>
                                         <p><strong>Locație: </strong> {p.location}</p>
                                         <p><strong>Nr. pomi: </strong>{p.noTrees}</p>
                                         <p><strong>Anul înființării: </strong>{p.year}</p>
                                         <p><strong>Profit mediu anual: </strong>{p.averageAnnualProfit} lei</p>
                                         <p><strong>Plantații pe an: </strong>{p.plantationPerYear}</p>
-                                    </>
+                                    </div>
                                 ))
                             )
                             :

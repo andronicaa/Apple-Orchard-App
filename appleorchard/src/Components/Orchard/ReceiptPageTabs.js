@@ -36,7 +36,7 @@ export default function ReceiptPageTabs() {
             </NavItem>
             <NavItem>
             <NavLink
-                className={`${classnames({ active: activeTab === '4' })} ${styles.navLink}`}
+                className={`${classnames({ active: activeTab === '3' })} ${styles.navLink}`}
                 onClick={() => { toggle('3'); }}
             >
                 Facturi pomi

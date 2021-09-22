@@ -12,7 +12,6 @@ export default function generatePdfReceipt(e, product, receiptType) {
     var w = doc.internal.pageSize.getWidth();
     var h = doc.internal.pageSize.getHeight();
     doc.setFont("times", 'bold');
-    doc.addImage(image, 'JPG', 0, 0);
     doc.setFontSize(30);
     doc.setTextColor(255, 0, 0);
     doc.text('Marulet', w/2, 70, {align: 'center'});
@@ -33,14 +32,14 @@ export default function generatePdfReceipt(e, product, receiptType) {
     }
     if(receiptType == "trees") {
         doc.text("Achizitionare pomi", w/2, 100, {align: 'center'});
-        doc.text("Soi: " + product.product, 10, 160);
+        doc.text("Soi: " + product.name, 10, 160);
         doc.text("Cantitate achizitionata: " + product.quantity + " kg", 10, 180);
         doc.text("Luna achizitionarii: " + product.month, 10, 200);
         doc.text("Pret: " + product.price + product.currency, 10, 220);
     }
     if(receiptType == "equipment") {
         doc.text("Achizitionare utilaj", w/2, 100, {align: 'center'});
-        doc.text("Nume: " + product.product, 10, 160);
+        doc.text("Nume: " + product.nameEq, 10, 160);
         doc.text("Tip: " + product.type + " kg", 10, 180);
         doc.text("Luna achizitionarii: " + product.month, 10, 200);
         doc.text("Pret: " + product.price + product.currency, 10, 220);

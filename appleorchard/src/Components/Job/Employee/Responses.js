@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import firebase from '../../../Firebase/firebase';
 import { useAuth } from '../../../Firebase/context/AuthContext';
 import { Card, Button } from 'react-bootstrap';
+import { useHistory } from 'react-router';
 import princStyle from '../Style/PrincStyle.module.css';
 import EmployeeHeader from '../../Header/EmployeeHeader';
 import styles from '../Style/SeePosts.module.css';
@@ -13,6 +14,7 @@ export default function Responses() {
     const reqResp = useRef([]);
     const [loading, setLoading] = useState(true);
    
+    const history = useHistory();
     function getUsersId() {
         const items = [];
         refUsers.onSnapshot(querySnapshot => {
@@ -26,6 +28,7 @@ export default function Responses() {
             
             console.log("AICIIII");
             var refPosts = firebase.firestore().collection("users").doc(p).collection("onHold").where('status', 'not-in', ['In asteptare', 'rejected offer', 'accepted offer']);
+            
             refPosts.onSnapshot(querySnapshot => {
                 
                 querySnapshot.forEach(doc => {
@@ -56,13 +59,19 @@ export default function Responses() {
         // console.log(p);
         // console.log(p.docId);
         const refGrower = firebase.firestore().collection("users").doc(p.growerId).collection("onHold").doc(p.docId);
-        refGrower.update({status: "accepted offer"})
+        refGrower.update({status: "accepted offer"});
+        setTimeout(function() {
+            history.push("/see-posts");
+        }, 500);
     }
 
     function handleRejectedOffer(e, p) {
         e.preventDefault();
         const refPost = firebase.firestore().collection("users").doc(p.growerId).collection("onHold").doc(p.docId);
         refPost.update({status: "rejected offer"});
+        setTimeout(function() {
+            history.push("/see-posts");
+        }, 500);
     }
 
 

@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import { Form, InputGroup, Button } from 'react-bootstrap';
 import styles from '../SignUp/Styles/AddProfile.module.css'
 import firebase from '../../Firebase/firebase';
+import { useHistory } from 'react-router-dom';
 import { useAuth } from '../../Firebase/context/AuthContext';
 
 export default function UpdateProfile({handleCloseEdit}) {
@@ -24,7 +25,7 @@ export default function UpdateProfile({handleCloseEdit}) {
     const [p, setProfile] = useState([]);
     const [loading, setLoading] = useState(true);
     const refProfile = firebase.firestore().collection("users").doc(currentUser.uid);
-
+    const history = useHistory();
     function getProfile() {
         const items = [];
         refProfile.onSnapshot(doc => {
@@ -54,6 +55,7 @@ export default function UpdateProfile({handleCloseEdit}) {
         ).then(() => {console.log("s-a facut update")}).catch(err => console.log(err));
         setTimeout(function() {
             handleCloseEdit();
+            // history.push("/grower-profile");
         }, 1000);
         
     }

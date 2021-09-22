@@ -151,7 +151,7 @@ export default function Task() {
             })
             const taskItems = [];
             userUids.map(uid => {
-                var refTask = firebase.firestore().collection("users").doc(uid).collection("tasks");
+                var refTask = firebase.firestore().collection("users").doc(uid).collection("tasks").where('status','in', ['To do']);
                 refTask.onSnapshot(querySnapshot => {
                     querySnapshot.forEach(doc => {
                         taskItems.push(doc.data());

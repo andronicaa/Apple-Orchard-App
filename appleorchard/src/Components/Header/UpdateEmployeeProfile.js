@@ -20,7 +20,8 @@ export default function UpdateEmployeeProfile({profile, handleClose}) {
     const handleOnChangeCateg = (position) => {
         const updatedCheckedState = checkedState.map((item, index) =>
             index === position ? !item : item)
-        setCheckedState(updatedCheckedState)
+        setCheckedState(updatedCheckedState);
+        setCheckChange(true);
     };
     const refProfile = firebase.firestore().collection("users").doc(currentUser.uid);
 
@@ -48,17 +49,20 @@ export default function UpdateEmployeeProfile({profile, handleClose}) {
     function updateEmployeeProfile(e) {
         e.preventDefault();
         handleClose();
-        var categories = profile.driverCateg;
+        var categories = checkedState;
+        console.log("CATEGORIILE CARE S-AU SCHIMBAT SUNT: ", checkedState);
         console.log(lastName.current.value);
         console.log(firstName.current.value);
         console.log(age.current.value);
         console.log(email.current.value);
-        console.log(hasDriverLicense);
+        console.log("are permis", hasDriverLicense);
         console.log(getDriverCateg(checkedState));
-        if(checkChange)
-            categories = getDriverCateg(checkedState);
+        
+        categories = getDriverCateg(checkedState);
         if(hasDriverLicense == 'NU')
             categories = '';
+        if(checkChange == false && hasDriverLicense == 'DA')
+            categories = profile.driverCateg;
         refProfile.update({
             lastName: lastName.current.value,
             firstName: firstName.current.value,
@@ -204,17 +208,16 @@ export default function UpdateEmployeeProfile({profile, handleClose}) {
                 hasDriverLicense === 'DA' ? (
                         driverCategories.map(({name}, index) => (
                             
-                                <Form.Check
-                                    key={index}
-                                    custom
-                                    inline
-                                    label={name}
-                                    type="checkbox"
-                                    id={`custom-checkbox-${index}`}
-                                    checked={checkedState[index]}
-                                    onChange={() => {setCheckChange(!checkChange);handleOnChangeCateg(index)}}
-                                    defaultValue={checkedState}
-                                />
+                            <Form.Check
+                            key={index}
+                            custom
+                            inline
+                            label={name}
+                            type="checkbox"
+                            id={`custom-checkbox-${index}`}
+                            checked={checkedState[index]}
+                            onChange={() => handleOnChangeCateg(index)}
+                        />
                             
                         )
                             

@@ -241,7 +241,7 @@ export default function SubstanceReceipt() {
                 </div>
             <div>
                 <Button type="button" className={styles.totalButton}>
-                    Total <span class="badge badge-light">{totalPrice}</span> lei
+                    Total <span className="badge badge-light">{totalPrice}</span> lei
                 </Button>
             </div>
             <Button className={styles.addReceiptButton} onClick={handleShow}><i className="fa fa-plus" aria-hidden="true"></i>&nbsp;Adauga factura</Button>

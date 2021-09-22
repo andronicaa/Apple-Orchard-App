@@ -128,6 +128,10 @@ export default function Equipment() {
                 accessor: 'type'
             },
             {
+                Header: 'Categorii permis',
+                accessor: 'driverCateg'
+            },
+            {
                 Header: 'Șterge',
                 accessor: (row) => {
                    return (
@@ -248,10 +252,10 @@ export default function Equipment() {
                 </div>
             <div>
                 <Button type="button" className={styles.totalButton}>
-                    Total <span class="badge badge-light">{totalPrice}</span> lei
+                    Total <span className="badge badge-light">{totalPrice}</span> lei
                 </Button>
             </div>
-            <Button className={styles.addReceiptButton} onClick={handleShow}><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Adauga factura</Button>
+            <Button className={styles.addReceiptButton} onClick={handleShow}><i className="fa fa-plus" aria-hidden="true"></i>&nbsp;Adauga factura</Button>
                 <Modal show={show} onHide={handleClose} animation={false}>
                     <Modal.Body>
                         <div>

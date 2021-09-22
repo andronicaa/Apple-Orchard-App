@@ -150,7 +150,7 @@ export default function AddJob() {
                         
                     </Form.Group>
                     <Form.Group className={styles.inputItem}>
-                        <Form.Label htmlFor="description"><strong className={styles.tags}>Scurtă descriere</strong></Form.Label>
+                        <Form.Label htmlFor="description"><strong className={styles.tags}>Descriere</strong></Form.Label>
                             <InputGroup>
                                 <InputGroup.Prepend id="inputGroupPrependDescription">
                                     <InputGroup.Text>
