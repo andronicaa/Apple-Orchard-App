@@ -229,7 +229,7 @@ export default function MainPage() {
             setLat(position.coords.latitude);
             setLong(position.coords.longitude);
         });
-            await fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&exclude=minutely,hourly&units=metric&lang=ro&appid=6d80997350a195597dacefc23437862d`)
+            await fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&exclude=minutely,hourly&units=metric&lang=ro&appid=REACT_APP_ORCHARD_WEATHER_KEY`)
         .then(res => res.json())
         .then(result => {
             setData(result);
